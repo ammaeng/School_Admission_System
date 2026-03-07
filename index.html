@@ -362,9 +362,18 @@
             }
             let html = '';
             res.data.forEach(s => {
-                let d = new Date(s.timestamp).toLocaleDateString('th-TH');
-                let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : 'bg-success';
-                html += `<tr><td>${d}</td><td>${s.idCard}</td><td>${s.name}</td><td>${s.grade}</td><td><span class="badge ${badge}">${s.status}</span></td></tr>`;
+let d = new Date(s.timestamp).toLocaleDateString('th-TH');
+let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : 'bg-success';
+let pdfBtn = s.pdfUrl ? `<a href="${s.pdfUrl}" target="_blank" class="btn btn-sm btn-outline-danger">📄 ดูใบสมัคร</a>` : `-`;
+
+html += `<tr>
+  <td>${d}</td>
+  <td>${s.idCard}</td>
+  <td>${s.name}</td>
+  <td>${s.grade}</td>
+  <td><span class="badge ${badge}">${s.status}</span></td>
+  <td>${pdfBtn}</td>
+</tr>`;
             });
             tbody.innerHTML = html;
         });
