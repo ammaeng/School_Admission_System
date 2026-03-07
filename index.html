@@ -9,119 +9,151 @@
     <style>
         body { font-family: 'Sarabun', sans-serif; background-color: #f4f6f9; }
         .card { border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .nav-tabs .nav-link { font-weight: 600; color: #495057; }
+        .nav-tabs .nav-link.active { color: #0d6efd; border-bottom: 3px solid #0d6efd; }
     </style>
 </head>
 <body>
 
-<div class="container mt-5 mb-5">
+<div class="container mt-4 mb-5">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card p-4">
-                <h3 class="text-center mb-4">ฟอร์มสมัครเรียน - โรงเรียนบ้านคลอง 14</h3>
-                
-                <form id="admissionForm">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label>ปีการศึกษา</label>
-                            <input type="number" class="form-control" id="academicYear" value="2568" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label>เลขประจำตัวประชาชน (13 หลัก)</label>
-                            <input type="text" class="form-control" id="idCard" required maxlength="13">
-                        </div>
+        <div class="col-lg-10">
+            <h2 class="text-center mb-4 text-primary">ฟอร์มสมัครเรียน - โรงเรียนบ้านคลอง 14</h2>
+            
+            <form id="admissionForm">
+                <div class="card p-0 overflow-hidden">
+                    <div class="card-header bg-white">
+                        <!-- เมนู Tabs -->
+                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#basic">ข้อมูลเบื้องต้น</a></li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#address">ที่อยู่</a></li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#family">ข้อมูลครอบครัว</a></li>
+                        </ul>
                     </div>
+                    
+                    <div class="card-body p-4">
+                        <div class="tab-content">
+                            
+                            <!-- TAB 1: ข้อมูลเบื้องต้น -->
+                            <div class="tab-pane fade show active" id="basic">
+                                <h5 class="mb-3">ข้อมูลเบื้องต้น</h5>
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label>ปีการศึกษา *</label>
+                                        <input type="number" class="form-control" id="academicYear" value="2568" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>เลขประจำตัวประชาชน (13 หลัก) *</label>
+                                        <input type="text" class="form-control" id="idCard" maxlength="13" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>ชั้นที่สมัคร *</label>
+                                        <select class="form-select" id="grade" required>
+                                            <option value="">-- เลือกชั้น --</option>
+                                            <option value="ม.1">มัธยมศึกษาปีที่ 1</option>
+                                            <option value="ม.4">มัธยมศึกษาปีที่ 4</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-2">
+                                        <label>คำนำหน้า *</label>
+                                        <select class="form-select" id="prefix" required>
+                                            <option value="ด.ช.">ด.ช.</option>
+                                            <option value="ด.ญ.">ด.ญ.</option>
+                                            <option value="นาย">นาย</option>
+                                            <option value="นางสาว">นางสาว</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label>ชื่อ *</label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label>นามสกุล *</label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label>รูปถ่ายผู้สมัคร (ขนาดไม่เกิน 2MB)</label>
+                                        <input type="file" class="form-control" id="photoFile" accept="image/*">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>น้ำหนัก (กก.)</label>
+                                        <input type="number" class="form-control" id="weight">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>ส่วนสูง (ซม.)</label>
+                                        <input type="number" class="form-control" id="height">
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            <label>คำนำหน้า</label>
-                            <select class="form-select" id="prefix">
-                                <option value="ด.ช.">ด.ช.</option>
-                                <option value="ด.ญ.">ด.ญ.</option>
-                                <option value="นาย">นาย</option>
-                                <option value="นางสาว">นางสาว</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label>ชื่อ</label>
-                            <input type="text" class="form-control" id="firstName" required>
-                        </div>
-                        <div class="col-md-5">
-                            <label>นามสกุล</label>
-                            <input type="text" class="form-control" id="lastName" required>
-                        </div>
+                            <!-- TAB 2: ที่อยู่ -->
+                            <div class="tab-pane fade" id="address">
+                                <h5 class="mb-3">ที่อยู่ตามทะเบียนบ้าน</h5>
+                                <div class="row mb-3">
+                                    <div class="col-md-4"><label>บ้านเลขที่</label><input type="text" class="form-control" id="regHouseNo"></div>
+                                    <div class="col-md-4"><label>หมู่</label><input type="text" class="form-control" id="regMoo"></div>
+                                    <div class="col-md-4"><label>จังหวัด</label><input type="text" class="form-control" id="regProvince"></div>
+                                </div>
+                                
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0">ที่อยู่ปัจจุบัน</h5>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="copyAddress()">คัดลอกที่อยู่ตามทะเบียนบ้าน</button>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4"><label>บ้านเลขที่</label><input type="text" class="form-control" id="curHouseNo"></div>
+                                    <div class="col-md-4"><label>หมู่</label><input type="text" class="form-control" id="curMoo"></div>
+                                    <div class="col-md-4"><label>จังหวัด</label><input type="text" class="form-control" id="curProvince"></div>
+                                </div>
+                            </div>
+
+                            <!-- TAB 3: ข้อมูลครอบครัว -->
+                            <div class="tab-pane fade" id="family">
+                                <h5 class="mb-3">ข้อมูลบิดา</h5>
+                                <div class="row mb-3">
+                                    <div class="col-md-4"><label>เลข ปชช. บิดา</label><input type="text" class="form-control" id="fatherId"></div>
+                                    <div class="col-md-4"><label>ชื่อบิดา</label><input type="text" class="form-control" id="fatherFirstName"></div>
+                                    <div class="col-md-4"><label>นามสกุลบิดา</label><input type="text" class="form-control" id="fatherLastName"></div>
+                                </div>
+
+                                <h5 class="mb-3 mt-4">ข้อมูลมารดา</h5>
+                                <div class="row mb-3">
+                                    <div class="col-md-4"><label>เลข ปชช. มารดา</label><input type="text" class="form-control" id="motherId"></div>
+                                    <div class="col-md-4"><label>ชื่อมารดา</label><input type="text" class="form-control" id="motherFirstName"></div>
+                                    <div class="col-md-4"><label>นามสกุลมารดา</label><input type="text" class="form-control" id="motherLastName"></div>
+                                </div>
+                            </div>
+
+                        </div> <!-- End Tab Content -->
+
+                        <hr>
+                        <button type="submit" class="btn btn-primary w-100 py-2" id="submitBtn">
+                            บันทึกข้อมูลสมัครเรียน
+                        </button>
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label>รูปถ่ายผู้สมัคร (ขนาดไม่เกิน 2MB)</label>
-                            <input type="file" class="form-control" id="photoFile" accept="image/*">
-                        </div>
-                    </div>
-
-                    <!-- สามารถเพิ่มฟิลด์อื่นๆ ตามภาพ สพฐ. ได้ที่นี่ -->
-
-                    <button type="submit" class="btn btn-primary w-100 mt-3" id="submitBtn">
-                        บันทึกข้อมูลสมัครเรียน
-                    </button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // --- เปลี่ยน URL ตรงนี้เป็นของ Web App ของคุณ ---
+    // -----------------------------------------------------------------
+    // ⚠️ เปลี่ยน URL ตรงนี้เป็นลิงก์ Web App ของคุณ
+    // -----------------------------------------------------------------
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyF5MTuzox5H4XQZE2ViHIdQ5QU-OiSxAGW2LcIjJs6NzsRHnzo5hx7EQfjpXKPZb8B/exec";
 
-    document.getElementById('admissionForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const btn = document.getElementById('submitBtn');
-        btn.innerHTML = 'กำลังบันทึกข้อมูล... <span class="spinner-border spinner-border-sm"></span>';
-        btn.disabled = true;
-
-        // ดึงไฟล์รูปมาแปลงเป็น Base64
-        const fileInput = document.getElementById('photoFile');
-        let photoBase64 = "";
-        
-        if (fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            photoBase64 = await toBase64(file);
-        }
-
-        // จัดเตรียมข้อมูล
-        const payload = {
-            action: 'submitApplication',
-            data: {
-                academicYear: document.getElementById('academicYear').value,
-                idCard: document.getElementById('idCard').value,
-                prefix: document.getElementById('prefix').value,
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                photoBase64: photoBase64
-            }
-        };
-
-        // ส่งข้อมูลไปยัง Google Apps Script
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        })
-        .then(response => response.json())
-        .then(res => {
-            if(res.status === 'success') {
-                alert('สมัครเรียนสำเร็จ!');
-                document.getElementById('admissionForm').reset();
-            } else {
-                alert('เกิดข้อผิดพลาด: ' + res.message);
-            }
-        })
-        .catch(err => alert('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้'))
-        .finally(() => {
-            btn.innerHTML = 'บันทึกข้อมูลสมัครเรียน';
-            btn.disabled = false;
-        });
-    });
+    // ฟังก์ชันคัดลอกที่อยู่
+    function copyAddress() {
+        document.getElementById('curHouseNo').value = document.getElementById('regHouseNo').value;
+        document.getElementById('curMoo').value = document.getElementById('regMoo').value;
+        document.getElementById('curProvince').value = document.getElementById('regProvince').value;
+    }
 
     // ฟังก์ชันแปลงไฟล์เป็น Base64
     const toBase64 = file => new Promise((resolve, reject) => {
@@ -129,6 +161,75 @@
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
+    });
+
+    // ดักจับการกดปุ่ม Submit
+    document.getElementById('admissionForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        btn.innerHTML = 'กำลังบันทึกข้อมูล... <span class="spinner-border spinner-border-sm"></span>';
+        btn.disabled = true;
+
+        // จัดการรูปภาพ
+        const fileInput = document.getElementById('photoFile');
+        let photoBase64 = "";
+        if (fileInput.files.length > 0) {
+            photoBase64 = await toBase64(fileInput.files[0]);
+        }
+
+        // ดึงข้อมูล (ผมดึงเฉพาะ field ที่มีในฟอร์มตัวอย่าง หากคุณเพิ่มช่องใน HTML ให้ใส่ id ให้ตรงแล้วมาดึงเพิ่มที่นี่)
+        const payload = {
+            action: 'submitApplication',
+            data: {
+                academicYear: document.getElementById('academicYear').value,
+                idCard: document.getElementById('idCard').value,
+                grade: document.getElementById('grade').value,
+                prefix: document.getElementById('prefix').value,
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                weight: document.getElementById('weight').value,
+                height: document.getElementById('height').value,
+                
+                regHouseNo: document.getElementById('regHouseNo').value,
+                regMoo: document.getElementById('regMoo').value,
+                regProvince: document.getElementById('regProvince').value,
+                
+                curHouseNo: document.getElementById('curHouseNo').value,
+                curMoo: document.getElementById('curMoo').value,
+                curProvince: document.getElementById('curProvince').value,
+                
+                fatherId: document.getElementById('fatherId').value,
+                fatherFirstName: document.getElementById('fatherFirstName').value,
+                fatherLastName: document.getElementById('fatherLastName').value,
+                
+                motherId: document.getElementById('motherId').value,
+                motherFirstName: document.getElementById('motherFirstName').value,
+                motherLastName: document.getElementById('motherLastName').value,
+                
+                photoBase64: photoBase64
+            }
+        };
+
+        // ยิงข้อมูลไปให้ Google Apps Script
+        fetch(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(res => {
+            if(res.status === 'success') {
+                alert('ส่งใบสมัครสำเร็จ!');
+                document.getElementById('admissionForm').reset();
+            } else {
+                alert('เกิดข้อผิดพลาด: ' + res.message);
+            }
+        })
+        .catch(err => alert('เชื่อมต่อระบบไม่ได้: ' + err))
+        .finally(() => {
+            btn.innerHTML = 'บันทึกข้อมูลสมัครเรียน';
+            btn.disabled = false;
+        });
     });
 </script>
 
