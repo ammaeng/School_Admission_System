@@ -574,12 +574,15 @@
     // URL สำหรับเรียกใช้งาน API ของ Google Apps Script
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyF5MTuzox5H4XQZE2ViHIdQ5QU-OiSxAGW2LcIjJs6NzsRHnzo5hx7EQfjpXKPZb8B/exec";
 
-    // ===============================================
-    // ระบบตั้งค่าดึงปีการศึกษาอัตโนมัติ (แก้ไขใหม่ล่าสุด)
+   // ===============================================
+    // ระบบตั้งค่าดึงปีการศึกษาอัตโนมัติ (เพิ่มหน้าจอโหลด)
     // ===============================================
     let currentActiveYear = "1/2568";
     
     document.addEventListener("DOMContentLoaded", () => {
+        // 1. เรียกหน้าต่างโหลดขึ้นมาทันทีที่เว็บเริ่มทำงาน
+        showProgress('กำลังอัปเดตระบบ...', 100);
+
         // ดึงการตั้งค่าจาก Server เมื่อโหลดเว็บ
         fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'getConfig' }) })
         .then(r => r.json())
@@ -593,7 +596,15 @@
                 document.getElementById('dashYear').value = currentActiveYear;
                 document.getElementById('adminYear').value = currentActiveYear;
             }
-        }).catch(e => console.log("Failed to load config"));
+        })
+        .catch(e => console.log("Failed to load config"))
+        .finally(() => {
+            // 2. ปิดหน้าจอโหลดเมื่อดึงข้อมูลเสร็จสิ้น
+            // ใส่หน่วงเวลา 0.3 วินาที เพื่อให้แอนิเมชันดูนุ่มนวล ไม่กระพริบเร็วเกินไป
+            setTimeout(() => {
+                hideProgress();
+            }, 300);
+        });
     });
 
     // เปิดหน้าต่าง Modal ตั้งค่า
