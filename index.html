@@ -124,12 +124,38 @@
         .addr-item:hover { background: var(--primary-light); color: var(--primary-dark); }
         .addr-input.has-value { border-color: var(--success); background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2310b981"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; padding-right: 36px; }
 
-        /* ===== Dashboard & DataTables ===== */
-        .table-wrap { background: #fff; border-radius: var(--radius-sm); padding: 20px; border: 1px solid var(--border); }
-        table.dataTable { margin-top: 10px !important; margin-bottom: 20px !important; width: 100% !important; }
-        table.dataTable thead th { background: var(--bg); color: var(--secondary); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; border-bottom: 2px solid var(--border) !important; padding: 12px 16px; }
-        table.dataTable tbody td { padding: 12px 16px; vertical-align: middle; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-        .badge { padding: 6px 10px; border-radius: 6px; font-weight: 500; font-size: 0.8rem; }
+/* ===== Dashboard & DataTables (ปรับให้กะทัดรัดและเป็นระเบียบ) ===== */
+        .table-wrap { background: #fff; border-radius: var(--radius-sm); padding: 16px; border: 1px solid var(--border); }
+        table.dataTable { margin-top: 10px !important; margin-bottom: 16px !important; width: 100% !important; }
+        
+        /* ปรับหัวตาราง */
+        table.dataTable thead th { background: var(--bg); color: var(--secondary); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; border-bottom: 2px solid var(--border) !important; padding: 8px 10px !important; white-space: nowrap; }
+        
+        /* ปรับเนื้อหาในตาราง (ลดความสูง padding) */
+        table.dataTable tbody td { padding: 6px 10px !important; vertical-align: middle; border-bottom: 1px solid var(--border); font-size: 0.85rem; line-height: 1.3; }
+        
+        /* ปรับขนาดป้ายสถานะ */
+        .badge { padding: 4px 8px; border-radius: 6px; font-weight: 500; font-size: 0.75rem; }
+        
+        /* ปรับปุ่ม "พิมพ์ / แก้ไข" ให้เล็กลง ไม่ดันตารางให้สูงขึ้น */
+        table.dataTable tbody td .btn-sm { padding: 4px 8px; font-size: 0.8rem; height: auto; display: inline-flex; align-items: center; justify-content: center; }
+        
+        /* ปรับกล่อง Dropdown เปลี่ยนสถานะ (สำหรับหน้าแอดมิน) ให้เตี้ยลง */
+        table.dataTable tbody td .form-select-sm { padding: 2px 24px 2px 8px; font-size: 0.8rem; height: 28px; min-height: 28px; }
+        
+        /* ซ่อนกล่องค้นหาพื้นฐานของ DataTable */
+        .dataTables_filter { display: none; }
+        
+        /* ปรับหน้าตา Pagination (เลขหน้า) */
+        .page-item.active .page-link { background-color: var(--primary); border-color: var(--primary); }
+        .dataTables_wrapper .dataTables_paginate .paginate_button { padding: 0 !important; border: none !important; margin: 0 !important; }
+        
+        /* Stats Dashboard */
+        .stat-card-modern { background: #fff; border-radius: var(--radius-sm); padding: 20px; border: 1px solid var(--border); display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-sm); }
+        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .stat-info h3 { margin: 0; font-size: 1.6rem; font-weight: 700; color: var(--text); }
+        .stat-info p { margin: 0; font-size: 0.85rem; color: var(--secondary); font-weight: 500; }
+        .alert-info-modern { background: var(--primary-light); border-left: 4px solid var(--primary); color: var(--primary-dark); padding: 16px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 24px; }
         
         /* ซ่อนกล่องค้นหาพื้นฐานของ DataTable เพื่อใช้กล่องค้นหาแบบ Custom ของเราแทน */
         .dataTables_filter { display: none; }
