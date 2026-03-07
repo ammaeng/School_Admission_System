@@ -36,14 +36,7 @@
         }
 
         * { box-sizing: border-box; }
-        body {
-            font-family: 'Prompt', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
+        body { font-family: 'Prompt', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; line-height: 1.6; }
 
         /* ===== Navbar Glassmorphism ===== */
         .app-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm); border-bottom: 1px solid rgba(0,0,0,0.05); padding: 12px 0; }
@@ -124,43 +117,17 @@
         .addr-item:hover { background: var(--primary-light); color: var(--primary-dark); }
         .addr-input.has-value { border-color: var(--success); background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2310b981"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; padding-right: 36px; }
 
-/* ===== Dashboard & DataTables (ปรับให้กะทัดรัดและเป็นระเบียบ) ===== */
-        .table-wrap { background: #fff; border-radius: var(--radius-sm); padding: 16px; border: 1px solid var(--border); }
+        /* ===== Dashboard & DataTables ===== */
+        .table-wrap { background: #fff; border-radius: var(--radius-sm); padding: 16px; border: 1px solid var(--border); width: 100%; overflow-x: auto; }
         table.dataTable { margin-top: 10px !important; margin-bottom: 16px !important; width: 100% !important; }
-        
-        /* ปรับหัวตาราง */
         table.dataTable thead th { background: var(--bg); color: var(--secondary); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; border-bottom: 2px solid var(--border) !important; padding: 8px 10px !important; white-space: nowrap; }
-        
-        /* ปรับเนื้อหาในตาราง (ลดความสูง padding) */
         table.dataTable tbody td { padding: 6px 10px !important; vertical-align: middle; border-bottom: 1px solid var(--border); font-size: 0.85rem; line-height: 1.3; }
-        
-        /* ปรับขนาดป้ายสถานะ */
         .badge { padding: 4px 8px; border-radius: 6px; font-weight: 500; font-size: 0.75rem; }
-        
-        /* ปรับปุ่ม "พิมพ์ / แก้ไข" ให้เล็กลง ไม่ดันตารางให้สูงขึ้น */
         table.dataTable tbody td .btn-sm { padding: 4px 8px; font-size: 0.8rem; height: auto; display: inline-flex; align-items: center; justify-content: center; }
-        
-        /* ปรับกล่อง Dropdown เปลี่ยนสถานะ (สำหรับหน้าแอดมิน) ให้เตี้ยลง */
         table.dataTable tbody td .form-select-sm { padding: 2px 24px 2px 8px; font-size: 0.8rem; height: 28px; min-height: 28px; }
-        
-        /* ซ่อนกล่องค้นหาพื้นฐานของ DataTable */
         .dataTables_filter { display: none; }
-        
-        /* ปรับหน้าตา Pagination (เลขหน้า) */
         .page-item.active .page-link { background-color: var(--primary); border-color: var(--primary); }
         .dataTables_wrapper .dataTables_paginate .paginate_button { padding: 0 !important; border: none !important; margin: 0 !important; }
-        
-        /* Stats Dashboard */
-        .stat-card-modern { background: #fff; border-radius: var(--radius-sm); padding: 20px; border: 1px solid var(--border); display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-sm); }
-        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .stat-info h3 { margin: 0; font-size: 1.6rem; font-weight: 700; color: var(--text); }
-        .stat-info p { margin: 0; font-size: 0.85rem; color: var(--secondary); font-weight: 500; }
-        .alert-info-modern { background: var(--primary-light); border-left: 4px solid var(--primary); color: var(--primary-dark); padding: 16px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 24px; }
-        
-        /* ซ่อนกล่องค้นหาพื้นฐานของ DataTable เพื่อใช้กล่องค้นหาแบบ Custom ของเราแทน */
-        .dataTables_filter { display: none; }
-        /* ปรับหน้าตา Pagination */
-        .page-item.active .page-link { background-color: var(--primary); border-color: var(--primary); }
         
         /* Stats Dashboard */
         .stat-card-modern { background: #fff; border-radius: var(--radius-sm); padding: 20px; border: 1px solid var(--border); display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-sm); }
@@ -181,17 +148,6 @@
             .step-label { font-size: 0.9rem; }
             .nav-btn { padding: 6px 12px; font-size: 0.8rem; }
             .table-wrap { padding: 10px; }
-              /* 1. ควบคุมกรอบตารางไม่ให้ทะลุการ์ดสีขาว */
-            .table-wrap { 
-                width: 100%;
-                overflow-x: auto; /* ถ้ากางปุ่มแล้วล้นจริงๆ จะให้เลื่อนได้เฉพาะในกรอบ */
-            }
-            
-            /* 2. บีบขนาดปุ่มในตารางให้เล็กลงอีกนิดบนมือถือ */
-            table.dataTable tbody td .btn-sm {
-                padding: 4px 8px;
-                font-size: 0.85rem;
-            }
         }
     </style>
 </head>
@@ -220,14 +176,13 @@
     <div class="landing">
         <div class="landing-content">
             <div class="logo-placeholder">🏫</div>
-            <h1>ระบบรับสมัครนักเรียนออนไลน์<br>ปีการศึกษา 2568</h1>
+            <h1>ระบบรับสมัครนักเรียนออนไลน์<br>ปีการศึกษา <span id="landingYearDisplay">1/2568</span></h1>
             <p class="subtitle">สะดวก รวดเร็ว สมัครได้ทุกที่ทุกเวลา ผ่านมือถือและคอมพิวเตอร์</p>
             
             <div class="stats-row">
                 <div class="stat-pill"><span class="num">อ.2</span><span class="lbl">รับสมัคร</span></div>
                 <div class="stat-pill"><span class="num">ม.1</span><span class="lbl">รับสมัคร</span></div>
-                                <div class="stat-pill"><span class="num">อ.2 - ม.3</span><span class="lbl">รับสมัครทุกชั้นเรียน</span></div>
-
+                <div class="stat-pill"><span class="num">อ.2 - ม.3</span><span class="lbl">รับสมัครทุกชั้นเรียน</span></div>
                 <div class="stat-pill"><span class="num">24 ชม.</span><span class="lbl">เปิดระบบ</span></div>
             </div>
             
@@ -267,27 +222,25 @@
             <h4 class="fw-bold text-primary mb-4">🔍 ตรวจสอบสถานะการสมัคร</h4>
             <div class="row mb-4 bg-light p-3 rounded-3 border">
                 <div class="col-md-3 mb-2 mb-md-0">
-                    <label class="form-label">ปีการศึกษา</label>
-                    <input type="number" id="dashYear" class="form-control" value="2568" onchange="loadPublicDashboard()">
+                    <label class="form-label">ปีการศึกษา / เทอม</label>
+                    <input type="text" id="dashYear" class="form-control" value="1/2568" placeholder="เช่น 1/2568" onchange="loadPublicDashboard()">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">ค้นหาชื่อนักเรียน / ปชช.</label>
-                    <!-- ทำงานร่วมกับ DataTables โดยการพิมพ์แล้วกดค้นหาอัตโนมัติ -->
                     <input type="text" class="form-control" id="publicSearch" placeholder="พิมพ์เพื่อค้นหา..." oninput="filterPublicTable()">
                 </div>
             </div>
             
-<div class="table-wrap">
-                <!-- DataTables Structure -->
+            <div class="table-wrap">
                 <table id="publicTable" class="table table-hover dt-responsive nowrap w-100">
                     <thead>
                         <tr>
                             <th data-priority="2" width="60">ลำดับ</th>
                             <th data-priority="3">วันที่สมัคร</th>
-                            <th class="all">ชื่อ - นามสกุล</th> <!-- ใส่ class="all" บังคับไม่ให้ยุบ -->
+                            <th class="all">ชื่อ - นามสกุล</th>
                             <th data-priority="4">ชั้น</th>
                             <th data-priority="2">สถานะ</th>
-                            <th class="all text-center" width="130">จัดการ</th> <!-- ใส่ class="all" บังคับไม่ให้ยุบ -->
+                            <th class="all text-center" width="130">จัดการ</th>
                         </tr>
                     </thead>
                     <tbody id="publicTableBody"></tbody>
@@ -304,11 +257,12 @@
                     <h4 class="fw-bold text-dark mb-1">🔒 ระบบจัดการข้อมูล (แอดมิน)</h4>
                     <p class="text-muted mb-0 small">จัดการใบสมัครและอัปเดตสถานะนักเรียน</p>
                 </div>
-                <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex gap-2 align-items-center flex-wrap">
                     <div class="input-group" style="width:160px;">
                         <span class="input-group-text bg-light border-end-0">ปี</span>
-                        <input type="number" id="adminYear" class="form-control border-start-0" value="2568" onchange="loadAdminDashboard()">
+                        <input type="text" id="adminYear" class="form-control border-start-0" value="1/2568" placeholder="เช่น 1/2568" onchange="loadAdminDashboard()">
                     </div>
+                    <button class="btn btn-primary" onclick="openConfigModal()" title="ตั้งค่าปีเปิดรับสมัคร">⚙️ ตั้งค่าระบบ</button>
                     <button class="btn btn-outline-secondary" onclick="changeAdminPassword()" title="เปลี่ยนรหัสแอดมิน">🔑</button>
                     <button class="btn btn-outline-danger" onclick="logoutAdmin()">ออก</button>
                 </div>
@@ -319,7 +273,8 @@
                 <div class="col-md-3 col-6"><div class="stat-card-modern"><div class="stat-icon bg-primary text-white bg-opacity-10" style="color:var(--primary)!important;">📋</div><div class="stat-info"><h3 id="statTotal">0</h3><p>ผู้สมัครทั้งหมด</p></div></div></div>
                 <div class="col-md-3 col-6"><div class="stat-card-modern"><div class="stat-icon bg-warning text-dark bg-opacity-25">⏳</div><div class="stat-info"><h3 id="statPending">0</h3><p>รอตรวจสอบ</p></div></div></div>
                 <div class="col-md-3 col-6"><div class="stat-card-modern"><div class="stat-icon bg-success text-white bg-opacity-10" style="color:var(--success)!important;">✅</div><div class="stat-info"><h3 id="statApproved">0</h3><p>ยืนยันแล้ว</p></div></div></div>
-<div class="col-md-3 col-6"><div class="stat-card-modern"><div class="stat-icon bg-info text-dark bg-opacity-25">🎓</div><div class="stat-info"><h3 id="statM1">0</h3><p>อ.2 / <span id="statM4">0</span> ม.1</p></div></div></div>            </div>
+                <div class="col-md-3 col-6"><div class="stat-card-modern"><div class="stat-icon bg-info text-dark bg-opacity-25">🎓</div><div class="stat-info"><h3 id="statM1">0</h3><p>อ.2 / <span id="statM4">0</span> ม.1</p></div></div></div>            
+            </div>
 
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-3">
                 <input type="text" class="form-control" style="max-width:350px;" id="adminSearch" placeholder="🔍 ค้นหาชื่อ / เลข ปชช. / เบอร์โทร..." oninput="filterAdminTable()">
@@ -329,7 +284,7 @@
                 </div>
             </div>
 
-     <div class="table-wrap">
+            <div class="table-wrap">
                 <table id="adminTable" class="table table-hover align-middle dt-responsive nowrap w-100">
                     <thead>
                         <tr>
@@ -337,11 +292,11 @@
                             <th data-priority="4" width="60" class="text-center">รูป</th>
                             <th data-priority="5">วันที่</th>
                             <th data-priority="3">เลข ปชช.</th>
-                            <th class="all">ชื่อ - นามสกุล</th> <!-- ใส่ class="all" บังคับไม่ให้ยุบ -->
+                            <th class="all">ชื่อ - นามสกุล</th>
                             <th data-priority="5">ชั้น</th>
                             <th data-priority="4">เบอร์โทร</th>
                             <th data-priority="2">สถานะ</th>
-                            <th class="all text-center" width="130">จัดการ</th> <!-- ใส่ class="all" บังคับไม่ให้ยุบ -->
+                            <th class="all text-center" width="130">จัดการ</th>
                         </tr>
                     </thead>
                     <tbody id="adminTableBody"></tbody>
@@ -350,11 +305,11 @@
         </div>
     </div>
 
-    <!-- ฟอร์มสมัครเรียน (เหมือนเดิม ไม่มีการเปลี่ยนแปลงโค้ดส่วนฟอร์ม) -->
+    <!-- ฟอร์มสมัครเรียน -->
     <div id="formSection" style="display:none;">
         <div class="app-card">
             <h4 class="fw-bold text-primary mb-1">📝 กรอกใบสมัครเข้าเรียน</h4>
-            <p class="text-muted mb-4">ประจำปีการศึกษา <span id="displayYear" class="fw-bold text-dark">2568</span></p>
+            <p class="text-muted mb-4">ประจำปีการศึกษา <span id="displayYear" class="fw-bold text-dark">1/2568</span></p>
             
             <div class="step-wrapper">
                 <div class="step-indicator">
@@ -367,14 +322,13 @@
             </div>
 
             <form id="admissionForm">
-                <input type="hidden" id="applyYear" data-col="2" value="2568">
+                <input type="hidden" id="applyYear" data-col="2" value="1/2568">
                 <!-- STEP 1 -->
                 <div class="wizard-step active" id="step-1">
                     <div class="section-title">👤 ข้อมูลเบื้องต้น</div>
                     <div class="row mb-3 g-3">
                         <div class="col-md-4"><label class="form-label">ชั้นที่สมัคร <span class="text-danger">*</span></label><select class="form-select" data-col="6" required><option value="">-- เลือก --</option>
                             <option value="อ.2">อนุบาล 2</option>
-                            <option value="ม.1">มัธยมศึกษาปีที่ 1</option>
                             <option value="อ.3">อนุบาล 3</option>
                             <option value="ป.1">ประถมศึกษาปีที่ 1</option>
                             <option value="ป.2">ประถมศึกษาปีที่ 2</option>
@@ -382,9 +336,9 @@
                             <option value="ป.4">ประถมศึกษาปีที่ 4</option>
                             <option value="ป.5">ประถมศึกษาปีที่ 5</option>
                             <option value="ป.6">ประถมศึกษาปีที่ 6</option>
-                                <option value="ม.2">มัธยมศึกษาปีที่ 2</option>
+                            <option value="ม.1">มัธยมศึกษาปีที่ 1</option>
+                            <option value="ม.2">มัธยมศึกษาปีที่ 2</option>
                             <option value="ม.3">มัธยมศึกษาปีที่ 3</option>
-
                         </select></div>
                         <div class="col-md-4"><label class="form-label">เลข ปชช. (13 หลัก) <span class="text-danger">*</span></label><input type="text" class="form-control" id="formIdCard" data-col="7" maxlength="13" required placeholder="ไม่ต้องใส่ขีด"></div>
                         <div class="col-md-4"><label class="form-label">คำนำหน้า <span class="text-danger">*</span></label><select class="form-select" data-col="8" required><option value="ด.ช.">ด.ช.</option><option value="ด.ญ.">ด.ญ.</option><option value="นาย">นาย</option><option value="นางสาว">นางสาว</option></select></div>
@@ -577,19 +531,40 @@
     </div>
 </div>
 
-<!-- Progress Overlay & Modal ครอบรูป เหมือนเดิม -->
+<!-- Progress Overlay -->
 <div id="progressOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(5px); z-index:9999; justify-content:center; align-items:center;">
     <div class="app-card text-center shadow-lg" style="min-width:320px; max-width:360px; border:none;"><div class="spinner-border mb-3 mx-auto" style="color:var(--primary); width:3rem; height:3rem;" role="status"></div><div id="progressText" class="fw-bold" style="color:var(--primary-dark); font-size:1.1rem;">กำลังบันทึกข้อมูล...</div><div class="progress mt-4" style="height:10px; border-radius:20px; background:var(--bg);"><div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width:0%; border-radius:20px;"></div></div></div>
 </div>
+
+<!-- Modal ครอบตัดรูป -->
 <div class="modal fade" id="cropModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius);"><div class="modal-header bg-light border-0 pb-2"><h5 class="modal-title fw-bold text-primary">ครอบตัดรูปถ่าย (สัดส่วน 3:4)</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light pt-0"><div class="img-container bg-dark rounded-3 overflow-hidden" style="max-height: 55vh;"><img id="cropImage" src="" alt="crop" style="display: block; max-width: 100%;"></div><div class="d-flex justify-content-center gap-2 mt-3"><button type="button" class="btn btn-sm btn-outline-secondary bg-white" onclick="cropperInstance.rotate(-90)">↺ ซ้าย</button><button type="button" class="btn btn-sm btn-outline-secondary bg-white" onclick="cropperInstance.rotate(90)">↻ ขวา</button><button type="button" class="btn btn-sm btn-outline-secondary bg-white" onclick="cropperInstance.scaleX(cropperInstance.getData().scaleX === -1 ? 1 : -1)">↔ พลิก</button><button type="button" class="btn btn-sm btn-outline-secondary bg-white" onclick="cropperInstance.reset()">🔄 คืนค่า</button></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">ยกเลิก</button><button type="button" class="btn btn-primary px-4" onclick="confirmCrop()">บันทึกรูปภาพ</button></div></div></div></div>
 
+<!-- Modal ตั้งค่าระบบ (สำหรับแอดมิน) -->
+<div class="modal fade" id="configModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius);">
+            <div class="modal-header bg-light border-0 pb-2">
+                <h5 class="modal-title fw-bold text-primary">⚙️ ตั้งค่าระบบ (แอดมิน)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body bg-light pt-0">
+                <label class="form-label fw-bold">เปิดรับสมัคร ปีการศึกษา / เทอม</label>
+                <input type="text" id="configActiveYear" class="form-control form-control-lg" placeholder="เช่น 1/2569">
+                <small class="text-muted mt-2 d-block">📌 ค่านี้จะถูกนำไปอัปเดตบนหน้าเว็บของทุกคนโดยอัตโนมัติ (เช่น ระบบค้นหา, หน้าฟอร์มสมัครเรียน)</small>
+            </div>
+            <div class="modal-footer border-0 bg-light">
+                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-primary px-4 fw-bold" onclick="saveConfig()">บันทึกการตั้งค่า</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- ================= Scripts ================= -->
-<!-- jQuery (Required for DataTables) -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<!-- Bootstrap & Cropper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
-<!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
@@ -598,6 +573,61 @@
 <script>
     // URL สำหรับเรียกใช้งาน API ของ Google Apps Script
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyF5MTuzox5H4XQZE2ViHIdQ5QU-OiSxAGW2LcIjJs6NzsRHnzo5hx7EQfjpXKPZb8B/exec";
+
+    // ===============================================
+    // ระบบตั้งค่าดึงปีการศึกษาอัตโนมัติ (แก้ไขใหม่ล่าสุด)
+    // ===============================================
+    let currentActiveYear = "1/2568";
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        // ดึงการตั้งค่าจาก Server เมื่อโหลดเว็บ
+        fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'getConfig' }) })
+        .then(r => r.json())
+        .then(res => {
+            if (res.status === 'success' && res.data.active_year) {
+                currentActiveYear = res.data.active_year;
+                // อัปเดตข้อมูลบนหน้าเว็บ
+                document.getElementById('landingYearDisplay').textContent = currentActiveYear;
+                document.getElementById('displayYear').textContent = currentActiveYear;
+                document.getElementById('applyYear').value = currentActiveYear;
+                document.getElementById('dashYear').value = currentActiveYear;
+                document.getElementById('adminYear').value = currentActiveYear;
+            }
+        }).catch(e => console.log("Failed to load config"));
+    });
+
+    // เปิดหน้าต่าง Modal ตั้งค่า
+    function openConfigModal() {
+        document.getElementById('configActiveYear').value = currentActiveYear;
+        new bootstrap.Modal(document.getElementById('configModal')).show();
+    }
+
+    // บันทึกการตั้งค่าปีการศึกษา
+    function saveConfig() {
+        const newYear = document.getElementById('configActiveYear').value.trim();
+        if (!newYear) { alert('กรุณากรอกปีการศึกษา'); return; }
+        if (newYear === currentActiveYear) { 
+            bootstrap.Modal.getInstance(document.getElementById('configModal')).hide(); 
+            return; 
+        }
+        
+        showProgress('กำลังบันทึกการตั้งค่า...', 50);
+        fetch(WEB_APP_URL, { 
+            method: 'POST', 
+            body: JSON.stringify({ action: 'updateConfig', data: { active_year: newYear } }) 
+        })
+        .then(r => r.json())
+        .then(res => {
+            if (res.status === 'success') {
+                alert('✅ อัปเดตปีเปิดรับสมัครเป็น "' + newYear + '" สำเร็จ!');
+                window.location.reload(); 
+            } else {
+                hideProgress();
+                alert('❌ เกิดข้อผิดพลาด: ' + res.message);
+            }
+        }).catch(() => { hideProgress(); alert('❌ ไม่สามารถเชื่อมต่อระบบได้'); });
+    }
+
 
     // ===== การตั้งค่าภาษาไทยให้ DataTables =====
     const dtLanguage = {
@@ -613,17 +643,11 @@
     let publicDt = null;
     let adminDt = null;
 
-    // ========================================================
-    // ฟังก์ชันใหม่: ดึงรูปรองรับนโยบายใหม่ของ Google Drive
-    // ========================================================
-function getValidImageUrl(url) {
+    // ฟังก์ชันดึงรูปรองรับนโยบายใหม่ของ Google Drive
+    function getValidImageUrl(url) {
         if (!url) return "";
-        // ค้นหา ID ของไฟล์จากลิงก์
         let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-        if (match) {
-            // ใช้ lh3.googleusercontent.com เพื่อหลบการบล็อก Hotlink ของ Google Drive
-            return `https://lh3.googleusercontent.com/d/${match[1]}`;
-        }
+        if (match) return `https://lh3.googleusercontent.com/d/${match[1]}`;
         return url;
     }
 
@@ -643,7 +667,6 @@ function getValidImageUrl(url) {
     
     function generateSummary() { 
         const g = (col) => { const el = document.querySelector('[data-col="' + col + '"]'); return el ? (el.value || '-') : '-'; }; 
-        
         const activeImgSrc = croppedPhotoBase64 || getValidImageUrl(originalImageSrc);
         const photoThumb = activeImgSrc 
             ? `<img src="${activeImgSrc}" referrerpolicy="no-referrer" style="width:100px; height:133px; object-fit:cover; border-radius:8px; border:1px solid #cbd5e1; box-shadow: var(--shadow-sm);">` 
