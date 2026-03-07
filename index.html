@@ -613,7 +613,21 @@
     let publicDt = null;
     let adminDt = null;
 
-    /* ------------- Logic การครอบรูป และอื่นๆ คงเดิม ------------- */
+    // ========================================================
+    // ฟังก์ชันใหม่: ดึงรูปรองรับนโยบายใหม่ของ Google Drive
+    // ========================================================
+    function getValidImageUrl(url) {
+        if (!url) return "";
+        // ค้นหา ID ของไฟล์จากลิงก์
+        let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+        if (match) {
+            // สร้างลิงก์สำหรับดึงรูปภาพโดยตรง
+            return `https://drive.google.com/uc?id=${match[1]}`;
+        }
+        return url;
+    }
+
+    /* ------------- Logic การครอบรูป ------------- */
     let cropperInstance = null; let croppedPhotoBase64 = ""; let originalImageSrc = "";
     function onPhotoSelected(e) { const file = e.target.files[0]; if (!file) return; if (file.size > 2 * 1024 * 1024) { alert('ไฟล์ใหญ่เกิน 2MB'); e.target.value = ''; return; } const reader = new FileReader(); reader.onload = function(ev) { originalImageSrc = ev.target.result; openCropper(); }; reader.readAsDataURL(file); }
     function openCropper() { if (!originalImageSrc) { document.getElementById('photoFile').click(); return; } const cropImg = document.getElementById('cropImage'); cropImg.src = originalImageSrc; const modal = new bootstrap.Modal(document.getElementById('cropModal')); modal.show(); document.getElementById('cropModal').addEventListener('shown.bs.modal', function initCropper() { if (cropperInstance) { cropperInstance.destroy(); } cropperInstance = new Cropper(cropImg, { aspectRatio: 3/4, viewMode: 1, dragMode: 'move', autoCropArea: 0.85, responsive: true, guides: true, center: true, highlight: true, cropBoxMovable: true, cropBoxResizable: true }); document.getElementById('cropModal').removeEventListener('shown.bs.modal', initCropper); }); }
@@ -626,53 +640,25 @@
     function showSection(sectionId) {['formSection','dashboardSection','adminSection','landingSection'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; }); document.getElementById(sectionId).style.display = 'block'; window.scrollTo(0,0); }
     function changeStep(n) { if (n > 0 && !validateStep(currentStep)) return; const steps = document.querySelectorAll('.wizard-step'); steps[currentStep - 1].classList.remove('active'); document.getElementById('ind-' + currentStep).classList.remove('active'); document.getElementById('ind-' + currentStep).classList.add('completed'); currentStep += n; steps[currentStep - 1].classList.add('active'); document.getElementById('ind-' + currentStep).classList.add('active'); document.getElementById('ind-' + currentStep).classList.remove('completed'); document.getElementById('btnPrev').style.display = currentStep === 1 ? 'none' : 'inline-block'; if (currentStep === totalSteps) { document.getElementById('btnNext').style.display = 'none'; document.getElementById('btnSubmit').style.display = 'inline-block'; generateSummary(); } else { document.getElementById('btnNext').style.display = 'inline-block'; document.getElementById('btnSubmit').style.display = 'none'; } window.scrollTo({ top: 0, behavior: 'smooth' }); }
     function validateStep(step) { const stepEl = document.getElementById('step-' + step); const required = stepEl.querySelectorAll('[required]'); let valid = true; required.forEach(el => { el.classList.remove('is-invalid'); if (!el.value || el.value.trim() === '') { el.classList.add('is-invalid'); valid = false; } }); if (step === 1) { const idCard = document.getElementById('formIdCard'); if (idCard.value.length !== 13 || !/^\d{13}$/.test(idCard.value)) { idCard.classList.add('is-invalid'); valid = false; } } if (!valid) alert('กรุณากรอกข้อมูลที่จำเป็น (*) ให้ครบถ้วน'); return valid; }
-function generateSummary() { 
+    
+    function generateSummary() { 
         const g = (col) => { const el = document.querySelector('[data-col="' + col + '"]'); return el ? (el.value || '-') : '-'; }; 
         
-        // ดึงรูปถ่ายมาแสดง (ถ้ามี)
-        const photoThumb = croppedPhotoBase64 
-            ? `<img src="${croppedPhotoBase64}" style="width:100px; height:133px; object-fit:cover; border-radius:8px; border:1px solid #cbd5e1; box-shadow: var(--shadow-sm);">` 
+        const activeImgSrc = croppedPhotoBase64 || getValidImageUrl(originalImageSrc);
+        const photoThumb = activeImgSrc 
+            ? `<img src="${activeImgSrc}" referrerpolicy="no-referrer" style="width:100px; height:133px; object-fit:cover; border-radius:8px; border:1px solid #cbd5e1; box-shadow: var(--shadow-sm);">` 
             : `<div style="width:100px;height:133px;background:#f8fafc;border:2px dashed #cbd5e1;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:0.8rem;">ไม่มีรูป</div>`; 
         
         document.getElementById('summaryContent').innerHTML = `
         <div class="row mb-4">
-            <div class="col-8 col-md-9">
-                <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">1. ข้อมูลส่วนตัวนักเรียน</h6>
-                <div class="row mb-2"><div class="col-sm-4 text-muted small">ชั้นที่สมัคร :</div><div class="col-sm-8 fw-bold">${g(6)}</div></div>
-                <div class="row mb-2"><div class="col-sm-4 text-muted small">ชื่อ - นามสกุล :</div><div class="col-sm-8 fw-bold">${g(8)}${g(10)} ${g(11)}</div></div>
-                <div class="row mb-2"><div class="col-sm-4 text-muted small">เลข ปชช. :</div><div class="col-sm-8 fw-bold">${g(7)}</div></div>
-                <div class="row mb-2"><div class="col-sm-4 text-muted small">วันเกิด / เพศ :</div><div class="col-sm-8">${g(14)} / ${g(9)}</div></div>
-                <div class="row mb-2"><div class="col-sm-4 text-muted small">สัญชาติ / ศาสนา :</div><div class="col-sm-8">${g(18)} / ${g(20)}</div></div>
-            </div>
-            <div class="col-4 col-md-3 text-end">
-                ${photoThumb}
-            </div>
+            <div class="col-8 col-md-9"><h6 class="fw-bold text-primary border-bottom pb-2 mb-3">1. ข้อมูลส่วนตัวนักเรียน</h6><div class="row mb-2"><div class="col-sm-4 text-muted small">ชั้นที่สมัคร :</div><div class="col-sm-8 fw-bold">${g(6)}</div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">ชื่อ - นามสกุล :</div><div class="col-sm-8 fw-bold">${g(8)}${g(10)} ${g(11)}</div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">เลข ปชช. :</div><div class="col-sm-8 fw-bold">${g(7)}</div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">วันเกิด / เพศ :</div><div class="col-sm-8">${g(14)} / ${g(9)}</div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">สัญชาติ / ศาสนา :</div><div class="col-sm-8">${g(18)} / ${g(20)}</div></div></div>
+            <div class="col-4 col-md-3 text-end">${photoThumb}</div>
         </div>
-
-        <div class="mb-4">
-            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">2. ข้อมูลที่อยู่</h6>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">ตามทะเบียนบ้าน :</div><div class="col-sm-8">${g(24)} ม.${g(25)} ถ.${g(26)} ต.${g(29)} อ.${g(28)} จ.${g(27)} <span class="text-muted">(${g(30)})</span></div></div>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">ที่อยู่ปัจจุบัน :</div><div class="col-sm-8">${g(33)} ม.${g(34)} ถ.${g(35)} ต.${g(38)} อ.${g(37)} จ.${g(36)} <span class="text-muted">(${g(39)})</span></div></div>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">เบอร์ติดต่อปัจจุบัน :</div><div class="col-sm-8 fw-bold">${g(40)}</div></div>
-        </div>
-
-        <div class="mb-4">
-            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">3. ข้อมูลครอบครัวและผู้ปกครอง</h6>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">ข้อมูลบิดา :</div><div class="col-sm-8">${g(62)}${g(63)} ${g(64)} <span class="text-muted text-nowrap">(โทร: ${g(68)})</span></div></div>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">ข้อมูลมารดา :</div><div class="col-sm-8">${g(71)}${g(72)} ${g(73)} <span class="text-muted text-nowrap">(โทร: ${g(77)})</span></div></div>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">ชื่อผู้ปกครอง :</div><div class="col-sm-8 fw-bold text-dark">${g(80)}${g(81)} ${g(82)}</div></div>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">ความเกี่ยวข้อง :</div><div class="col-sm-8">${g(87)}</div></div>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">เบอร์ผู้ปกครอง :</div><div class="col-sm-8 fw-bold text-danger">${g(86)}</div></div>
-        </div>
-
-        <div class="mb-2">
-            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">4. ข้อมูลเพิ่มเติม</h6>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">การเดินทาง :</div><div class="col-sm-8">${g(47)} <span class="text-muted">(ใช้เวลา ${g(48)} นาที)</span></div></div>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">การพักนอน :</div><div class="col-sm-8">${g(41)}</div></div>
-            <div class="row mb-2"><div class="col-sm-4 text-muted small">น้ำหนัก / ส่วนสูง :</div><div class="col-sm-8">${g(51)} กก. / ${g(52)} ซม.</div></div>
-        </div>
-        `; 
+        <div class="mb-4"><h6 class="fw-bold text-primary border-bottom pb-2 mb-3">2. ข้อมูลที่อยู่</h6><div class="row mb-2"><div class="col-sm-4 text-muted small">ตามทะเบียนบ้าน :</div><div class="col-sm-8">${g(24)} ม.${g(25)} ถ.${g(26)} ต.${g(29)} อ.${g(28)} จ.${g(27)} <span class="text-muted">(${g(30)})</span></div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">ที่อยู่ปัจจุบัน :</div><div class="col-sm-8">${g(33)} ม.${g(34)} ถ.${g(35)} ต.${g(38)} อ.${g(37)} จ.${g(36)} <span class="text-muted">(${g(39)})</span></div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">เบอร์ติดต่อปัจจุบัน :</div><div class="col-sm-8 fw-bold">${g(40)}</div></div></div>
+        <div class="mb-4"><h6 class="fw-bold text-primary border-bottom pb-2 mb-3">3. ข้อมูลครอบครัวและผู้ปกครอง</h6><div class="row mb-2"><div class="col-sm-4 text-muted small">ข้อมูลบิดา :</div><div class="col-sm-8">${g(62)}${g(63)} ${g(64)} <span class="text-muted text-nowrap">(โทร: ${g(68)})</span></div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">ข้อมูลมารดา :</div><div class="col-sm-8">${g(71)}${g(72)} ${g(73)} <span class="text-muted text-nowrap">(โทร: ${g(77)})</span></div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">ชื่อผู้ปกครอง :</div><div class="col-sm-8 fw-bold text-dark">${g(80)}${g(81)} ${g(82)}</div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">ความเกี่ยวข้อง :</div><div class="col-sm-8">${g(87)}</div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">เบอร์ผู้ปกครอง :</div><div class="col-sm-8 fw-bold text-danger">${g(86)}</div></div></div>
+        <div class="mb-2"><h6 class="fw-bold text-primary border-bottom pb-2 mb-3">4. ข้อมูลเพิ่มเติม</h6><div class="row mb-2"><div class="col-sm-4 text-muted small">การเดินทาง :</div><div class="col-sm-8">${g(47)} <span class="text-muted">(ใช้เวลา ${g(48)} นาที)</span></div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">การพักนอน :</div><div class="col-sm-8">${g(41)}</div></div><div class="row mb-2"><div class="col-sm-4 text-muted small">น้ำหนัก / ส่วนสูง :</div><div class="col-sm-8">${g(51)} กก. / ${g(52)} ซม.</div></div></div>`; 
     }
+    
     function copyAddress() { for(let i=1; i<=8; i++) { if(document.getElementById('cur'+i) && document.getElementById('reg'+i)) { document.getElementById('cur'+i).value = document.getElementById('reg'+i).value; } } }
     function copyToGuardian(type) { let prefix = type === 'father' ? 'f' : 'm'; document.getElementById('gId').value = document.getElementById(prefix + 'Id').value; document.getElementById('gPre').value = document.getElementById(prefix + 'Pre').value; document.getElementById('gName').value = document.getElementById(prefix + 'Name').value; document.getElementById('gLast').value = document.getElementById(prefix + 'Last').value; document.getElementById('gJob').value = document.getElementById(prefix + 'Job').value; document.getElementById('gInc').value = document.getElementById(prefix + 'Inc').value; document.getElementById('gBlood').value = document.getElementById(prefix + 'Blood').value; document.getElementById('gPhone').value = document.getElementById(prefix + 'Phone').value; document.getElementById('gRelation').value = type === 'father' ? 'บิดา' : 'มารดา'; }
 
@@ -681,84 +667,39 @@ function generateSummary() {
     function logoutAdmin() { adminLoggedIn = false; showSection('landingSection'); }
     function changeAdminPassword() { const oldPass = prompt('กรอกรหัสเดิม:'); if (!oldPass) return; const newPass = prompt('กรอกรหัสใหม่ (อย่างน้อย 4 หลัก):'); if (!newPass || newPass.length < 4) { alert('รหัสใหม่ต้องมีอย่างน้อย 4 หลัก'); return; } const confirmPass = prompt('ยืนยันรหัสใหม่อีกครั้ง:'); if (newPass !== confirmPass) { alert('รหัสไม่ตรงกัน'); return; } fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'changeAdminPassword', data: { oldPassword: oldPass, newPassword: newPass } }) }).then(r => r.json()).then(res => { if (res.status === 'success') alert('เปลี่ยนรหัสสำเร็จ'); else alert('เปลี่ยนรหัสไม่สำเร็จ: ' + (res.message || 'รหัสเดิมไม่ถูกต้อง')); }).catch(() => alert('ไม่สามารถเชื่อมต่อระบบได้')); }
 
-
-    // ===============================================
-    // โหลด Dashboard ด้วยระบบ DataTables
-    // ===============================================
-
+    // --- Dashboard ---
     function loadPublicDashboard() {
-        const year = document.getElementById('dashYear').value;
-        const tbody = document.getElementById('publicTableBody');
-
-        // เคลียร์ DataTable เก่าก่อนถ้ามี
+        const year = document.getElementById('dashYear').value; const tbody = document.getElementById('publicTableBody');
         if(publicDt) { publicDt.destroy(); publicDt = null; }
         tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm text-primary me-2"></div>กำลังโหลดข้อมูล...</td></tr>';
 
         fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'getStudents', data: { year: year } }) })
         .then(res => res.json()).then(res => {
-            if (res.data.length === 0) { 
-                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">ยังไม่มีผู้สมัครในปีการศึกษานี้</td></tr>'; return; 
-            }
+            if (res.data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">ยังไม่มีผู้สมัครในปีการศึกษานี้</td></tr>'; return; }
             globalStudents = res.data; let html = '';
-            
             res.data.forEach((s, i) => {
                 let d = new Date(s.timestamp).toLocaleDateString('th-TH');
                 let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : (s.status==='ยืนยันแล้ว'?'bg-success text-white':'bg-danger text-white');
-                html += `<tr>
-                    <td class="text-center fw-bold">${i+1}</td>
-                    <td>${d}</td>
-                    <td>${s.name}</td>
-                    <td>${s.grade}</td>
-                    <td><span class="badge ${badge}">${s.status}</span></td>
-                  <td>
-                        <div class="d-flex flex-wrap gap-1">
-                            <button class="btn btn-sm btn-outline-primary" onclick="publicAction(${i},'print')" title="พิมพ์ใบสมัคร">
-                                🖨️ <span class="d-none d-md-inline">พิมพ์</span>
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary" onclick="publicAction(${i},'edit')" title="แก้ไขข้อมูล">
-                                ✏️ <span class="d-none d-md-inline">แก้ไข</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>`;
+                html += `<tr><td class="text-center fw-bold">${i+1}</td><td>${d}</td><td>${s.name}</td><td>${s.grade}</td><td><span class="badge ${badge}">${s.status}</span></td>
+                  <td><div class="d-flex flex-wrap gap-1"><button class="btn btn-sm btn-outline-primary" onclick="publicAction(${i},'print')" title="พิมพ์ใบสมัคร">🖨️ <span class="d-none d-md-inline">พิมพ์</span></button><button class="btn btn-sm btn-outline-secondary" onclick="publicAction(${i},'edit')" title="แก้ไขข้อมูล">✏️ <span class="d-none d-md-inline">แก้ไข</span></button></div></td></tr>`;
             });
             tbody.innerHTML = html;
-
-            // ผูก DataTables
-            publicDt = $('#publicTable').DataTable({
-                responsive: true,
-                language: dtLanguage,
-                pageLength: 10,
-                ordering: false, // ปิดการเรียงลำดับ ปล่อยเรียงตามล่าสุด
-                dom: '<"top">rt<"bottom"ip><"clear">' // ซ่อนกล่องค้นหาพื้นฐาน เพื่อใช้ช่องค้นหาของเราเอง
-            });
+            publicDt = $('#publicTable').DataTable({ responsive: true, language: dtLanguage, pageLength: 10, ordering: false, dom: '<"top">rt<"bottom"ip><"clear">' });
         });
     }
 
-    // เชื่อมปุ่มค้นหาของเราเข้ากับ DataTable
-    function filterPublicTable() {
-        const q = document.getElementById('publicSearch').value;
-        if(publicDt) publicDt.search(q).draw();
-    }
-
+    function filterPublicTable() { const q = document.getElementById('publicSearch').value; if(publicDt) publicDt.search(q).draw(); }
     function publicAction(index, action) { const student = globalStudents[index]; const guardianPhone = student.rawData[85] || ''; const input = prompt('🔐 เพื่อความปลอดภัย กรุณากรอก "เบอร์โทรศัพท์ผู้ปกครอง" ที่ใช้สมัครเพื่อยืนยันตัวตน:'); if (!input) return; if (input.trim() === guardianPhone.trim() || input.trim() === "'"+guardianPhone.trim()) { if (action === 'print') printApplication(index); else if (action === 'edit') editApplication(index); } else { alert('❌ เบอร์โทรไม่ถูกต้อง กรุณาลองใหม่'); } }
-
 
     function loadAdminDashboard() {
         if (!adminLoggedIn) return;
-        const year = document.getElementById('adminYear').value; 
-        const tbody = document.getElementById('adminTableBody');
-
-        // เคลียร์ DataTable เก่าก่อนถ้ามี
+        const year = document.getElementById('adminYear').value; const tbody = document.getElementById('adminTableBody');
         if(adminDt) { adminDt.destroy(); adminDt = null; }
         tbody.innerHTML = '<tr><td colspan="9" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary me-2"></div>กำลังโหลดข้อมูล...</td></tr>';
         
         fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'getStudents', data: { year: year } }) })
         .then(res => res.json()).then(res => {
-            if (res.data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" class="text-center py-4 text-danger">ยังไม่มีผู้สมัคร</td></tr>';
-                document.getElementById('statTotal').textContent='0'; document.getElementById('statPending').textContent='0'; document.getElementById('statApproved').textContent='0'; document.getElementById('statM1').textContent='0'; document.getElementById('statM4').textContent='0'; return;
-            }
+            if (res.data.length === 0) { tbody.innerHTML = '<tr><td colspan="9" class="text-center py-4 text-danger">ยังไม่มีผู้สมัคร</td></tr>'; document.getElementById('statTotal').textContent='0'; document.getElementById('statPending').textContent='0'; document.getElementById('statApproved').textContent='0'; document.getElementById('statM1').textContent='0'; document.getElementById('statM4').textContent='0'; return; }
             
             globalStudents = res.data;
             let pending=0, approved=0, m1=0, m4=0;
@@ -767,87 +708,73 @@ function generateSummary() {
             
             let html = '';
             res.data.forEach((s, i) => {
-                let d = new Date(s.timestamp).toLocaleDateString('th-TH'); let phone = s.rawData[85] || '-';
-                if(phone.startsWith("'")) phone = phone.substring(1); // ลบ ' ทิ้งเวลาแสดง
+                let d = new Date(s.timestamp).toLocaleDateString('th-TH'); 
+                let phone = s.rawData[85] || '-'; if(phone.startsWith("'")) phone = phone.substring(1); 
                 
-                let photoHtml = s.rawData[3] ? `<img src="${s.rawData[3].replace('/d/','/uc?id=').split('/view')[0]}" style="width:35px; height:45px; object-fit:cover; border-radius:4px; border:1px solid #e2e8f0; cursor:pointer;" onclick="window.open('${s.rawData[3]}','_blank')">` : `<div style="width:35px;height:45px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#94a3b8;">ไม่มีรูป</div>`;
+                // ใช้ getValidImageUrl สำหรับตารางแอดมิน
+                let activeSrc = getValidImageUrl(s.rawData[3]);
+                let photoHtml = activeSrc ? `<img src="${activeSrc}" referrerpolicy="no-referrer" style="width:35px; height:45px; object-fit:cover; border-radius:4px; border:1px solid #e2e8f0; cursor:pointer;" onclick="window.open('${s.rawData[3]}','_blank')">` : `<div style="width:35px;height:45px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#94a3b8;">ไม่มีรูป</div>`;
+                
                 let selectCls = s.status==='ยืนยันแล้ว'?'text-success':(s.status==='รอตรวจสอบ'?'text-warning text-dark':'text-danger');
-                
-                let statusSelect = `<select class="form-select form-select-sm fw-bold ${selectCls}" style="width:110px; font-size:0.8rem;" onchange="changeStatus(${i}, this.value)">
-                    <option value="รอตรวจสอบ" ${s.status==='รอตรวจสอบ'?'selected':''}>รอตรวจสอบ</option>
-                    <option value="ยืนยันแล้ว" ${s.status==='ยืนยันแล้ว'?'selected':''}>ยืนยันแล้ว</option>
-                    <option value="ไม่ผ่าน" ${s.status==='ไม่ผ่าน'?'selected':''}>ไม่ผ่าน</option></select>`;
+                let statusSelect = `<select class="form-select form-select-sm fw-bold ${selectCls}" style="width:110px; font-size:0.8rem;" onchange="changeStatus(${i}, this.value)"><option value="รอตรวจสอบ" ${s.status==='รอตรวจสอบ'?'selected':''}>รอตรวจสอบ</option><option value="ยืนยันแล้ว" ${s.status==='ยืนยันแล้ว'?'selected':''}>ยืนยันแล้ว</option><option value="ไม่ผ่าน" ${s.status==='ไม่ผ่าน'?'selected':''}>ไม่ผ่าน</option></select>`;
                     
-                html += `<tr>
-                    <td class="text-center fw-bold text-muted">${i+1}</td>
-                    <td class="text-center">${photoHtml}</td>
-                    <td>${d}</td>
-                    <td>${String(s.idCard).replace(/'/g, "")}</td>
-                    <td>${s.name}</td>
-                    <td>${s.grade}</td>
-                    <td>${phone!=='-'?`<a href="tel:${phone}" class="text-decoration-none">📞 ${phone}</a>`:'-'}</td>
-                    <td>${statusSelect}</td>
-             <td>
-                        <div class="d-flex flex-wrap gap-1">
-                            <button class="btn btn-sm btn-outline-primary" onclick="printApplication(${i})" title="พิมพ์">🖨️</button>
-                            <button class="btn btn-sm btn-outline-secondary" onclick="editApplication(${i})" title="แก้ไข">✏️</button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="deleteApplication(${i})" title="ลบ">🗑️</button>
-                        </div>
-                    </td>
-                </tr>`;
+                html += `<tr><td class="text-center fw-bold text-muted">${i+1}</td><td class="text-center">${photoHtml}</td><td>${d}</td><td>${String(s.idCard).replace(/'/g, "")}</td><td>${s.name}</td><td>${s.grade}</td><td>${phone!=='-'?`<a href="tel:${phone}" class="text-decoration-none">📞 ${phone}</a>`:'-'}</td><td>${statusSelect}</td>
+                <td><div class="d-flex flex-wrap gap-1"><button class="btn btn-sm btn-outline-primary" onclick="printApplication(${i})" title="พิมพ์">🖨️</button><button class="btn btn-sm btn-outline-secondary" onclick="editApplication(${i})" title="แก้ไข">✏️</button><button class="btn btn-sm btn-outline-danger" onclick="deleteApplication(${i})" title="ลบ">🗑️</button></div></td></tr>`;
             });
             tbody.innerHTML = html;
-
-            // ผูก DataTables
-            adminDt = $('#adminTable').DataTable({
-                responsive: true,
-                language: dtLanguage,
-                pageLength: 20,
-                lengthMenu: [10, 20, 50, 100], // ให้แอดมินเลือกจำนวนโชว์ได้
-                ordering: false,
-                dom: '<"top">rt<"bottom"ilp><"clear">'
-            });
+            adminDt = $('#adminTable').DataTable({ responsive: true, language: dtLanguage, pageLength: 20, lengthMenu:[10, 20, 50, 100], ordering: false, dom: '<"top">rt<"bottom"ilp><"clear">' });
         });
     }
 
-    // เชื่อมปุ่มค้นหาของเราเข้ากับ DataTable
-    function filterAdminTable() {
-        const q = document.getElementById('adminSearch').value;
-        if(adminDt) adminDt.search(q).draw();
-    }
-
-
+    function filterAdminTable() { const q = document.getElementById('adminSearch').value; if(adminDt) adminDt.search(q).draw(); }
     function changeStatus(index, newStatus) { const student = globalStudents[index]; fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'updateStatus', data: { year: document.getElementById('adminYear').value, rowNumber: student.rowNumber, status: newStatus } }) }).then(res => res.json()).then(res => { if (res.status === 'success') { student.status = newStatus; student.rawData[2] = newStatus; let pending=0, approved=0; globalStudents.forEach(s => { if (s.status === 'รอตรวจสอบ') pending++; else if(s.status === 'ยืนยันแล้ว') approved++; }); document.getElementById('statPending').textContent = pending; document.getElementById('statApproved').textContent = approved; loadAdminDashboard(); } }); }
     function exportExcel() { if (!globalStudents.length) { alert('ไม่มีข้อมูลให้ Export'); return; } let csv = '\uFEFFลำดับ,วันที่สมัคร,เลข ปชช.,คำนำหน้า,ชื่อ,นามสกุล,เพศ,ชั้น,วันเกิด,จังหวัดเกิด,เบอร์ผู้ปกครอง,ชื่อผู้ปกครอง,สถานะ\n'; globalStudents.forEach((s, i) => { const r = s.rawData; csv += `${i+1},${new Date(s.timestamp).toLocaleDateString('th-TH')},'${String(r[6]||'').replace(/'/g,"")} ,${r[7]||''},${r[9]||''},${r[10]||''},${r[8]||''},${r[5]||''},${r[13]||''},${r[14]||''},'${String(r[85]||'').replace(/'/g,"")} ,${(r[79]||'')+(r[80]||'')+' '+(r[81]||'')},${r[2]||''}\n`; }); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' })); a.download = 'รายชื่อผู้สมัคร_' + document.getElementById('adminYear').value + '.csv'; a.click(); }
     function deleteApplication(index) { const student = globalStudents[index]; if (!confirm('⚠️ ต้องการลบข้อมูล "' + student.name + '" ใช่หรือไม่?\n\nการลบจะไม่สามารถกู้คืนได้')) return; fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteApplication', data: { year: document.getElementById('adminYear').value, rowNumber: student.rowNumber } }) }).then(r=>r.json()).then(res=>{ if(res.status==='success'){ alert('ลบข้อมูลสำเร็จ'); loadAdminDashboard();} }); }
 
-    function editApplication(index) { const student = globalStudents[index]; const rd = student.rawData; showSection('formSection'); document.querySelectorAll('input[data-col], select[data-col]').forEach(el => { const rdIndex = parseInt(el.getAttribute('data-col')) - 1; if (rd[rdIndex] !== undefined && rd[rdIndex] !== '') { let val = String(rd[rdIndex]); if (val.startsWith("'")) val = val.substring(1); el.value = val; } }); if (rd[3]) { let photoUrl = rd[3]; originalImageSrc = photoUrl; croppedPhotoBase64 = ''; document.getElementById('photoPreviewThumb').src = photoUrl.replace('/d/','/uc?id=').split('/view')[0]; document.getElementById('photoPlaceholder').style.display = 'none'; document.getElementById('photoPreviewWrap').style.display = 'block'; document.getElementById('photoUploadArea').classList.add('has-photo'); } currentStep = 1; document.querySelectorAll('.wizard-step').forEach((s, i) => s.classList.toggle('active', i === 0)); document.querySelectorAll('.step-item').forEach((s, i) => { s.classList.remove('active', 'completed'); if(i === 0) s.classList.add('active'); }); document.getElementById('btnPrev').style.display = 'none'; document.getElementById('btnNext').style.display = 'inline-block'; document.getElementById('btnSubmit').style.display = 'none'; document.getElementById('admissionForm').dataset.editIndex = index; document.getElementById('admissionForm').dataset.editRow = student.rowNumber; }
+    function editApplication(index) { 
+        const student = globalStudents[index]; const rd = student.rawData; showSection('formSection'); 
+        document.querySelectorAll('input[data-col], select[data-col]').forEach(el => { const rdIndex = parseInt(el.getAttribute('data-col')) - 1; if (rd[rdIndex] !== undefined && rd[rdIndex] !== '') { let val = String(rd[rdIndex]); if (val.startsWith("'")) val = val.substring(1); el.value = val; } }); 
+        
+        if (rd[3]) { 
+            let photoUrl = rd[3]; originalImageSrc = photoUrl; croppedPhotoBase64 = ''; 
+            // ใช้ getValidImageUrl สำหรับแสดงในหน้าแก้ไข
+            document.getElementById('photoPreviewThumb').src = getValidImageUrl(photoUrl); 
+            document.getElementById('photoPlaceholder').style.display = 'none'; 
+            document.getElementById('photoPreviewWrap').style.display = 'block'; 
+            document.getElementById('photoUploadArea').classList.add('has-photo'); 
+        } 
+        
+        currentStep = 1; document.querySelectorAll('.wizard-step').forEach((s, i) => s.classList.toggle('active', i === 0)); document.querySelectorAll('.step-item').forEach((s, i) => { s.classList.remove('active', 'completed'); if(i === 0) s.classList.add('active'); }); document.getElementById('btnPrev').style.display = 'none'; document.getElementById('btnNext').style.display = 'inline-block'; document.getElementById('btnSubmit').style.display = 'none'; document.getElementById('admissionForm').dataset.editIndex = index; document.getElementById('admissionForm').dataset.editRow = student.rowNumber; 
+    }
 
     document.getElementById('admissionForm').addEventListener('submit', async function(e) { e.preventDefault(); const form = document.getElementById('admissionForm'); const editIndex = form.dataset.editIndex; const isEdit = editIndex !== undefined && editIndex !== ''; showProgress(isEdit ? 'กำลังอัปเดตข้อมูล...' : 'กำลังบันทึกข้อมูล...', 10); document.getElementById('btnSubmit').disabled = true; let formDataArray = new Array(82).fill(""); document.querySelectorAll('input[data-col], select[data-col]').forEach(el => formDataArray[parseInt(el.getAttribute('data-col')) - 6] = el.value ); showProgress(isEdit ? 'กำลังอัปเดต...' : 'กำลังตรวจสอบข้อมูล...', 30); if (!isEdit) { try { const checkRes = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkDuplicate', data: { year: document.getElementById('applyYear').value, idCard: document.getElementById('formIdCard').value } }) }).then(r => r.json()); if (checkRes.status === 'success' && checkRes.data === true) { hideProgress(); document.getElementById('btnSubmit').disabled = false; alert('❌ เลขประจำตัวประชาชนนี้มีการสมัครแล้ว!\n\nหากต้องการแก้ไขข้อมูล กรุณาไปที่เมนู "ตรวจสอบ"'); return; } } catch(err) {} } showProgress('กำลังอัปโหลดข้อมูล...', 60); let payload = { action: isEdit ? 'updateApplication' : 'submitApplication', data: { year: document.getElementById('applyYear').value, idCard: document.getElementById('formIdCard').value, photoBase64: croppedPhotoBase64 || "", formData: formDataArray } }; if (isEdit) payload.data.rowNumber = globalStudents[parseInt(editIndex)].rowNumber; fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) }).then(res => res.json()).then(res => { showProgress('สำเร็จ!', 100); if(res.status === 'success') { setTimeout(() => { hideProgress(); alert(isEdit ? '✅ อัปเดตข้อมูลสำเร็จ!' : '🎉 สมัครเรียนสำเร็จ!'); window.location.reload(); }, 500); } else { hideProgress(); alert('ข้อผิดพลาด: ' + res.message); } }).catch(() => { hideProgress(); alert('เชื่อมต่อระบบไม่ได้ ลองใหม่อีกครั้ง'); document.getElementById('btnSubmit').disabled = false; }); });
     function showProgress(text, percent) { document.getElementById('progressOverlay').style.display = 'flex'; document.getElementById('progressText').textContent = text; document.getElementById('progressBar').style.width = percent + '%'; }
     function hideProgress() { document.getElementById('progressOverlay').style.display = 'none'; }
 
-    // --- ส่วนงานพิมพ์คงเดิม ---
+    // --- ส่วนงานพิมพ์ ---
     function printAllApplications() { if (!globalStudents.length) { alert('ไม่มีข้อมูลให้พิมพ์'); return; } if (!confirm('ต้องการพิมพ์ใบสมัครทั้งหมด ' + globalStudents.length + ' ใบ?')) return; const printWindow = window.open('', '_blank'); let allPages = ''; globalStudents.forEach((s, i) => { allPages += generateSinglePageHtml(i); if (i < globalStudents.length - 1) allPages += '<div style="page-break-after:always;"></div>'; }); printWindow.document.write(`<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>ใบสมัครทั้งหมด</title><style>${getPrintStyles()}</style></head><body><div class="print-bar"><button onclick="window.print()">🖨️ พิมพ์ทั้งหมด (${globalStudents.length} ใบ)</button></div>${allPages}</body></html>`); printWindow.document.close(); }
     function printApplication(index) { const printWindow = window.open('', '_blank'); printWindow.document.write(`<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>ใบสมัครเรียน_${globalStudents[index].rawData[6]}</title><style>${getPrintStyles()}</style></head><body><div class="print-bar"><button onclick="window.print()">🖨️ พิมพ์ใบสมัคร</button></div>${generateSinglePageHtml(index)}</body></html>`); printWindow.document.close(); }
-function generateSinglePageHtml(index) { 
+    
+    function generateSinglePageHtml(index) { 
         const rd = globalStudents[index].rawData; 
         const v = (val) => { if(!val) return "-"; let str = String(val); if(str.startsWith("'")) return str.substring(1); return str; }; 
+        
         let photoUrl = rd[3] || ""; 
-        const displayUrl = getDriveImageUrl(photoUrl); 
-        const imgTag = photoUrl ? `<img src="${displayUrl}" class="photo-img" referrerpolicy="no-referrer">` : `<div class="photo-placeholder">รูปถ่าย<br>1.5 นิ้ว</div>`; 
+        // ใช้ getValidImageUrl สำหรับ PDF
+        const activeSrc = getValidImageUrl(photoUrl); 
+        const imgTag = activeSrc ? `<img src="${activeSrc}" class="photo-img" referrerpolicy="no-referrer">` : `<div class="photo-placeholder">รูปถ่าย<br>1.5 นิ้ว</div>`; 
+        
         const totalSiblings = parseInt(rd[53]||0)+parseInt(rd[54]||0)+parseInt(rd[55]||0)+parseInt(rd[56]||0); 
         const applyDate = new Date(rd[0]).toLocaleDateString('th-TH'); 
         
         return `<div class="page"><div class="top-row"><div class="header"><h1>ใบสมัครเข้าเรียน</h1><h2>โรงเรียนบ้านคลอง 14 &nbsp;ปีการศึกษา <span class="hl">${v(rd[1])}</span></h2><div class="apply-date">วันที่สมัคร <span class="hl">${applyDate}</span></div></div><div class="photo-box">${imgTag}</div></div><div class="sec">๑. ข้อมูลส่วนตัวนักเรียน</div><div class="row"><div class="c"><span class="l">ชั้นที่สมัคร</span> <span class="d" style="font-weight:700">${v(rd[5])}</span></div><div class="c g"><span class="l">เลข ปชช.</span> <span class="d">${v(rd[6])}</span></div><div class="c"><span class="l">เพศ</span> <span class="d">${v(rd[8])}</span></div></div><div class="row"><div class="c g"><span class="l">ชื่อ-สกุล (ไทย)</span> <span class="d">${v(rd[7])}${v(rd[9])} ${v(rd[10])}</span></div><div class="c g"><span class="l">(อังกฤษ)</span> <span class="d">${v(rd[11])} ${v(rd[12])}</span></div></div><div class="row"><div class="c"><span class="l">เกิดวันที่</span> <span class="d">${v(rd[13])}</span></div><div class="c"><span class="l">จ.ที่เกิด</span> <span class="d">${v(rd[14])}</span></div><div class="c"><span class="l">เลือด</span> <span class="d">${v(rd[16])}</span></div><div class="c"><span class="l">สัญชาติ</span> <span class="d">${v(rd[17])}</span></div><div class="c"><span class="l">เชื้อชาติ</span> <span class="d">${v(rd[18])}</span></div><div class="c"><span class="l">ศาสนา</span> <span class="d">${v(rd[19])}</span></div></div><div class="row"><div class="c"><span class="l">น้ำหนัก</span> <span class="d">${v(rd[50])}</span><span class="u">กก.</span></div><div class="c"><span class="l">สูง</span> <span class="d">${v(rd[51])}</span><span class="u">ซม.</span></div><div class="c"><span class="l">อีเมล</span> <span class="d">${v(rd[15])}</span></div></div><div class="sec">๒. ที่อยู่</div><table class="tbl"><tr><th style="width:14%">รายการ</th><th style="width:43%">ตามทะเบียนบ้าน</th><th style="width:43%">ที่อยู่ปัจจุบัน</th></tr><tr><td class="lc">รหัสบ้าน</td><td>${v(rd[22])}</td><td>${v(rd[31])}</td></tr><tr><td class="lc">เลขที่/หมู่/ถนน</td><td>${v(rd[23])} หมู่ ${v(rd[24])} ถ.${v(rd[25])}</td><td>${v(rd[32])} หมู่ ${v(rd[33])} ถ.${v(rd[34])}</td></tr><tr><td class="lc">ต./อ./จ.</td><td>${v(rd[28])} / ${v(rd[27])} / ${v(rd[26])}</td><td>${v(rd[37])} / ${v(rd[36])} / ${v(rd[35])}</td></tr><tr><td class="lc">ไปรษณีย์</td><td>${v(rd[29])}</td><td>${v(rd[38])}</td></tr><tr><td class="lc">โทรศัพท์</td><td>${v(rd[30])}</td><td>${v(rd[39])}</td></tr></table><div class="sec">๓. ข้อมูลครอบครัวและผู้ปกครอง</div><div class="row"><div class="c"><span class="l">สถานภาพ</span> <span class="d">${v(rd[52])}</span></div><div class="c"><span class="l">บุตรลำดับที่</span> <span class="d">${v(rd[58])}</span></div><div class="c"><span class="l">พี่น้องรวม</span> <span class="d">${totalSiblings}</span><span class="u">คน</span></div><div class="c"><span class="l">กำลังศึกษา</span> <span class="d">${v(rd[57])}</span><span class="u">คน</span></div></div><div class="row"><div class="c"><span class="l">พี่ชาย</span> <span class="d">${v(rd[53])}</span><span class="u">คน</span></div><div class="c"><span class="l">น้องชาย</span> <span class="d">${v(rd[54])}</span><span class="u">คน</span></div><div class="c"><span class="l">พี่สาว</span> <span class="d">${v(rd[55])}</span><span class="u">คน</span></div><div class="c"><span class="l">น้องสาว</span> <span class="d">${v(rd[56])}</span><span class="u">คน</span></div></div><table class="tbl"><tr><th style="width:12%">รายการ</th><th style="width:29.3%">บิดา</th><th style="width:29.3%">มารดา</th><th style="width:29.3%">ผู้ปกครอง (${v(rd[86])})</th></tr><tr><td class="lc">ชื่อ-สกุล</td><td>${v(rd[61])}${v(rd[62])} ${v(rd[63])}</td><td>${v(rd[70])}${v(rd[71])} ${v(rd[72])}</td><td>${v(rd[79])}${v(rd[80])} ${v(rd[81])}</td></tr><tr><td class="lc">เลข ปชช.</td><td>${v(rd[59])}</td><td>${v(rd[68])}</td><td>${v(rd[77])}</td></tr><tr><td class="lc">อาชีพ/รายได้</td><td>${v(rd[64])} / ${v(rd[65])}</td><td>${v(rd[73])} / ${v(rd[74])}</td><td>${v(rd[82])} / ${v(rd[83])}</td></tr><tr><td class="lc">เบอร์โทร</td><td>${v(rd[67])}</td><td>${v(rd[76])}</td><td>${v(rd[85])}</td></tr></table><div class="sec">๔. ข้อมูลเพิ่มเติม</div><div class="row"><div class="c"><span class="l">การพักนอน</span> <span class="d">${v(rd[40])}</span></div><div class="c"><span class="l">ด้อยโอกาส</span> <span class="d">${v(rd[41])}</span></div><div class="c"><span class="l">ว่ายน้ำ</span> <span class="d">${v(rd[49])}</span></div><div class="c"><span class="l">เดินทาง</span> <span class="d">${v(rd[46])}</span></div><div class="c"><span class="l">เวลา</span> <span class="d">${v(rd[47])}</span><span class="u">นาที</span></div></div><div class="row"><div class="c"><span class="l">ขาดแบบเรียน</span> <span class="d">${v(rd[42])}</span></div><div class="c"><span class="l">อาหาร</span> <span class="d">${v(rd[43])}</span></div><div class="c"><span class="l">เครื่องเขียน</span> <span class="d">${v(rd[44])}</span></div><div class="c"><span class="l">เครื่องแบบ</span> <span class="d">${v(rd[45])}</span></div></div><div class="cert">ข้าพเจ้าขอรับรองว่าข้อความข้างต้นเป็นความจริงทุกประการ และยินยอมปฏิบัติตามกฎระเบียบของโรงเรียนบ้านคลอง ๑๔ อย่างเคร่งครัด</div><div class="sig-row"><div class="sig-box"><span class="sig-ln"></span><div class="sig-nm">( ${v(rd[7])}${v(rd[9])} ${v(rd[10])} )</div><div class="sig-lb">ผู้สมัครเข้าเรียน</div><div class="sig-dt">วันที่ ${applyDate}</div></div><div class="sig-box"><span class="sig-ln"></span><div class="sig-nm">( ${v(rd[79])}${v(rd[80])} ${v(rd[81])} )</div><div class="sig-lb">ผู้ปกครอง</div><div class="sig-dt">วันที่ ${applyDate}</div></div></div></div>`; 
     }
 
-    function getPrintStyles() { 
-        return `@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap');*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:'Sarabun',sans-serif;font-size:11pt;color:#1a1a1a;line-height:1.3;background:#6b7280;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{width:210mm;height:297mm;margin:10px auto;padding:7mm 10mm 5mm 10mm;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,0.35);position:relative;overflow:hidden}.header{text-align:center;padding-bottom:5px;border-bottom:2px solid #1e3a5f;margin-bottom:3px}.header h1{font-size:17pt;font-weight:700;color:#1e3a5f;letter-spacing:1px;margin-bottom:1px}.header h2{font-size:12.5pt;font-weight:500;color:#374151}.header h2 .hl{font-weight:700;color:#1e3a5f;border-bottom:1.5px dotted #1e3a5f;padding:0 6px}.top-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:3px}.top-row .header{flex:1}.photo-box{flex-shrink:0}.photo-img{width:2.5cm;height:3.2cm;object-fit:cover;border:1px solid #555;border-radius:2px}.photo-placeholder{width:2.5cm;height:3.2cm;border:1px dashed #aaa;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9pt;color:#aaa;text-align:center;line-height:1.2}.apply-date{text-align:right;font-size:10pt;color:#888;margin-top:3px}.apply-date .hl{color:#1a1a1a;font-weight:500}.sec{font-size:11pt;font-weight:700;color:#fff;background:#1e3a5f;padding:2px 8px;border-radius:2px;margin:5px 0 3px 0}.row{display:flex;flex-wrap:wrap;padding:1.5px 0;border-bottom:1px solid #eee}.row:last-child{border-bottom:none}.c{padding:1px 4px;font-size:10.5pt;display:inline-flex;align-items:baseline;flex-shrink:0}.c .l{font-weight:600;color:#444;white-space:nowrap;margin-right:2px;font-size:10pt}.c .d{border-bottom:1px dotted #bbb;min-width:20px;text-align:center;padding:0 3px;color:#111;font-weight:500}.c .u{font-size:9.5pt;color:#888;margin-left:1px}.c.g{flex:1}.c.g .d{flex:1}.tbl{width:100%;border-collapse:collapse;margin:2px 0;font-size:10pt}.tbl th,.tbl td{border:1px solid #d1d5db;padding:2px 5px;vertical-align:middle}.tbl th{background:#e8edf3;font-weight:600;color:#1e3a5f;text-align:center;font-size:9.5pt}.tbl td{color:#1a1a1a}.tbl td.lc{background:#f3f4f6;font-weight:600;color:#444;text-align:center;font-size:9.5pt}.cert{margin-top:6px;text-indent:35px;text-align:justify;font-size:10.5pt;line-height:1.4;color:#444}.sig-row{display:flex;justify-content:space-between;margin-top:8px}.sig-box{text-align:center;width:44%;font-size:10pt}.sig-ln{display:block;width:80%;margin:22px auto 2px auto;border-bottom:1px dotted #555}.sig-nm{font-size:10pt;color:#444}.sig-lb{font-weight:600;color:#1e3a5f;font-size:10.5pt}.sig-dt{font-size:9pt;color:#888;margin-top:1px}.print-bar{text-align:center;padding:12px;background:#f3f4f6;border-bottom:1px solid #ddd}.print-bar button{font-family:'Sarabun',sans-serif;font-size:13pt;font-weight:600;padding:8px 30px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer}.print-bar button:hover{background:#2c5282}@media print{body{background:#fff}.print-bar{display:none}.page{margin:0;padding:7mm 10mm 5mm 10mm;box-shadow:none;width:100%;height:100%}@page{size:A4;margin:0}}`; 
-    }                                        function getPrintStyles() { return `@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap');*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:'Sarabun',sans-serif;font-size:11pt;color:#1a1a1a;line-height:1.3;background:#6b7280;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{width:210mm;height:297mm;margin:10px auto;padding:7mm 10mm 5mm 10mm;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,0.35);position:relative;overflow:hidden}.header{text-align:center;padding-bottom:5px;border-bottom:2px solid #1e3a5f;margin-bottom:3px}.header h1{font-size:17pt;font-weight:700;color:#1e3a5f;letter-spacing:1px;margin-bottom:1px}.header h2{font-size:12.5pt;font-weight:500;color:#374151}.header h2 .hl{font-weight:700;color:#1e3a5f;border-bottom:1.5px dotted #1e3a5f;padding:0 6px}.top-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:3px}.top-row .header{flex:1}.photo-box{flex-shrink:0}.photo-img{width:2.5cm;height:3.2cm;object-fit:cover;border:1px solid #555;border-radius:2px}.photo-placeholder{width:2.5cm;height:3.2cm;border:1px dashed #aaa;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9pt;color:#aaa;text-align:center;line-height:1.2}.apply-date{text-align:right;font-size:10pt;color:#888;margin-top:3px}.apply-date .hl{color:#1a1a1a;font-weight:500}.sec{font-size:11pt;font-weight:700;color:#fff;background:#1e3a5f;padding:2px 8px;border-radius:2px;margin:5px 0 3px 0}.row{display:flex;flex-wrap:wrap;padding:1.5px 0;border-bottom:1px solid #eee}.row:last-child{border-bottom:none}.c{padding:1px 4px;font-size:10.5pt;display:inline-flex;align-items:baseline;flex-shrink:0}.c .l{font-weight:600;color:#444;white-space:nowrap;margin-right:2px;font-size:10pt}.c .d{border-bottom:1px dotted #bbb;min-width:20px;text-align:center;padding:0 3px;color:#111;font-weight:500}.c .u{font-size:9.5pt;color:#888;margin-left:1px}.c.g{flex:1}.c.g .d{flex:1}.tbl{width:100%;border-collapse:collapse;margin:2px 0;font-size:10pt}.tbl th,.tbl td{border:1px solid #d1d5db;padding:2px 5px;vertical-align:middle}.tbl th{background:#e8edf3;font-weight:600;color:#1e3a5f;text-align:center;font-size:9.5pt}.tbl td{color:#1a1a1a}.tbl td.lc{background:#f3f4f6;font-weight:600;color:#444;text-align:center;font-size:9.5pt}.cert{margin-top:6px;text-indent:35px;text-align:justify;font-size:10.5pt;line-height:1.4;color:#444}.sig-row{display:flex;justify-content:space-between;margin-top:8px}.sig-box{text-align:center;width:44%;font-size:10pt}.sig-ln{display:block;width:80%;margin:22px auto 2px auto;border-bottom:1px dotted #555}.sig-nm{font-size:10pt;color:#444}.sig-lb{font-weight:600;color:#1e3a5f;font-size:10.5pt}.sig-dt{font-size:9pt;color:#888;margin-top:1px}.print-bar{text-align:center;padding:12px;background:#f3f4f6;border-bottom:1px solid #ddd}.print-bar button{font-family:'Sarabun',sans-serif;font-size:13pt;font-weight:600;padding:8px 30px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer}.print-bar button:hover{background:#2c5282}@media print{body{background:#fff}.print-bar{display:none}.page{margin:0;padding:7mm 10mm 5mm 10mm;box-shadow:none;width:100%;height:100%}@page{size:A4;margin:0}}`; }
+    function getPrintStyles() { return `@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap');*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:'Sarabun',sans-serif;font-size:11pt;color:#1a1a1a;line-height:1.3;background:#6b7280;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{width:210mm;height:297mm;margin:10px auto;padding:7mm 10mm 5mm 10mm;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,0.35);position:relative;overflow:hidden}.header{text-align:center;padding-bottom:5px;border-bottom:2px solid #1e3a5f;margin-bottom:3px}.header h1{font-size:17pt;font-weight:700;color:#1e3a5f;letter-spacing:1px;margin-bottom:1px}.header h2{font-size:12.5pt;font-weight:500;color:#374151}.header h2 .hl{font-weight:700;color:#1e3a5f;border-bottom:1.5px dotted #1e3a5f;padding:0 6px}.top-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:3px}.top-row .header{flex:1}.photo-box{flex-shrink:0}.photo-img{width:2.5cm;height:3.2cm;object-fit:cover;border:1px solid #555;border-radius:2px}.photo-placeholder{width:2.5cm;height:3.2cm;border:1px dashed #aaa;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9pt;color:#aaa;text-align:center;line-height:1.2}.apply-date{text-align:right;font-size:10pt;color:#888;margin-top:3px}.apply-date .hl{color:#1a1a1a;font-weight:500}.sec{font-size:11pt;font-weight:700;color:#fff;background:#1e3a5f;padding:2px 8px;border-radius:2px;margin:5px 0 3px 0}.row{display:flex;flex-wrap:wrap;padding:1.5px 0;border-bottom:1px solid #eee}.row:last-child{border-bottom:none}.c{padding:1px 4px;font-size:10.5pt;display:inline-flex;align-items:baseline;flex-shrink:0}.c .l{font-weight:600;color:#444;white-space:nowrap;margin-right:2px;font-size:10pt}.c .d{border-bottom:1px dotted #bbb;min-width:20px;text-align:center;padding:0 3px;color:#111;font-weight:500}.c .u{font-size:9.5pt;color:#888;margin-left:1px}.c.g{flex:1}.c.g .d{flex:1}.tbl{width:100%;border-collapse:collapse;margin:2px 0;font-size:10pt}.tbl th,.tbl td{border:1px solid #d1d5db;padding:2px 5px;vertical-align:middle}.tbl th{background:#e8edf3;font-weight:600;color:#1e3a5f;text-align:center;font-size:9.5pt}.tbl td{color:#1a1a1a}.tbl td.lc{background:#f3f4f6;font-weight:600;color:#444;text-align:center;font-size:9.5pt}.cert{margin-top:6px;text-indent:35px;text-align:justify;font-size:10.5pt;line-height:1.4;color:#444}.sig-row{display:flex;justify-content:space-between;margin-top:8px}.sig-box{text-align:center;width:44%;font-size:10pt}.sig-ln{display:block;width:80%;margin:22px auto 2px auto;border-bottom:1px dotted #555}.sig-nm{font-size:10pt;color:#444}.sig-lb{font-weight:600;color:#1e3a5f;font-size:10.5pt}.sig-dt{font-size:9pt;color:#888;margin-top:1px}.print-bar{text-align:center;padding:12px;background:#f3f4f6;border-bottom:1px solid #ddd}.print-bar button{font-family:'Sarabun',sans-serif;font-size:13pt;font-weight:600;padding:8px 30px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer}.print-bar button:hover{background:#2c5282}@media print{body{background:#fff}.print-bar{display:none}.page{margin:0;padding:7mm 10mm 5mm 10mm;box-shadow:none;width:100%;height:100%}@page{size:A4;margin:0}}`; }
 
     // --- ที่อยู่อัตโนมัติ ---
-    let thaiAddrDB = null; function loadThaiAddressDB() { const urls =['https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/latest/province_with_district_and_sub_district.json','https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/v1/province_with_amphure_tambon.json']; (function tryLoadUrl(idx) { if (idx >= urls.length) return; fetch(urls[idx]).then(r => r.json()).then(data => { thaiAddrDB =[]; for (const prov of data) { const pName = prov.name_th || prov.province || ''; const amps = prov.amphure || prov.districts || prov.amphures ||[]; for (const amp of amps) { const aName = amp.name_th || amp.amphoe || amp.district || ''; const tams = amp.tambon || amp.sub_districts || amp.tambons ||[]; for (const tam of tams) { thaiAddrDB.push({ province: pName, amphoe: aName, district: tam.name_th || tam.tambon || tam.sub_district || '', zipcode: String(tam.zip_code || tam.zipcode || '') }); } } } }).catch(() => tryLoadUrl(idx + 1)); })(0); } loadThaiAddressDB(); function searchAddr(field, q, filters) { if (!thaiAddrDB || !q) return[]; q = q.trim().toLowerCase(); let seen = new Set(), results = []; for (const r of thaiAddrDB) { const v = String(r[field] || ''); if (!v.toLowerCase().includes(q)) continue; let match = true; if (filters) { for (const [fk, fv] of Object.entries(filters)) { if (fv && String(r[fk] || '') !== fv) { match = false; break; } } } if (!match) continue; if (!seen.has(v)) { seen.add(v); results.push({ value: v, row: r }); } if (results.length >= 20) break; } return results; } document.addEventListener('input', function(e) { if (!e.target.classList.contains('addr-input')) return; const input = e.target; const f = input.dataset.addr; const set = input.dataset.set; const dd = document.getElementById(input.id + '-dropdown'); const ids = { province: set+'4', amphoe: set+'5', district: set+'6', zipcode: set+'7' }; const q = input.value.trim(); if (!q || !thaiAddrDB) { dd.classList.remove('show'); return; } let filters = {}; if (f === 'amphoe') filters.province = document.getElementById(ids.province).value; else if (f === 'district') { filters.province = document.getElementById(ids.province).value; filters.amphoe = document.getElementById(ids.amphoe).value; } const res = searchAddr(f, q, filters); if (res.length === 0) { dd.classList.remove('show'); return; } dd.innerHTML = res.map((r, i) => `<div class="addr-item" data-index="${i}">${r.value}${f==='district'?` → ${r.row.amphoe}, ${r.row.province}`:(f==='amphoe'?` → ${r.row.province}`:'')}</div>`).join(''); dd.classList.add('show'); dd._results = res; }); document.addEventListener('click', function(e) { if (e.target.classList.contains('addr-item')) { const dd = e.target.parentElement; const res = dd._results[parseInt(e.target.dataset.index)]; const input = document.getElementById(dd.id.replace('-dropdown', '')); const ids = { province: input.dataset.set+'4', amphoe: input.dataset.set+'5', district: input.dataset.set+'6', zipcode: input.dataset.set+'7' }; if (input.dataset.addr === 'province') { document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.amphoe).value = ''; document.getElementById(ids.district).value = ''; document.getElementById(ids.zipcode).value = ''; } else if (input.dataset.addr === 'amphoe') { document.getElementById(ids.amphoe).value = res.row.amphoe; document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.district).value = ''; document.getElementById(ids.zipcode).value = ''; } else if (input.dataset.addr === 'district') { document.getElementById(ids.district).value = res.row.district; document.getElementById(ids.amphoe).value = res.row.amphoe; document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.zipcode).value = res.row.zipcode; }['province','amphoe','district'].forEach(f => { const el = document.getElementById(ids[f]); if(el) el.classList.toggle('has-value', el.value !== ''); }); dd.classList.remove('show'); return; } document.querySelectorAll('.addr-dropdown.show').forEach(d => d.classList.remove('show')); });
+    let thaiAddrDB = null; function loadThaiAddressDB() { const urls =['https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/latest/province_with_district_and_sub_district.json','https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/v1/province_with_amphure_tambon.json']; (function tryLoadUrl(idx) { if (idx >= urls.length) return; fetch(urls[idx]).then(r => r.json()).then(data => { thaiAddrDB =[]; for (const prov of data) { const pName = prov.name_th || prov.province || ''; const amps = prov.amphure || prov.districts || prov.amphures ||[]; for (const amp of amps) { const aName = amp.name_th || amp.amphoe || amp.district || ''; const tams = amp.tambon || amp.sub_districts || amp.tambons ||[]; for (const tam of tams) { thaiAddrDB.push({ province: pName, amphoe: aName, district: tam.name_th || tam.tambon || tam.sub_district || '', zipcode: String(tam.zip_code || tam.zipcode || '') }); } } } }).catch(() => tryLoadUrl(idx + 1)); })(0); } loadThaiAddressDB(); function searchAddr(field, q, filters) { if (!thaiAddrDB || !q) return[]; q = q.trim().toLowerCase(); let seen = new Set(), results =[]; for (const r of thaiAddrDB) { const v = String(r[field] || ''); if (!v.toLowerCase().includes(q)) continue; let match = true; if (filters) { for (const [fk, fv] of Object.entries(filters)) { if (fv && String(r[fk] || '') !== fv) { match = false; break; } } } if (!match) continue; if (!seen.has(v)) { seen.add(v); results.push({ value: v, row: r }); } if (results.length >= 20) break; } return results; } document.addEventListener('input', function(e) { if (!e.target.classList.contains('addr-input')) return; const input = e.target; const f = input.dataset.addr; const set = input.dataset.set; const dd = document.getElementById(input.id + '-dropdown'); const ids = { province: set+'4', amphoe: set+'5', district: set+'6', zipcode: set+'7' }; const q = input.value.trim(); if (!q || !thaiAddrDB) { dd.classList.remove('show'); return; } let filters = {}; if (f === 'amphoe') filters.province = document.getElementById(ids.province).value; else if (f === 'district') { filters.province = document.getElementById(ids.province).value; filters.amphoe = document.getElementById(ids.amphoe).value; } const res = searchAddr(f, q, filters); if (res.length === 0) { dd.classList.remove('show'); return; } dd.innerHTML = res.map((r, i) => `<div class="addr-item" data-index="${i}">${r.value}${f==='district'?` → ${r.row.amphoe}, ${r.row.province}`:(f==='amphoe'?` → ${r.row.province}`:'')}</div>`).join(''); dd.classList.add('show'); dd._results = res; }); document.addEventListener('click', function(e) { if (e.target.classList.contains('addr-item')) { const dd = e.target.parentElement; const res = dd._results[parseInt(e.target.dataset.index)]; const input = document.getElementById(dd.id.replace('-dropdown', '')); const ids = { province: input.dataset.set+'4', amphoe: input.dataset.set+'5', district: input.dataset.set+'6', zipcode: input.dataset.set+'7' }; if (input.dataset.addr === 'province') { document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.amphoe).value = ''; document.getElementById(ids.district).value = ''; document.getElementById(ids.zipcode).value = ''; } else if (input.dataset.addr === 'amphoe') { document.getElementById(ids.amphoe).value = res.row.amphoe; document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.district).value = ''; document.getElementById(ids.zipcode).value = ''; } else if (input.dataset.addr === 'district') { document.getElementById(ids.district).value = res.row.district; document.getElementById(ids.amphoe).value = res.row.amphoe; document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.zipcode).value = res.row.zipcode; }['province','amphoe','district'].forEach(f => { const el = document.getElementById(ids[f]); if(el) el.classList.toggle('has-value', el.value !== ''); }); dd.classList.remove('show'); return; } document.querySelectorAll('.addr-dropdown.show').forEach(d => d.classList.remove('show')); });
+
 </script>
 </body>
 </html>
