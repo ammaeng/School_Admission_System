@@ -155,6 +155,17 @@
             .step-label { font-size: 0.9rem; }
             .nav-btn { padding: 6px 12px; font-size: 0.8rem; }
             .table-wrap { padding: 10px; }
+              /* 1. ควบคุมกรอบตารางไม่ให้ทะลุการ์ดสีขาว */
+            .table-wrap { 
+                width: 100%;
+                overflow-x: auto; /* ถ้ากางปุ่มแล้วล้นจริงๆ จะให้เลื่อนได้เฉพาะในกรอบ */
+            }
+            
+            /* 2. บีบขนาดปุ่มในตารางให้เล็กลงอีกนิดบนมือถือ */
+            table.dataTable tbody td .btn-sm {
+                padding: 4px 8px;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -613,9 +624,15 @@
                     <td>${s.name}</td>
                     <td>${s.grade}</td>
                     <td><span class="badge ${badge}">${s.status}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="publicAction(${i},'print')" title="พิมพ์ใบสมัคร">🖨️ พิมพ์</button>
-                        <button class="btn btn-sm btn-outline-secondary" onclick="publicAction(${i},'edit')" title="แก้ไขข้อมูล">✏️ แก้ไข</button>
+                  <td>
+                        <div class="d-flex flex-wrap gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="publicAction(${i},'print')" title="พิมพ์ใบสมัคร">
+                                🖨️ <span class="d-none d-md-inline">พิมพ์</span>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="publicAction(${i},'edit')" title="แก้ไขข้อมูล">
+                                ✏️ <span class="d-none d-md-inline">แก้ไข</span>
+                            </button>
+                        </div>
                     </td>
                 </tr>`;
             });
@@ -684,8 +701,8 @@
                     <td>${s.grade}</td>
                     <td>${phone!=='-'?`<a href="tel:${phone}" class="text-decoration-none">📞 ${phone}</a>`:'-'}</td>
                     <td>${statusSelect}</td>
-                    <td>
-                        <div class="btn-group">
+             <td>
+                        <div class="d-flex flex-wrap gap-1">
                             <button class="btn btn-sm btn-outline-primary" onclick="printApplication(${i})" title="พิมพ์">🖨️</button>
                             <button class="btn btn-sm btn-outline-secondary" onclick="editApplication(${i})" title="แก้ไข">✏️</button>
                             <button class="btn btn-sm btn-outline-danger" onclick="deleteApplication(${i})" title="ลบ">🗑️</button>
