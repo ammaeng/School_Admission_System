@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบสมัครเรียนออนไลน์</title>
+    <title>ระบบสมัครเรียนออนไลน์ - โรงเรียนบ้านคลอง 14</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -17,7 +17,6 @@
 </head>
 <body>
 
-<!-- แถบเมนูด้านบน -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
         <a class="navbar-brand" href="#">โรงเรียนบ้านคลอง 14</a>
@@ -30,9 +29,7 @@
 
 <div class="container mb-5">
     
-    <!-- ============================================== -->
-    <!-- หน้าแดชบอร์ด (Dashboard) -->
-    <!-- ============================================== -->
+    <!-- แดชบอร์ด -->
     <div id="dashboardSection" style="display: none;">
         <div class="card p-4 shadow-sm">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -44,24 +41,14 @@
             </div>
             <table class="table table-striped table-hover mt-3">
                 <thead class="table-dark">
-                    <tr>
-                        <th>วันที่สมัคร</th>
-                        <th>เลข ปชช.</th>
-                        <th>ชื่อ - นามสกุล</th>
-                        <th>ชั้นที่สมัคร</th>
-                        <th>สถานะ</th>
-                    </tr>
+                    <tr><th>วันที่สมัคร</th><th>เลข ปชช.</th><th>ชื่อ - นามสกุล</th><th>ชั้นที่สมัคร</th><th>สถานะ</th></tr>
                 </thead>
-                <tbody id="studentTableBody">
-                    <tr><td colspan="5" class="text-center">กำลังโหลดข้อมูล...</td></tr>
-                </tbody>
+                <tbody id="studentTableBody"><tr><td colspan="5" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
             </table>
         </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- หน้าฟอร์มสมัครเรียน (Multi-Step Form) -->
-    <!-- ============================================== -->
+    <!-- ฟอร์มสมัครเรียน -->
     <div id="formSection">
         <div class="card p-4 shadow-sm">
             <h3 class="text-center mb-4 text-primary">ใบสมัครเข้าเรียน ปีการศึกษา <span id="displayYear">2568</span></h3>
@@ -74,104 +61,76 @@
             </div>
 
             <form id="admissionForm">
-                <!-- Data Input ใช้แอตทริบิวต์ data-col ระบุตำแหน่งคอลัมน์ใน Excel (คอลัมน์ 6 - 99) -->
                 <input type="hidden" id="applyYear" data-col="2" value="2568">
 
-                <!-- STEP 1: ข้อมูลนักเรียน (คอลัมน์ 6 - 29) -->
+                <!-- STEP 1: ข้อมูลนักเรียน (คอลัมน์ 6 - 24) -->
                 <div class="wizard-step active" id="step-1">
                     <h5 class="mb-3">ข้อมูลเบื้องต้น</h5>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>รหัสโรงเรียน</label><input type="text" class="form-control" data-col="6" value="26010115"></div>
-                        <div class="col-md-3"><label>เลขประจำตัวนักเรียน</label><input type="text" class="form-control" data-col="7"></div>
-                        <div class="col-md-3"><label>ชั้นที่สมัคร *</label>
+                        <div class="col-md-4"><label>รหัสโรงเรียน</label><input type="text" class="form-control" data-col="6" value="26010115" readonly></div>
+                        <div class="col-md-4"><label>เลขประจำตัวนักเรียน (ถ้ามี)</label><input type="text" class="form-control" data-col="7"></div>
+                        <div class="col-md-4"><label>ชั้นที่สมัคร *</label>
                             <select class="form-select" data-col="8" required>
-                                <option value="">-- เลือก --</option>
-                                <option value="ม.1">มัธยมศึกษาปีที่ 1</option>
-                                <option value="ม.4">มัธยมศึกษาปีที่ 4</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3"><label>ห้อง</label><input type="text" class="form-control" data-col="9"></div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>เลข ปชช. (13 หลัก) *</label><input type="text" class="form-control" id="formIdCard" data-col="10" maxlength="13" required></div>
-                        <div class="col-md-4"><label>สายการเรียน</label><input type="text" class="form-control" data-col="11"></div>
-                        <div class="col-md-4"><label>ประเภทนักเรียน</label>
-                            <select class="form-select" data-col="12">
-                                <option value="นักเรียนปกติ">นักเรียนปกติ</option>
-                                <option value="นักเรียนพิการ">นักเรียนพิการ</option>
+                                <option value="">-- เลือก --</option><option value="ม.1">มัธยมศึกษาปีที่ 1</option><option value="ม.4">มัธยมศึกษาปีที่ 4</option>
                             </select>
                         </div>
                     </div>
-
                     <div class="row mb-3">
-                        <div class="col-md-2"><label>คำนำหน้า *</label>
-                            <select class="form-select" data-col="13" required>
-                                <option value="ด.ช.">ด.ช.</option><option value="ด.ญ.">ด.ญ.</option>
-                                <option value="นาย">นาย</option><option value="นางสาว">นางสาว</option>
+                        <div class="col-md-4"><label>เลข ปชช. (13 หลัก) *</label><input type="text" class="form-control" id="formIdCard" data-col="9" maxlength="13" required></div>
+                        <div class="col-md-4"><label>คำนำหน้า *</label>
+                            <select class="form-select" data-col="10" required>
+                                <option value="ด.ช.">ด.ช.</option><option value="ด.ญ.">ด.ญ.</option><option value="นาย">นาย</option><option value="นางสาว">นางสาว</option>
                             </select>
                         </div>
-                        <div class="col-md-2"><label>เพศ</label>
-                            <select class="form-select" data-col="14">
-                                <option value="ชาย">ชาย</option><option value="หญิง">หญิง</option>
-                            </select>
+                        <div class="col-md-4"><label>เพศ</label>
+                            <select class="form-select" data-col="11"><option value="ชาย">ชาย</option><option value="หญิง">หญิง</option></select>
                         </div>
-                        <div class="col-md-3"><label>ชื่อ (ไทย) *</label><input type="text" class="form-control" data-col="15" required></div>
-                        <div class="col-md-2"><label>ชื่อกลาง</label><input type="text" class="form-control" data-col="16"></div>
-                        <div class="col-md-3"><label>นามสกุล (ไทย) *</label><input type="text" class="form-control" data-col="17" required></div>
                     </div>
-
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>ชื่อ (อังกฤษ)</label><input type="text" class="form-control" data-col="18"></div>
-                        <div class="col-md-4"><label>ชื่อกลาง (อังกฤษ)</label><input type="text" class="form-control" data-col="19"></div>
-                        <div class="col-md-4"><label>นามสกุล (อังกฤษ)</label><input type="text" class="form-control" data-col="20"></div>
+                        <div class="col-md-6"><label>ชื่อ (ไทย) *</label><input type="text" class="form-control" data-col="12" required></div>
+                        <div class="col-md-6"><label>นามสกุล (ไทย) *</label><input type="text" class="form-control" data-col="13" required></div>
                     </div>
-
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>วันเกิด (วว/ดด/ปปปป)</label><input type="text" class="form-control" data-col="21" placeholder="เช่น 15/05/2550"></div>
-                        <div class="col-md-3"><label>จังหวัดที่เกิด</label><input type="text" class="form-control" data-col="22"></div>
-                        <div class="col-md-3"><label>อีเมล</label><input type="email" class="form-control" data-col="23"></div>
+                        <div class="col-md-6"><label>ชื่อ (อังกฤษ)</label><input type="text" class="form-control" data-col="14"></div>
+                        <div class="col-md-6"><label>นามสกุล (อังกฤษ)</label><input type="text" class="form-control" data-col="15"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3"><label>วันเกิด (วว/ดด/ปปปป)</label><input type="text" class="form-control" data-col="16" placeholder="เช่น 15/05/2550"></div>
+                        <div class="col-md-3"><label>จังหวัดที่เกิด</label><input type="text" class="form-control" data-col="17"></div>
+                        <div class="col-md-3"><label>อีเมล</label><input type="email" class="form-control" data-col="18"></div>
                         <div class="col-md-3"><label>กลุ่มเลือด</label>
-                            <select class="form-select" data-col="24">
-                                <option value="">-- เลือก --</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option>
-                            </select>
+                            <select class="form-select" data-col="19"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select>
                         </div>
                     </div>
-
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>สัญชาติ</label><input type="text" class="form-control" data-col="25" value="ไทย"></div>
-                        <div class="col-md-3"><label>เชื้อชาติ</label><input type="text" class="form-control" data-col="26" value="ไทย"></div>
-                        <div class="col-md-3"><label>ศาสนา</label>
-                            <select class="form-select" data-col="27">
-                                <option value="พุทธ">พุทธ</option><option value="อิสลาม">อิสลาม</option><option value="คริสต์">คริสต์</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3"><label>ภาษาที่ใช้เป็นหลัก</label><input type="text" class="form-control" data-col="28" value="ไทย"></div>
+                        <div class="col-md-3"><label>สัญชาติ</label><input type="text" class="form-control" data-col="20" value="ไทย"></div>
+                        <div class="col-md-3"><label>เชื้อชาติ</label><input type="text" class="form-control" data-col="21" value="ไทย"></div>
+                        <div class="col-md-3"><label>ศาสนา</label><select class="form-select" data-col="22"><option value="พุทธ">พุทธ</option><option value="อิสลาม">อิสลาม</option><option value="คริสต์">คริสต์</option></select></div>
+                        <div class="col-md-3"><label>ภาษาหลัก</label><input type="text" class="form-control" data-col="23" value="ไทย"></div>
                     </div>
-                    
                     <div class="row mb-3">
-                        <div class="col-md-6"><label>ภาษาอื่น</label><input type="text" class="form-control" data-col="29"></div>
+                        <div class="col-md-6"><label>ภาษาอื่น</label><input type="text" class="form-control" data-col="24"></div>
                         <div class="col-md-6"><label>อัปโหลดรูปถ่าย (ไม่เกิน 2MB)</label><input type="file" class="form-control" id="photoFile" accept="image/*"></div>
                     </div>
                 </div>
 
-                <!-- STEP 2: ที่อยู่ (คอลัมน์ 30 - 47) -->
+                <!-- STEP 2: ที่อยู่ (คอลัมน์ 25 - 42) -->
                 <div class="wizard-step" id="step-2">
                     <h5 class="mb-3">ที่อยู่ตามทะเบียนบ้าน</h5>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>รหัสประจำบ้าน</label><input type="text" class="form-control" data-col="30"></div>
-                        <div class="col-md-2"><label>บ้านเลขที่</label><input type="text" class="form-control" id="reg1" data-col="31"></div>
-                        <div class="col-md-2"><label>หมู่</label><input type="text" class="form-control" id="reg2" data-col="32"></div>
-                        <div class="col-md-5"><label>ถนน</label><input type="text" class="form-control" id="reg3" data-col="33"></div>
+                        <div class="col-md-3"><label>รหัสประจำบ้าน</label><input type="text" class="form-control" data-col="25"></div>
+                        <div class="col-md-2"><label>บ้านเลขที่</label><input type="text" class="form-control" id="reg1" data-col="26"></div>
+                        <div class="col-md-2"><label>หมู่</label><input type="text" class="form-control" id="reg2" data-col="27"></div>
+                        <div class="col-md-5"><label>ถนน</label><input type="text" class="form-control" id="reg3" data-col="28"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>ตำบล/แขวง</label><input type="text" class="form-control" id="reg4" data-col="36"></div>
-                        <div class="col-md-3"><label>อำเภอ/เขต</label><input type="text" class="form-control" id="reg5" data-col="35"></div>
-                        <div class="col-md-3"><label>จังหวัด</label><input type="text" class="form-control" id="reg6" data-col="34"></div>
-                        <div class="col-md-3"><label>รหัสไปรษณีย์</label><input type="text" class="form-control" id="reg7" data-col="37"></div>
+                        <div class="col-md-3"><label>จังหวัด</label><input type="text" class="form-control" id="reg4" data-col="29"></div>
+                        <div class="col-md-3"><label>อำเภอ/เขต</label><input type="text" class="form-control" id="reg5" data-col="30"></div>
+                        <div class="col-md-3"><label>ตำบล/แขวง</label><input type="text" class="form-control" id="reg6" data-col="31"></div>
+                        <div class="col-md-3"><label>รหัสไปรษณีย์</label><input type="text" class="form-control" id="reg7" data-col="32"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="reg8" data-col="38"></div>
+                        <div class="col-md-4"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="reg8" data-col="33"></div>
                     </div>
 
                     <hr>
@@ -180,162 +139,121 @@
                         <button type="button" class="btn btn-sm btn-outline-primary" onclick="copyAddress()">คัดลอกที่อยู่ตามทะเบียนบ้าน</button>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>รหัสประจำบ้าน</label><input type="text" class="form-control" data-col="39"></div>
-                        <div class="col-md-2"><label>บ้านเลขที่</label><input type="text" class="form-control" id="cur1" data-col="40"></div>
-                        <div class="col-md-2"><label>หมู่</label><input type="text" class="form-control" id="cur2" data-col="41"></div>
-                        <div class="col-md-5"><label>ถนน</label><input type="text" class="form-control" id="cur3" data-col="42"></div>
+                        <div class="col-md-3"><label>รหัสประจำบ้าน</label><input type="text" class="form-control" data-col="34"></div>
+                        <div class="col-md-2"><label>บ้านเลขที่</label><input type="text" class="form-control" id="cur1" data-col="35"></div>
+                        <div class="col-md-2"><label>หมู่</label><input type="text" class="form-control" id="cur2" data-col="36"></div>
+                        <div class="col-md-5"><label>ถนน</label><input type="text" class="form-control" id="cur3" data-col="37"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>ตำบล/แขวง</label><input type="text" class="form-control" id="cur4" data-col="45"></div>
-                        <div class="col-md-3"><label>อำเภอ/เขต</label><input type="text" class="form-control" id="cur5" data-col="44"></div>
-                        <div class="col-md-3"><label>จังหวัด</label><input type="text" class="form-control" id="cur6" data-col="43"></div>
-                        <div class="col-md-3"><label>รหัสไปรษณีย์</label><input type="text" class="form-control" id="cur7" data-col="46"></div>
+                        <div class="col-md-3"><label>จังหวัด</label><input type="text" class="form-control" id="cur4" data-col="38"></div>
+                        <div class="col-md-3"><label>อำเภอ/เขต</label><input type="text" class="form-control" id="cur5" data-col="39"></div>
+                        <div class="col-md-3"><label>ตำบล/แขวง</label><input type="text" class="form-control" id="cur6" data-col="40"></div>
+                        <div class="col-md-3"><label>รหัสไปรษณีย์</label><input type="text" class="form-control" id="cur7" data-col="41"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="cur8" data-col="47"></div>
+                        <div class="col-md-4"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="cur8" data-col="42"></div>
                     </div>
                 </div>
 
-                <!-- STEP 3 และ STEP 4 จะนำมาต่อตรงนี้ -->
-              <!-- ============================================== -->
-                <!-- STEP 3: ข้อมูลเพิ่มเติม / รายละเอียดนักเรียน (คอลัมน์ 48 - 61) -->
-                <!-- ============================================== -->
+                <!-- STEP 3: ข้อมูลเพิ่มเติม (คอลัมน์ 43 - 54) -->
                 <div class="wizard-step" id="step-3">
                     <h5 class="mb-3">รายละเอียดนักเรียน</h5>
                     <div class="row mb-3">
                         <div class="col-md-6"><label>การพักนอนของนักเรียน</label>
-                            <select class="form-select" data-col="48">
-                                <option value="พักกับบิดามารดา">พักกับบิดามารดา</option>
-                                <option value="พักกับญาติ">พักกับญาติ</option>
-                                <option value="พักหอพัก/บ้านเช่า">พักหอพัก/บ้านเช่า</option>
-                                <option value="พักในโรงเรียน">พักในโรงเรียน</option>
+                            <select class="form-select" data-col="43">
+                                <option value="พักกับบิดามารดา">พักกับบิดามารดา</option><option value="พักกับญาติ">พักกับญาติ</option>
+                                <option value="พักหอพัก/บ้านเช่า">พักหอพัก/บ้านเช่า</option><option value="พักในโรงเรียน">พักในโรงเรียน</option>
                             </select>
                         </div>
                         <div class="col-md-6"><label>ความด้อยโอกาส</label>
-                            <select class="form-select" data-col="49">
-                                <option value="ปกติ (ไม่ด้อยโอกาส)">ปกติ (ไม่ด้อยโอกาส)</option>
-                                <option value="ยากจน">ยากจน</option>
-                                <option value="กำพร้า">กำพร้า</option>
-                                <option value="ได้รับผลกระทบจากเอดส์">ได้รับผลกระทบจากเอดส์</option>
-                            </select>
+                            <select class="form-select" data-col="44"><option value="ปกติ">ปกติ (ไม่ด้อยโอกาส)</option><option value="ยากจน">ยากจน</option><option value="กำพร้า">กำพร้า</option></select>
                         </div>
                     </div>
                     
                     <h6 class="mt-4 mb-2 text-secondary">ความขาดแคลน</h6>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>แบบเรียน</label><select class="form-select" data-col="50"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
-                        <div class="col-md-3"><label>อาหารกลางวัน</label><select class="form-select" data-col="51"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
-                        <div class="col-md-3"><label>เครื่องเขียน</label><select class="form-select" data-col="52"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
-                        <div class="col-md-3"><label>เครื่องแบบ</label><select class="form-select" data-col="53"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label>แบบเรียน</label><select class="form-select" data-col="45"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label>อาหารกลางวัน</label><select class="form-select" data-col="46"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label>เครื่องเขียน</label><select class="form-select" data-col="47"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label>เครื่องแบบ</label><select class="form-select" data-col="48"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
                     </div>
 
                     <h6 class="mt-4 mb-2 text-secondary">การเดินทางมาโรงเรียน</h6>
                     <div class="row mb-3">
-                        <div class="col-md-6"><label>การเดินทาง *</label>
-                            <select class="form-select" data-col="54" required>
-                                <option value="">-- เลือก --</option>
-                                <option value="เดินเท้า">เดินเท้า</option>
-                                <option value="รถจักรยาน">รถจักรยาน</option>
-                                <option value="รถจักรยานยนต์">รถจักรยานยนต์</option>
-                                <option value="รถยนต์ส่วนบุคคล">รถยนต์ส่วนบุคคล</option>
-                                <option value="รถโดยสารประจำทาง">รถโดยสารประจำทาง</option>
-                                <option value="รถรับส่งนักเรียน">รถรับส่งนักเรียน</option>
-                            </select>
+                        <div class="col-md-4"><label>การเดินทาง *</label>
+                            <select class="form-select" data-col="49" required><option value="">-- เลือก --</option><option value="เดินเท้า">เดินเท้า</option><option value="รถจักรยาน">รถจักรยาน</option><option value="รถยนต์ส่วนบุคคล">รถยนต์ส่วนบุคคล</option><option value="รถรับส่งนักเรียน">รถรับส่งนักเรียน</option></select>
                         </div>
-                        <div class="col-md-6"><label>ระยะเวลาเดินทาง (นาที) *</label><input type="number" class="form-control" data-col="55" required></div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>ระยะทาง: ทางน้ำ (เมตร)</label><input type="number" class="form-control" data-col="56" value="0"></div>
-                        <div class="col-md-4"><label>ระยะทาง: ถนนลูกรัง (เมตร)</label><input type="number" class="form-control" data-col="57" value="0"></div>
-                        <div class="col-md-4"><label>ระยะทาง: ถนนลาดยาง (เมตร)</label><input type="number" class="form-control" data-col="58" value="0"></div>
+                        <div class="col-md-4"><label>ระยะเวลาเดินทาง (นาที)</label><input type="number" class="form-control" data-col="50"></div>
+                        <div class="col-md-4"><label>ห่างจาก รร. ถนนลาดยาง (เมตร)</label><input type="number" class="form-control" data-col="51" value="0"></div>
                     </div>
 
                     <h6 class="mt-4 mb-2 text-secondary">สุขภาพ</h6>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>ทักษะการว่ายน้ำ</label>
-                            <select class="form-select" data-col="59">
-                                <option value="ว่ายไม่เป็น">ว่ายไม่เป็น</option>
-                                <option value="ว่ายเป็น">ว่ายเป็น</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4"><label>น้ำหนัก (กิโลกรัม) *</label><input type="number" class="form-control" data-col="60" step="0.1" required></div>
-                        <div class="col-md-4"><label>ส่วนสูง (เซนติเมตร) *</label><input type="number" class="form-control" data-col="61" step="0.1" required></div>
+                        <div class="col-md-4"><label>ทักษะการว่ายน้ำ</label><select class="form-select" data-col="52"><option value="ว่ายไม่เป็น">ว่ายไม่เป็น</option><option value="ว่ายเป็น">ว่ายเป็น</option></select></div>
+                        <div class="col-md-4"><label>น้ำหนัก (กก.)</label><input type="number" class="form-control" data-col="53" step="0.1"></div>
+                        <div class="col-md-4"><label>ส่วนสูง (ซม.)</label><input type="number" class="form-control" data-col="54" step="0.1"></div>
                     </div>
                 </div>
 
-                <!-- ============================================== -->
-                <!-- STEP 4: ข้อมูลครอบครัว (คอลัมน์ 62 - 99) -->
-                <!-- ============================================== -->
+                <!-- STEP 4: ข้อมูลครอบครัว (คอลัมน์ 55 - 89) -->
                 <div class="wizard-step" id="step-4">
                     <h5 class="mb-3">ข้อมูลพี่น้องและครอบครัว</h5>
                     <div class="row mb-3">
                         <div class="col-md-12"><label>สถานภาพสมรสของบิดามารดา</label>
-                            <select class="form-select" data-col="62">
-                                <option value="อยู่ด้วยกัน">อยู่ด้วยกัน</option>
-                                <option value="แยกกันอยู่">แยกกันอยู่</option>
-                                <option value="หย่าร้าง">หย่าร้าง</option>
-                                <option value="บิดาถึงแก่กรรม">บิดาถึงแก่กรรม</option>
-                                <option value="มารดาถึงแก่กรรม">มารดาถึงแก่กรรม</option>
-                                <option value="บิดามารดาถึงแก่กรรม">บิดามารดาถึงแก่กรรม</option>
-                            </select>
+                            <select class="form-select" data-col="55"><option value="อยู่ด้วยกัน">อยู่ด้วยกัน</option><option value="แยกกันอยู่">แยกกันอยู่</option><option value="หย่าร้าง">หย่าร้าง</option><option value="บิดามารดาถึงแก่กรรม">บิดามารดาถึงแก่กรรม</option></select>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>จำนวนพี่ชาย</label><input type="number" class="form-control" data-col="63" value="0"></div>
-                        <div class="col-md-3"><label>จำนวนน้องชาย</label><input type="number" class="form-control" data-col="64" value="0"></div>
-                        <div class="col-md-3"><label>จำนวนพี่สาว</label><input type="number" class="form-control" data-col="65" value="0"></div>
-                        <div class="col-md-3"><label>จำนวนน้องสาว</label><input type="number" class="form-control" data-col="66" value="0"></div>
+                        <div class="col-md-3"><label>จำนวนพี่ชาย</label><input type="number" class="form-control" data-col="56" value="0"></div>
+                        <div class="col-md-3"><label>จำนวนน้องชาย</label><input type="number" class="form-control" data-col="57" value="0"></div>
+                        <div class="col-md-3"><label>จำนวนพี่สาว</label><input type="number" class="form-control" data-col="58" value="0"></div>
+                        <div class="col-md-3"><label>จำนวนน้องสาว</label><input type="number" class="form-control" data-col="59" value="0"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6"><label>รวมพี่น้องที่กำลังศึกษาอยู่ (ไม่รวมตัวนักเรียน)</label><input type="number" class="form-control" data-col="67" value="0"></div>
-                        <div class="col-md-6"><label>นักเรียนเป็นบุตรลำดับที่</label><input type="number" class="form-control" data-col="68" value="1"></div>
+                        <div class="col-md-6"><label>พี่น้องที่ศึกษาอยู่ (ไม่รวมตัวนักเรียน)</label><input type="number" class="form-control" data-col="60" value="0"></div>
+                        <div class="col-md-6"><label>เป็นบุตรลำดับที่</label><input type="number" class="form-control" data-col="61" value="1"></div>
                     </div>
 
                     <hr class="my-4">
                     
-                    <!-- ข้อมูลบิดา -->
                     <h5 class="mb-3 text-primary">ข้อมูลบิดา</h5>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>เลข ปชช. บิดา</label><input type="text" class="form-control" id="fId" data-col="69" maxlength="13"></div>
-                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="fType" data-col="70"><option value="บัตรประชาชน">บัตรประชาชน</option><option value="พาสปอร์ต">พาสปอร์ต</option></select></div>
-                        <div class="col-md-4"><label>คำนำหน้า</label><input type="text" class="form-control" id="fPre" data-col="71" value="นาย"></div>
+                        <div class="col-md-4"><label>เลข ปชช. บิดา</label><input type="text" class="form-control" id="fId" data-col="62" maxlength="13"></div>
+                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="fType" data-col="63"><option value="บัตรประชาชน">บัตรประชาชน</option></select></div>
+                        <div class="col-md-4"><label>คำนำหน้า</label><input type="text" class="form-control" id="fPre" data-col="64" value="นาย"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>ชื่อบิดา</label><input type="text" class="form-control" id="fName" data-col="72"></div>
-                        <div class="col-md-4"><label>ชื่อกลาง</label><input type="text" class="form-control" id="fMid" data-col="73"></div>
-                        <div class="col-md-4"><label>นามสกุล</label><input type="text" class="form-control" id="fLast" data-col="74"></div>
+                        <div class="col-md-6"><label>ชื่อบิดา</label><input type="text" class="form-control" id="fName" data-col="65"></div>
+                        <div class="col-md-6"><label>นามสกุล</label><input type="text" class="form-control" id="fLast" data-col="66"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="fJob" data-col="75"></div>
-                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="fInc" data-col="76"></div>
-                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="fBlood" data-col="77"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
-                        <div class="col-md-3"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="fPhone" data-col="78"></div>
+                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="fJob" data-col="67"></div>
+                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="fInc" data-col="68"></div>
+                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="fBlood" data-col="69"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
+                        <div class="col-md-3"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="fPhone" data-col="70"></div>
                     </div>
 
                     <hr class="my-4">
                     
-                    <!-- ข้อมูลมารดา -->
                     <h5 class="mb-3 text-danger">ข้อมูลมารดา</h5>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>เลข ปชช. มารดา</label><input type="text" class="form-control" id="mId" data-col="79" maxlength="13"></div>
-                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="mType" data-col="80"><option value="บัตรประชาชน">บัตรประชาชน</option><option value="พาสปอร์ต">พาสปอร์ต</option></select></div>
-                        <div class="col-md-4"><label>คำนำหน้า</label><input type="text" class="form-control" id="mPre" data-col="81" value="นาง"></div>
+                        <div class="col-md-4"><label>เลข ปชช. มารดา</label><input type="text" class="form-control" id="mId" data-col="71" maxlength="13"></div>
+                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="mType" data-col="72"><option value="บัตรประชาชน">บัตรประชาชน</option></select></div>
+                        <div class="col-md-4"><label>คำนำหน้า</label><input type="text" class="form-control" id="mPre" data-col="73" value="นาง"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>ชื่อมารดา</label><input type="text" class="form-control" id="mName" data-col="82"></div>
-                        <div class="col-md-4"><label>ชื่อกลาง</label><input type="text" class="form-control" id="mMid" data-col="83"></div>
-                        <div class="col-md-4"><label>นามสกุล</label><input type="text" class="form-control" id="mLast" data-col="84"></div>
+                        <div class="col-md-6"><label>ชื่อมารดา</label><input type="text" class="form-control" id="mName" data-col="74"></div>
+                        <div class="col-md-6"><label>นามสกุล</label><input type="text" class="form-control" id="mLast" data-col="75"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="mJob" data-col="85"></div>
-                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="mInc" data-col="86"></div>
-                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="mBlood" data-col="87"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
-                        <div class="col-md-3"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="mPhone" data-col="88"></div>
+                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="mJob" data-col="76"></div>
+                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="mInc" data-col="77"></div>
+                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="mBlood" data-col="78"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
+                        <div class="col-md-3"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="mPhone" data-col="79"></div>
                     </div>
 
                     <hr class="my-4">
 
-                    <!-- ข้อมูลผู้ปกครอง -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0 text-success">ข้อมูลผู้ปกครอง</h5>
                         <div>
@@ -344,37 +262,29 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>เลข ปชช. ผู้ปกครอง *</label><input type="text" class="form-control" id="gId" data-col="89" maxlength="13" required></div>
-                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="gType" data-col="90"><option value="บัตรประชาชน">บัตรประชาชน</option><option value="พาสปอร์ต">พาสปอร์ต</option></select></div>
-                        <div class="col-md-4"><label>คำนำหน้า *</label><input type="text" class="form-control" id="gPre" data-col="91" required></div>
+                        <div class="col-md-4"><label>เลข ปชช. ผู้ปกครอง *</label><input type="text" class="form-control" id="gId" data-col="80" maxlength="13" required></div>
+                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="gType" data-col="81"><option value="บัตรประชาชน">บัตรประชาชน</option></select></div>
+                        <div class="col-md-4"><label>คำนำหน้า *</label><input type="text" class="form-control" id="gPre" data-col="82" required></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-4"><label>ชื่อผู้ปกครอง *</label><input type="text" class="form-control" id="gName" data-col="92" required></div>
-                        <div class="col-md-4"><label>ชื่อกลาง</label><input type="text" class="form-control" id="gMid" data-col="93"></div>
-                        <div class="col-md-4"><label>นามสกุล *</label><input type="text" class="form-control" id="gLast" data-col="94" required></div>
+                        <div class="col-md-6"><label>ชื่อผู้ปกครอง *</label><input type="text" class="form-control" id="gName" data-col="83" required></div>
+                        <div class="col-md-6"><label>นามสกุล *</label><input type="text" class="form-control" id="gLast" data-col="84" required></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="gJob" data-col="95"></div>
-                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="gInc" data-col="96"></div>
-                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="gBlood" data-col="97"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
-                        <div class="col-md-3"><label>เบอร์โทรศัพท์ *</label><input type="text" class="form-control" id="gPhone" data-col="98" required></div>
+                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="gJob" data-col="85"></div>
+                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="gInc" data-col="86"></div>
+                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="gBlood" data-col="87"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
+                        <div class="col-md-3"><label>เบอร์โทรศัพท์ *</label><input type="text" class="form-control" id="gPhone" data-col="88" required></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12"><label>ความเกี่ยวข้องกับนักเรียน *</label>
-                            <select class="form-select" id="gRelation" data-col="99" required>
-                                <option value="">-- เลือก --</option>
-                                <option value="บิดา">บิดา</option>
-                                <option value="มารดา">มารดา</option>
-                                <option value="ปู่/ย่า/ตา/ยาย">ปู่/ย่า/ตา/ยาย</option>
-                                <option value="ลุง/ป้า/น้า/อา">ลุง/ป้า/น้า/อา</option>
-                                <option value="พี่">พี่</option>
-                                <option value="อื่นๆ">อื่นๆ</option>
+                            <select class="form-select" id="gRelation" data-col="89" required>
+                                <option value="">-- เลือก --</option><option value="บิดา">บิดา</option><option value="มารดา">มารดา</option><option value="ปู่/ย่า/ตา/ยาย">ปู่/ย่า/ตา/ยาย</option><option value="อื่นๆ">อื่นๆ</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- ปุ่มเปลี่ยนหน้า ฟอร์ม -->
                 <hr>
                 <div class="d-flex justify-content-between">
                     <button type="button" class="btn btn-secondary" id="btnPrev" onclick="changeStep(-1)" style="display:none;">ย้อนกลับ</button>
@@ -387,9 +297,11 @@
 </div>
 
 <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyF5MTuzox5H4XQZE2ViHIdQ5QU-OiSxAGW2LcIjJs6NzsRHnzo5hx7EQfjpXKPZb8B/exec";
+    // ⚠️ อย่าลืมใส่ Web App URL ตรงนี้นะครับ
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyF5MTuzox5H4XQZE2ViHIdQ5QU-OiSxAGW2LcIjJs6NzsRHnzo5hx7EQfjpXKPZb8B/exec"; 
+
     let currentStep = 1;
-    const totalSteps = 4; // ทั้งหมด 4 หน้า (ตอนนี้มี 2 หน้าก่อน)
+    const totalSteps = 4;
 
     function showSection(sectionId) {
         document.getElementById('formSection').style.display = 'none';
@@ -397,7 +309,6 @@
         document.getElementById(sectionId).style.display = 'block';
     }
 
-    // ระบบเปลี่ยนหน้า Wizard
     function changeStep(n) {
         const steps = document.querySelectorAll('.wizard-step');
         steps[currentStep - 1].classList.remove('active');
@@ -409,7 +320,6 @@
         document.getElementById('ind-' + currentStep).classList.add('active');
 
         document.getElementById('btnPrev').style.display = currentStep === 1 ? 'none' : 'inline-block';
-        
         if (currentStep === totalSteps) {
             document.getElementById('btnNext').style.display = 'none';
             document.getElementById('btnSubmit').style.display = 'inline-block';
@@ -421,43 +331,49 @@
 
     function copyAddress() {
         for(let i=1; i<=8; i++) {
-            document.getElementById('cur'+i).value = document.getElementById('reg'+i).value;
+            if(document.getElementById('cur'+i) && document.getElementById('reg'+i)) {
+                document.getElementById('cur'+i).value = document.getElementById('reg'+i).value;
+            }
         }
     }
 
-    // โหลดข้อมูล Dashboard
+    function copyToGuardian(type) {
+        let prefix = type === 'father' ? 'f' : 'm';
+        document.getElementById('gId').value = document.getElementById(prefix + 'Id').value;
+        document.getElementById('gType').value = document.getElementById(prefix + 'Type').value;
+        document.getElementById('gPre').value = document.getElementById(prefix + 'Pre').value;
+        document.getElementById('gName').value = document.getElementById(prefix + 'Name').value;
+        document.getElementById('gLast').value = document.getElementById(prefix + 'Last').value;
+        document.getElementById('gJob').value = document.getElementById(prefix + 'Job').value;
+        document.getElementById('gInc').value = document.getElementById(prefix + 'Inc').value;
+        document.getElementById('gBlood').value = document.getElementById(prefix + 'Blood').value;
+        document.getElementById('gPhone').value = document.getElementById(prefix + 'Phone').value;
+        document.getElementById('gRelation').value = type === 'father' ? 'บิดา' : 'มารดา';
+    }
+
     function loadDashboard() {
         const year = document.getElementById('dashYear').value;
         const tbody = document.getElementById('studentTableBody');
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center">กำลังโหลดข้อมูล... <div class="spinner-border spinner-border-sm"></div></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
         
         fetch(WEB_APP_URL, {
             method: 'POST',
             body: JSON.stringify({ action: 'getStudents', data: { year: year } })
-        })
-        .then(res => res.json())
-        .then(res => {
+        }).then(res => res.json()).then(res => {
             if(res.data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">ยังไม่มีผู้สมัครในปีการศึกษานี้</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
                 return;
             }
             let html = '';
             res.data.forEach(s => {
-                let dateStr = new Date(s.timestamp).toLocaleDateString('th-TH');
+                let d = new Date(s.timestamp).toLocaleDateString('th-TH');
                 let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : 'bg-success';
-                html += `<tr>
-                    <td>${dateStr}</td>
-                    <td>${s.idCard}</td>
-                    <td>${s.name}</td>
-                    <td>${s.grade}</td>
-                    <td><span class="badge ${badge}">${s.status}</span></td>
-                </tr>`;
+                html += `<tr><td>${d}</td><td>${s.idCard}</td><td>${s.name}</td><td>${s.grade}</td><td><span class="badge ${badge}">${s.status}</span></td></tr>`;
             });
             tbody.innerHTML = html;
         });
     }
 
-    // แปลงรูปเป็น Base64
     const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -465,24 +381,20 @@
         reader.onerror = error => reject(error);
     });
 
-    // กด Submit Form
     document.getElementById('admissionForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        
         document.getElementById('btnSubmit').innerHTML = 'กำลังบันทึกข้อมูล...';
         document.getElementById('btnSubmit').disabled = true;
 
         let photoBase64 = "";
         const fileInput = document.getElementById('photoFile');
-        if (fileInput.files.length > 0) {
-            photoBase64 = await toBase64(fileInput.files[0]);
-        }
+        if (fileInput.files.length > 0) photoBase64 = await toBase64(fileInput.files[0]);
 
-        // ดึงข้อมูลทั้งหมดที่มี data-col เรียงเข้า Array แบบอัตโนมัติ (ตำแหน่ง 6 ถึง 99)
-        let formDataArray = new Array(94).fill(""); 
+        // มีการปรับขนาด Array เป็น 84 เพื่อให้พอดีกับ 89 คอลัมน์ (89 - 5 = 84)
+        let formDataArray = new Array(84).fill(""); 
         document.querySelectorAll('input[data-col], select[data-col]').forEach(el => {
             let colIndex = parseInt(el.getAttribute('data-col'));
-            formDataArray[colIndex - 6] = el.value; // -6 เพราะ array เริ่มที่ 0 แต่ข้อมูลเราเริ่มคอลัมน์ 6
+            formDataArray[colIndex - 6] = el.value; 
         });
 
         const payload = {
@@ -498,40 +410,16 @@
         fetch(WEB_APP_URL, {
             method: 'POST',
             body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(res => {
+        }).then(res => res.json()).then(res => {
             if(res.status === 'success') {
                 alert('สมัครเรียนสำเร็จ!');
                 window.location.reload();
-            } else {
-                alert('ข้อผิดพลาด: ' + res.message);
-            }
-        })
-        .finally(() => {
+            } else alert('ข้อผิดพลาด: ' + res.message);
+        }).finally(() => {
             document.getElementById('btnSubmit').innerHTML = 'ยืนยันการสมัครเรียน';
             document.getElementById('btnSubmit').disabled = false;
         });
     });
-
-    // ฟังก์ชันสำหรับก๊อปปี้ข้อมูลบิดา/มารดา มาเป็นข้อมูลผู้ปกครอง
-    function copyToGuardian(type) {
-        let prefix = type === 'father' ? 'f' : 'm';
-        
-        document.getElementById('gId').value = document.getElementById(prefix + 'Id').value;
-        document.getElementById('gType').value = document.getElementById(prefix + 'Type').value;
-        document.getElementById('gPre').value = document.getElementById(prefix + 'Pre').value;
-        document.getElementById('gName').value = document.getElementById(prefix + 'Name').value;
-        document.getElementById('gMid').value = document.getElementById(prefix + 'Mid').value;
-        document.getElementById('gLast').value = document.getElementById(prefix + 'Last').value;
-        document.getElementById('gJob').value = document.getElementById(prefix + 'Job').value;
-        document.getElementById('gInc').value = document.getElementById(prefix + 'Inc').value;
-        document.getElementById('gBlood').value = document.getElementById(prefix + 'Blood').value;
-        document.getElementById('gPhone').value = document.getElementById(prefix + 'Phone').value;
-        
-        // เซ็ตความสัมพันธ์อัตโนมัติ
-        document.getElementById('gRelation').value = type === 'father' ? 'บิดา' : 'มารดา';
-    }
 </script>
 </body>
 </html>
