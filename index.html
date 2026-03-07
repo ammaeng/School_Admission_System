@@ -5,388 +5,344 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบสมัครเรียนออนไลน์ - โรงเรียนบ้านคลอง 14</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #4F46E5;
-            --primary-light: #818CF8;
-            --primary-dark: #3730A3;
-            --accent: #F59E0B;
-            --accent-light: #FCD34D;
-            --success: #10B981;
-            --danger: #EF4444;
-            --bg: #F8FAFC;
-            --card-bg: #FFFFFF;
-            --text: #1E293B;
-            --text-muted: #94A3B8;
-            --border: #E2E8F0;
-            --shadow: 0 4px 24px rgba(79, 70, 229, 0.08);
-            --shadow-lg: 0 12px 40px rgba(79, 70, 229, 0.12);
-            --radius: 16px;
-            --radius-sm: 10px;
+            /* โทนสี Modern Blue & Gold */
+            --primary: #0ea5e9;
+            --primary-light: #e0f2fe;
+            --primary-dark: #0284c7;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --accent-light: #fef3c7;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --radius: 20px;
+            --radius-sm: 12px;
         }
 
         * { box-sizing: border-box; }
         body {
-            font-family: 'Noto Sans Thai', sans-serif;
+            font-family: 'Prompt', sans-serif;
             background: var(--bg);
             color: var(--text);
             margin: 0;
             min-height: 100vh;
+            line-height: 1.6;
         }
 
-        /* ===== Navbar ===== */
+        /* ===== Navbar Glassmorphism ===== */
         .app-nav {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 0 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 20px rgba(79, 70, 229, 0.25);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 12px 0;
         }
         .app-nav .container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 16px;
         }
         .app-nav .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: #fff;
+            gap: 12px;
+            color: var(--primary-dark);
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
         }
-        .app-nav .brand img {
-            width: 38px;
-            height: 38px;
+        .app-nav .brand img, .app-nav .brand svg {
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.4);
-            object-fit: cover;
-            background: #fff;
+            background: var(--primary-light);
+            box-shadow: var(--shadow-sm);
+            padding: 2px;
         }
-        .nav-btns { display: flex; gap: 6px; }
+        .nav-btns { display: flex; gap: 8px; }
         .nav-btn {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.25);
-            padding: 7px 14px;
-            border-radius: 10px;
-            font-size: 0.85rem;
+            background: #fff;
+            color: var(--secondary);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             font-family: inherit;
         }
-        .nav-btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-1px); }
-        .nav-btn.accent { background: var(--accent); border-color: var(--accent); color: #1a1a1a; font-weight: 600; }
-        .nav-btn.accent:hover { background: var(--accent-light); }
+        .nav-btn:hover { color: var(--primary); border-color: var(--primary-light); background: var(--primary-light); }
+        .nav-btn.accent { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(14,165,233,0.3); }
+        .nav-btn.accent:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-        /* ===== Landing ===== */
+        /* ===== Landing Modern Hero ===== */
         .landing {
-            background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 50%, var(--primary-dark) 100%);
-            color: #fff;
-            padding: 60px 20px 50px;
+            background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg) 100%);
+            padding: 80px 20px 60px;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
-        .landing::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -30%;
-            width: 600px;
-            height: 600px;
-            background: rgba(255,255,255,0.04);
-            border-radius: 50%;
-        }
-        .landing::after {
-            content: '';
-            position: absolute;
-            bottom: -40%;
-            left: -20%;
-            width: 500px;
-            height: 500px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 50%;
-        }
-        .landing-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
-        .landing .school-logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 4px solid rgba(255,255,255,0.3);
-            margin: 0 auto 16px;
-            object-fit: cover;
-            background: #fff;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        }
+        .landing-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
         .landing .logo-placeholder {
-            width: 100px;
-            height: 100px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
-            border: 4px solid rgba(255,255,255,0.3);
-            margin: 0 auto 16px;
-            background: rgba(255,255,255,0.15);
+            margin: 0 auto 24px;
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            font-size: 3rem;
+            box-shadow: var(--shadow);
+            border: 4px solid #fff;
         }
         .landing h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
         .landing .subtitle {
-            font-size: 1.05rem;
-            opacity: 0.85;
-            margin-bottom: 24px;
-            font-weight: 300;
+            font-size: 1.15rem;
+            color: var(--secondary);
+            margin-bottom: 32px;
+            font-weight: 400;
         }
         .landing .stats-row {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-bottom: 28px;
+            gap: 20px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
         }
-        .landing .stat-item {
-            text-align: center;
+        .stat-pill {
+            background: #fff;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .landing .stat-num {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: block;
-        }
-        .landing .stat-label {
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-        .landing .cta-btn {
+        .stat-pill .num { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+        .stat-pill .lbl { font-size: 0.9rem; color: var(--secondary); font-weight: 500; }
+        
+        .cta-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: var(--accent);
-            color: #1a1a1a;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
             border: none;
-            padding: 14px 36px;
+            padding: 16px 48px;
             border-radius: 50px;
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(245,158,11,0.4);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
             font-family: inherit;
         }
-        .cta-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(245,158,11,0.5); }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(14, 165, 233, 0.4); color: #fff; }
 
-        /* ===== Cards ===== */
+        /* ===== Cards & Containers ===== */
         .app-card {
             background: var(--card-bg);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 28px;
-            margin-bottom: 24px;
-            border: 1px solid var(--border);
-            transition: box-shadow 0.3s;
+            padding: 36px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .app-card:hover { box-shadow: var(--shadow-lg); }
+        
+        .feature-card { padding: 30px; text-align: center; height: 100%; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .feature-icon { width: 64px; height: 64px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; border-radius: 20px; font-size: 1.8rem; background: var(--primary-light); color: var(--primary-dark); }
 
-        /* ===== Step Indicator ===== */
-        .wizard-step { display: none; }
-        .wizard-step.active {
-            display: block;
-            animation: fadeSlideIn 0.4s ease;
-        }
-        @keyframes fadeSlideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+        /* ===== Step Indicator (Connected Dots) ===== */
+        .wizard-step { display: none; animation: fadeSlideUp 0.4s ease forwards; }
+        .wizard-step.active { display: block; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        .step-wrapper {
+            position: relative;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+        .step-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 20px; left: 30px; right: 30px;
+            height: 3px;
+            background: var(--border);
+            z-index: 1;
+        }
         .step-indicator {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 24px;
-            gap: 4px;
+            position: relative;
+            z-index: 2;
+        }
+        .step-item {
+            text-align: center;
+            flex: 1;
             position: relative;
         }
-        .step-indicator .step {
-            flex: 1;
-            text-align: center;
-            padding: 10px 4px;
-            font-size: 0.8rem;
+        .step-circle {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 10px;
             font-weight: 600;
             color: var(--text-muted);
-            border-bottom: 3px solid var(--border);
             transition: all 0.3s;
-            cursor: default;
-            position: relative;
+            background: var(--bg);
         }
-        .step-indicator .step.active {
-            color: var(--primary);
-            border-color: var(--primary);
+        .step-label { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); }
+        
+        .step-item.active .step-circle {
+            border-color: var(--primary); background: var(--primary); color: #fff;
+            box-shadow: 0 0 0 6px var(--primary-light);
         }
-        .step-indicator .step.completed {
-            color: var(--success);
-            border-color: var(--success);
+        .step-item.active .step-label { color: var(--primary-dark); font-weight: 600; }
+        
+        .step-item.completed .step-circle {
+            border-color: var(--success); background: var(--success); color: #fff;
         }
-        .step-indicator .step.completed::after { content: ' ✓'; }
+        .step-item.completed .step-circle::after { content: '✓'; }
+        .step-item.completed .step-label { color: var(--success); }
 
-        /* ===== Form Styling ===== */
+        /* ===== Form Styling Modern ===== */
+        .form-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
         .form-control, .form-select {
             border-radius: var(--radius-sm);
-            border: 1.5px solid var(--border);
-            padding: 10px 14px;
-            font-size: 0.92rem;
-            transition: all 0.2s;
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            background-color: var(--bg);
+            transition: all 0.25s ease;
+            color: var(--text);
         }
         .form-control:focus, .form-select:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+            background-color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+            outline: none;
         }
-        .form-control.is-invalid { border-color: var(--danger); }
-        label {
-            font-weight: 500;
-            font-size: 0.85rem;
-            color: #475569;
-            margin-bottom: 4px;
+        .form-control.is-invalid {
+            border-color: var(--danger);
+            background-color: #fef2f2;
         }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px dashed var(--border);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .sub-title { font-size: 1rem; font-weight: 600; color: var(--secondary); margin: 24px 0 16px; }
 
         /* ===== Buttons ===== */
-        .btn { border-radius: var(--radius-sm); font-weight: 600; font-family: inherit; transition: all 0.2s; }
-        .btn-primary { background: var(--primary); border-color: var(--primary); }
-        .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); transform: translateY(-1px); }
-        .btn-success { background: var(--success); border-color: var(--success); }
-        .btn-success:hover { background: #059669; transform: translateY(-1px); }
-        .btn-warning { background: var(--accent); border-color: var(--accent); color: #1a1a1a; }
-
-        /* ===== Section Headers ===== */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .section-header .icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        .section-header h4, .section-header h5 {
-            margin: 0;
-            font-weight: 700;
-        }
+        .btn { padding: 10px 24px; border-radius: var(--radius-sm); font-weight: 500; transition: all 0.2s; font-family: inherit; }
+        .btn-primary { background: var(--primary); border-color: var(--primary); box-shadow: 0 4px 10px rgba(14,165,233,0.2); }
+        .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 15px rgba(14,165,233,0.3); }
+        .btn-success { background: var(--success); border-color: var(--success); color:#fff; box-shadow: 0 4px 10px rgba(16,185,129,0.2); }
+        .btn-success:hover { background: #059669; border-color: #059669; transform: translateY(-1px); color:#fff;}
+        .btn-outline-primary { color: var(--primary); border-color: var(--primary); }
+        .btn-outline-primary:hover { background: var(--primary-light); color: var(--primary-dark); border-color: var(--primary); }
 
         /* ===== Photo Upload ===== */
         .photo-upload-area {
-            border: 2px dashed var(--border);
+            border: 2px dashed #cbd5e1;
             border-radius: var(--radius-sm);
-            padding: 15px;
+            padding: 24px 16px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            background: #F8FAFC;
-            position: relative;
+            background: #fff;
         }
-        .photo-upload-area:hover { border-color: var(--primary-light); background: #EEF2FF; }
-        .photo-upload-area.has-photo { border-style: solid; border-color: var(--success); background: #F0FDF4; }
-        .photo-preview-thumb {
-            width: 90px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid var(--border);
-        }
-        .photo-actions { margin-top: 8px; }
-        #cropModal .modal-body { padding: 10px; }
-        #cropModal .img-container { max-height: 60vh; }
-        #cropModal .img-container img { display: block; max-width: 100%; }
-        #cropModal .modal-content { border-radius: var(--radius); }
-
+        .photo-upload-area:hover { border-color: var(--primary); background: var(--primary-light); }
+        .photo-upload-area.has-photo { border-style: solid; border-color: var(--success); padding: 12px; background: #fff;}
+        .photo-preview-thumb { width: 110px; height: 146px; object-fit: cover; border-radius: 8px; border: 2px solid var(--border); box-shadow: var(--shadow-sm); }
+        
         /* ===== Address Autocomplete ===== */
         .addr-group { position: relative; }
         .addr-dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0; right: 0;
-            z-index: 1050;
-            max-height: 200px;
-            overflow-y: auto;
-            background: #fff;
-            border: 1px solid var(--border);
-            border-top: none;
-            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            z-index: 1050; max-height: 220px; overflow-y: auto;
+            background: #fff; border: 1px solid var(--border); border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg); padding: 8px 0;
         }
-        .addr-dropdown.show { display: block; }
-        .addr-item {
-            padding: 8px 14px;
-            cursor: pointer;
-            font-size: 0.88rem;
-            border-bottom: 1px solid #f1f5f9;
-            transition: background 0.15s;
-        }
-        .addr-item:hover { background: #EEF2FF; color: var(--primary); }
-        .addr-item:last-child { border-bottom: none; }
-        .addr-input.has-value { border-color: var(--success); background: #F0FDF4; }
+        .addr-dropdown.show { display: block; animation: fadeIn 0.2s ease; }
+        .addr-item { padding: 10px 16px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .addr-item:hover { background: var(--primary-light); color: var(--primary-dark); }
+        .addr-input.has-value { border-color: var(--success); background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2310b981"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; padding-right: 36px; }
 
-        /* ===== Dashboard Stats ===== */
-        .stat-card {
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            text-align: center;
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        /* ===== Dashboard & Tables ===== */
+        .table-wrap { background: #fff; border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden; }
+        .table { margin-bottom: 0; font-size: 0.95rem; }
+        .table thead th { background: var(--bg); color: var(--secondary); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; padding: 16px; border-bottom: 2px solid var(--border); }
+        .table tbody td { padding: 16px; vertical-align: middle; border-bottom: 1px solid var(--border); }
+        .table tbody tr:hover { background: var(--bg); }
+        .badge { padding: 6px 10px; border-radius: 6px; font-weight: 500; font-size: 0.8rem; }
+        
+        /* Stats Dashboard */
+        .stat-card-modern {
+            background: #fff; border-radius: var(--radius-sm); padding: 20px;
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 16px;
+            box-shadow: var(--shadow-sm);
         }
-        .stat-card .stat-val { font-size: 2rem; font-weight: 700; display: block; }
-        .stat-card .stat-lbl { font-size: 0.8rem; opacity: 0.85; }
+        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .stat-info h3 { margin: 0; font-size: 1.6rem; font-weight: 700; color: var(--text); }
+        .stat-info p { margin: 0; font-size: 0.85rem; color: var(--secondary); font-weight: 500; }
 
-        /* ===== Table ===== */
-        .table { border-radius: var(--radius-sm); overflow: hidden; }
-        .table thead th {
-            background: var(--primary-dark);
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.85rem;
-            padding: 10px 8px;
-            border: none;
-        }
-        .table tbody td { font-size: 0.88rem; vertical-align: middle; }
-
-        /* ===== Summary ===== */
-        .alert-info {
-            background: #EEF2FF;
-            border: 1px solid var(--primary-light);
-            color: var(--primary-dark);
-            border-radius: var(--radius-sm);
-        }
+        /* ===== Summary Alert ===== */
+        .alert-info-modern { background: var(--primary-light); border-left: 4px solid var(--primary); color: var(--primary-dark); padding: 16px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 24px; }
 
         /* ===== Responsive ===== */
         @media (max-width: 768px) {
-            .landing { padding: 40px 16px 36px; }
-            .landing h1 { font-size: 1.5rem; }
-            .landing .school-logo, .landing .logo-placeholder { width: 80px; height: 80px; }
-            .step-indicator .step { font-size: 0.65rem; padding: 6px 2px; }
-            .nav-btns { gap: 3px; }
-            .nav-btn { font-size: 0.75rem; padding: 6px 8px; }
-            .app-card { padding: 16px; }
-            .table { font-size: 0.8rem; }
-            .stat-card { padding: 10px; }
-            .stat-card .stat-val { font-size: 1.5rem; }
-            .landing .stats-row { gap: 16px; }
+            .app-card { padding: 20px; }
+            .landing h1 { font-size: 1.8rem; }
+            .stat-pill { padding: 8px 16px; }
+            .stat-pill .num { font-size: 1.1rem; }
+            .step-wrapper::before { display: none; }
+            .step-indicator { flex-direction: column; gap: 12px; align-items: flex-start; }
+            .step-item { display: flex; align-items: center; gap: 12px; flex: none; width: 100%; text-align: left; }
+            .step-circle { margin: 0; width: 32px; height: 32px; font-size: 0.8rem; }
+            .step-label { font-size: 0.9rem; }
+            .nav-btn { padding: 6px 12px; font-size: 0.8rem; }
+            .nav-btns { gap: 4px; }
         }
     </style>
 </head>
@@ -396,13 +352,16 @@
 <div class="app-nav">
     <div class="container">
         <a class="brand" href="#" onclick="showSection('landingSection'); return false;">
-            <svg width="38" height="38" viewBox="0 0 38 38" style="border-radius:50%; border:2px solid rgba(255,255,255,0.4); flex-shrink:0;"><rect width="38" height="38" rx="19" fill="#fff"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" fill="#4F46E5" font-size="14" font-weight="700" font-family="Noto Sans Thai,sans-serif">14</text></svg>
-            <span>โรงเรียนบ้านคลอง 14</span>
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="50" fill="#0ea5e9"/>
+                <text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="40" font-weight="700" font-family="Prompt,sans-serif">14</text>
+            </svg>
+            <span class="d-none d-sm-inline">โรงเรียนบ้านคลอง 14</span>
         </a>
         <div class="nav-btns">
-            <button class="nav-btn" onclick="showSection('formSection')">📝 สมัครเรียน</button>
-            <button class="nav-btn" onclick="showSection('dashboardSection'); loadPublicDashboard();">📋 ตรวจสอบ</button>
-            <button class="nav-btn accent" onclick="promptAdminLogin()">🔒 แอดมิน</button>
+            <button class="nav-btn accent" onclick="showSection('formSection')">📝 สมัครเรียน</button>
+            <button class="nav-btn" onclick="showSection('dashboardSection'); loadPublicDashboard();">🔍 ตรวจสอบ</button>
+            <button class="nav-btn" onclick="promptAdminLogin()">🔒 แอดมิน</button>
         </div>
     </div>
 </div>
@@ -412,48 +371,44 @@
     <div class="landing">
         <div class="landing-content">
             <div class="logo-placeholder">🏫</div>
-            <h1>โรงเรียนบ้านคลอง 14</h1>
-            <p class="subtitle">ระบบรับสมัครนักเรียนออนไลน์ ปีการศึกษา 2568</p>
+            <h1>ระบบรับสมัครนักเรียนออนไลน์<br>ปีการศึกษา 2568</h1>
+            <p class="subtitle">สะดวก รวดเร็ว สมัครได้ทุกที่ทุกเวลา ผ่านมือถือและคอมพิวเตอร์</p>
+            
             <div class="stats-row">
-                <div class="stat-item">
-                    <span class="stat-num">ม.1</span>
-                    <span class="stat-label">มัธยมศึกษาปีที่ 1</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num">ม.4</span>
-                    <span class="stat-label">มัธยมศึกษาปีที่ 4</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num">24/7</span>
-                    <span class="stat-label">สมัครได้ตลอด</span>
-                </div>
+                <div class="stat-pill"><span class="num">ม.1</span><span class="lbl">รับสมัคร</span></div>
+                <div class="stat-pill"><span class="num">ม.4</span><span class="lbl">รับสมัคร</span></div>
+                <div class="stat-pill"><span class="num">24 ชม.</span><span class="lbl">เปิดระบบ</span></div>
             </div>
-            <button class="cta-btn" onclick="showSection('formSection')">📝 สมัครเรียนออนไลน์</button>
+            
+            <button class="cta-btn" onclick="showSection('formSection')">
+                กรอกใบสมัครออนไลน์
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
         </div>
     </div>
 
     <!-- Features -->
-    <div class="container py-5">
+    <div class="container py-5 mt-3">
         <div class="row g-4 justify-content-center">
             <div class="col-md-4">
-                <div class="app-card text-center">
-                    <div style="font-size:2.5rem; margin-bottom:12px;">📋</div>
-                    <h5 style="font-weight:700; color:var(--primary);">กรอกข้อมูลง่าย</h5>
-                    <p style="color:var(--text-muted); font-size:0.9rem;">แบบฟอร์ม 5 ขั้นตอน กรอกทีละส่วน ไม่สับสน พร้อมตรวจสอบข้อมูลอัตโนมัติ</p>
+                <div class="app-card feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h5 class="fw-bold">กรอกข้อมูลง่าย</h5>
+                    <p class="text-muted small mb-0">แบ่งเป็น 5 ขั้นตอนชัดเจน ไม่ซับซ้อน พร้อมระบบค้นหาที่อยู่อัตโนมัติ</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="app-card text-center">
-                    <div style="font-size:2.5rem; margin-bottom:12px;">🖨️</div>
-                    <h5 style="font-weight:700; color:var(--primary);">พิมพ์ใบสมัคร</h5>
-                    <p style="color:var(--text-muted); font-size:0.9rem;">สมัครเสร็จ พิมพ์ใบสมัครได้ทันที พอดี A4 พร้อมรูปถ่าย</p>
+                <div class="app-card feature-card">
+                    <div class="feature-icon">🖨️</div>
+                    <h5 class="fw-bold">พิมพ์ใบสมัครได้ทันที</h5>
+                    <p class="text-muted small mb-0">เมื่อสมัครเสร็จสามารถพิมพ์ใบสมัครที่จัดหน้า A4 อย่างสวยงามพร้อมรูปถ่าย</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="app-card text-center">
-                    <div style="font-size:2.5rem; margin-bottom:12px;">📱</div>
-                    <h5 style="font-weight:700; color:var(--primary);">ใช้งานได้ทุกอุปกรณ์</h5>
-                    <p style="color:var(--text-muted); font-size:0.9rem;">รองรับมือถือ แท็บเล็ต และคอมพิวเตอร์ สมัครจากที่ไหนก็ได้</p>
+                <div class="app-card feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h5 class="fw-bold">รองรับทุกอุปกรณ์</h5>
+                    <p class="text-muted small mb-0">ใช้งานได้ลื่นไหลทั้งบนสมาร์ทโฟน แท็บเล็ต และคอมพิวเตอร์ตั้งโต๊ะ</p>
                 </div>
             </div>
         </div>
@@ -465,90 +420,91 @@
     <!-- แดชบอร์ดสาธารณะ -->
     <div id="dashboardSection" style="display: none;">
         <div class="app-card">
-            <div class="section-header">
-                <div class="icon" style="background:#EEF2FF; color:var(--primary);">📋</div>
-                <h4 style="color:var(--primary);">ตรวจสอบสถานะการสมัคร</h4>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3">
+            <h4 class="fw-bold text-primary mb-4">🔍 ตรวจสอบสถานะการสมัคร</h4>
+            <div class="row mb-4 bg-light p-3 rounded-3 border">
+                <div class="col-md-3 mb-2 mb-md-0">
                     <label class="form-label">ปีการศึกษา</label>
                     <input type="number" id="dashYear" class="form-control" value="2568" onchange="loadPublicDashboard()">
                 </div>
-                <div class="col-md-5">
-                    <label class="form-label">🔍 ค้นหา</label>
+                <div class="col-md-6">
+                    <label class="form-label">ค้นหาชื่อนักเรียน</label>
                     <input type="text" class="form-control" id="publicSearch" placeholder="พิมพ์ชื่อเพื่อค้นหา..." oninput="filterPublicTable()">
                 </div>
             </div>
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
-                    <tr><th style="width:50px">ลำดับ</th><th>วันที่สมัคร</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>สถานะ</th><th>จัดการ</th></tr>
-                </thead>
-                <tbody id="publicTableBody"><tr><td colspan="6" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
-            </table>
+            
+            <div class="table-wrap table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr><th width="80">ลำดับ</th><th>วันที่สมัคร</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>สถานะ</th><th width="120">จัดการ</th></tr>
+                    </thead>
+                    <tbody id="publicTableBody"><tr><td colspan="6" class="text-center py-4 text-muted">กำลังโหลดข้อมูล...</td></tr></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <!-- แดชบอร์ดแอดมิน -->
     <div id="adminSection" style="display: none;">
-        <div class="app-card" style="border-left: 4px solid var(--accent);">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="section-header mb-0">
-                    <div class="icon" style="background:#FEF3C7; color:var(--accent);">🔒</div>
-                    <h4 style="color:var(--accent);">แดชบอร์ดแอดมิน</h4>
+        <div class="app-card" style="border-top: 5px solid var(--accent);">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <h4 class="fw-bold text-dark mb-1">🔒 ระบบจัดการข้อมูล (แอดมิน)</h4>
+                    <p class="text-muted mb-0 small">จัดการใบสมัครและอัปเดตสถานะนักเรียน</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
-                    <div class="input-group" style="width:200px;">
-                        <span class="input-group-text">ปีการศึกษา</span>
-                        <input type="number" id="adminYear" class="form-control" value="2568" onchange="loadAdminDashboard()">
+                    <div class="input-group" style="width:160px;">
+                        <span class="input-group-text bg-light border-end-0">ปี</span>
+                        <input type="number" id="adminYear" class="form-control border-start-0" value="2568" onchange="loadAdminDashboard()">
                     </div>
-                    <button class="btn btn-outline-secondary btn-sm" onclick="changeAdminPassword()" title="เปลี่ยนรหัสแอดมิน">🔑 เปลี่ยนรหัส</button>
-                    <button class="btn btn-outline-danger btn-sm" onclick="logoutAdmin()">ออกจากระบบ</button>
+                    <button class="btn btn-outline-secondary" onclick="changeAdminPassword()" title="เปลี่ยนรหัสแอดมิน">🔑</button>
+                    <button class="btn btn-outline-danger" onclick="logoutAdmin()">ออก</button>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-3 col-6 mb-2">
-                    <div class="stat-card" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark));">
-                        <span class="stat-val" id="statTotal">0</span>
-                        <span class="stat-lbl">ผู้สมัครทั้งหมด</span>
+
+            <!-- Stats -->
+            <div class="row mb-4 g-3">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card-modern">
+                        <div class="stat-icon bg-primary text-white bg-opacity-10" style="color:var(--primary)!important;">📋</div>
+                        <div class="stat-info"><h3 id="statTotal">0</h3><p>ผู้สมัครทั้งหมด</p></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-6 mb-2">
-                    <div class="stat-card" style="background: linear-gradient(135deg, #F59E0B, #D97706);">
-                        <span class="stat-val" id="statPending">0</span>
-                        <span class="stat-lbl">รอตรวจสอบ</span>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card-modern">
+                        <div class="stat-icon bg-warning text-dark bg-opacity-25">⏳</div>
+                        <div class="stat-info"><h3 id="statPending">0</h3><p>รอตรวจสอบ</p></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-6 mb-2">
-                    <div class="stat-card" style="background: linear-gradient(135deg, #10B981, #059669);">
-                        <span class="stat-val" id="statApproved">0</span>
-                        <span class="stat-lbl">ยืนยันแล้ว</span>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card-modern">
+                        <div class="stat-icon bg-success text-white bg-opacity-10" style="color:var(--success)!important;">✅</div>
+                        <div class="stat-info"><h3 id="statApproved">0</h3><p>ยืนยันแล้ว</p></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-6 mb-2">
-                    <div class="stat-card" style="background: linear-gradient(135deg, #06B6D4, #0891B2);">
-                        <span class="stat-val" id="statM1">0</span>
-                        <span class="stat-lbl">ม.1 / <span id="statM4">0</span> ม.4</span>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card-modern">
+                        <div class="stat-icon bg-info text-dark bg-opacity-25">🎓</div>
+                        <div class="stat-info"><h3 id="statM1">0</h3><p>ม.1 / <span id="statM4">0</span> ม.4</p></div>
                     </div>
                 </div>
             </div>
-            <!-- ค้นหา + ปุ่มจัดการ -->
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <div class="input-group" style="width:350px;">
-                    <span class="input-group-text">🔍</span>
-                    <input type="text" class="form-control" id="adminSearch" placeholder="ค้นหาชื่อ / เลข ปชช. / เบอร์โทร..." oninput="filterAdminTable()">
-                </div>
+
+            <!-- Toolbar -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-3">
+                <input type="text" class="form-control" style="max-width:350px;" id="adminSearch" placeholder="🔍 ค้นหาชื่อ / เลข ปชช. / เบอร์โทร..." oninput="filterAdminTable()">
                 <div class="d-flex gap-2">
-                    <button class="btn btn-sm btn-outline-success" onclick="exportExcel()">📥 Export Excel</button>
-                    <button class="btn btn-sm btn-outline-primary" onclick="printAllApplications()">🖨️ พิมพ์ทั้งหมด</button>
+                    <button class="btn btn-success" onclick="exportExcel()">📥 Export Excel</button>
+                    <button class="btn btn-primary" onclick="printAllApplications()">🖨️ พิมพ์ทั้งหมด</button>
                 </div>
             </div>
-            <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
-                <thead class="table-dark">
-                    <tr><th style="width:40px">ลำดับ</th><th style="width:45px">รูป</th><th>วันที่</th><th>เลข ปชช.</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>เบอร์ผู้ปกครอง</th><th>สถานะ</th><th>จัดการ</th></tr>
-                </thead>
-                <tbody id="adminTableBody"><tr><td colspan="9" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
-            </table>
+
+            <div class="table-wrap table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr><th width="60">ลำดับ</th><th width="60">รูป</th><th>วันที่</th><th>เลข ปชช.</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>เบอร์โทร</th><th>สถานะ</th><th width="140">จัดการ</th></tr>
+                    </thead>
+                    <tbody id="adminTableBody"><tr><td colspan="9" class="text-center py-4 text-muted">กำลังโหลดข้อมูล...</td></tr></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -556,20 +512,17 @@
     <!-- ฟอร์มสมัครเรียน -->
     <div id="formSection" style="display:none;">
         <div class="app-card">
-            <div class="section-header">
-                <div class="icon" style="background:#EEF2FF; color:var(--primary);">📝</div>
-                <div>
-                    <h4 style="color:var(--primary); margin:0;">ใบสมัครเข้าเรียน</h4>
-                    <small style="color:var(--text-muted);">ปีการศึกษา <span id="displayYear">2568</span></small>
-                </div>
-            </div>
+            <h4 class="fw-bold text-primary mb-1">📝 กรอกใบสมัครเข้าเรียน</h4>
+            <p class="text-muted mb-4">ประจำปีการศึกษา <span id="displayYear" class="fw-bold text-dark">2568</span></p>
             
-            <div class="step-indicator">
-                <div class="step active" id="ind-1">1. ข้อมูลนักเรียน</div>
-                <div class="step" id="ind-2">2. ที่อยู่</div>
-                <div class="step" id="ind-3">3. ข้อมูลเพิ่มเติม</div>
-                <div class="step" id="ind-4">4. ครอบครัว</div>
-                <div class="step" id="ind-5">5. ยืนยันข้อมูล</div>
+            <div class="step-wrapper">
+                <div class="step-indicator">
+                    <div class="step-item active" id="ind-1"><div class="step-circle">1</div><div class="step-label">ข้อมูลนักเรียน</div></div>
+                    <div class="step-item" id="ind-2"><div class="step-circle">2</div><div class="step-label">ที่อยู่</div></div>
+                    <div class="step-item" id="ind-3"><div class="step-circle">3</div><div class="step-label">ข้อมูลเพิ่มเติม</div></div>
+                    <div class="step-item" id="ind-4"><div class="step-circle">4</div><div class="step-label">ครอบครัว</div></div>
+                    <div class="step-item" id="ind-5"><div class="step-circle">5</div><div class="step-label">ยืนยันข้อมูล</div></div>
+                </div>
             </div>
 
             <form id="admissionForm">
@@ -577,60 +530,61 @@
 
                 <!-- STEP 1: ข้อมูลนักเรียน (คอลัมน์ 6 - 22) -->
                 <div class="wizard-step active" id="step-1">
-                    <h5 class="mb-3">ข้อมูลเบื้องต้น</h5>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>ชั้นที่สมัคร *</label>
+                    <div class="section-title">👤 ข้อมูลเบื้องต้น</div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-4"><label class="form-label">ชั้นที่สมัคร <span class="text-danger">*</span></label>
                             <select class="form-select" data-col="6" required>
                                 <option value="">-- เลือก --</option><option value="ม.1">มัธยมศึกษาปีที่ 1</option><option value="ม.4">มัธยมศึกษาปีที่ 4</option>
                             </select>
                         </div>
-                        <div class="col-md-4"><label>เลข ปชช. (13 หลัก) *</label><input type="text" class="form-control" id="formIdCard" data-col="7" maxlength="13" required></div>
-                        <div class="col-md-4"><label>คำนำหน้า *</label>
+                        <div class="col-md-4"><label class="form-label">เลข ปชช. (13 หลัก) <span class="text-danger">*</span></label><input type="text" class="form-control" id="formIdCard" data-col="7" maxlength="13" required placeholder="ไม่ต้องใส่ขีด"></div>
+                        <div class="col-md-4"><label class="form-label">คำนำหน้า <span class="text-danger">*</span></label>
                             <select class="form-select" data-col="8" required>
                                 <option value="ด.ช.">ด.ช.</option><option value="ด.ญ.">ด.ญ.</option><option value="นาย">นาย</option><option value="นางสาว">นางสาว</option>
                             </select>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>เพศ</label>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-4"><label class="form-label">เพศ</label>
                             <select class="form-select" data-col="9"><option value="ชาย">ชาย</option><option value="หญิง">หญิง</option></select>
                         </div>
-                        <div class="col-md-4"><label>ชื่อ (ไทย) *</label><input type="text" class="form-control" data-col="10" required></div>
-                        <div class="col-md-4"><label>นามสกุล (ไทย) *</label><input type="text" class="form-control" data-col="11" required></div>
+                        <div class="col-md-4"><label class="form-label">ชื่อ (ไทย) <span class="text-danger">*</span></label><input type="text" class="form-control" data-col="10" required></div>
+                        <div class="col-md-4"><label class="form-label">นามสกุล (ไทย) <span class="text-danger">*</span></label><input type="text" class="form-control" data-col="11" required></div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><label>ชื่อ (อังกฤษ)</label><input type="text" class="form-control" data-col="12"></div>
-                        <div class="col-md-6"><label>นามสกุล (อังกฤษ)</label><input type="text" class="form-control" data-col="13"></div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-6"><label class="form-label">ชื่อ (อังกฤษ)</label><input type="text" class="form-control" data-col="12"></div>
+                        <div class="col-md-6"><label class="form-label">นามสกุล (อังกฤษ)</label><input type="text" class="form-control" data-col="13"></div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>วันเกิด (วว/ดด/ปปปป)</label><input type="text" class="form-control" data-col="14" placeholder="เช่น 15/05/2550"></div>
-                        <div class="col-md-3"><label>จังหวัดที่เกิด</label><input type="text" class="form-control" data-col="15"></div>
-                        <div class="col-md-3"><label>อีเมล</label><input type="email" class="form-control" data-col="16"></div>
-                        <div class="col-md-3"><label>กลุ่มเลือด</label>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-3"><label class="form-label">วันเกิด (วว/ดด/ปปปป)</label><input type="text" class="form-control" data-col="14" placeholder="เช่น 15/05/2550"></div>
+                        <div class="col-md-3"><label class="form-label">จังหวัดที่เกิด</label><input type="text" class="form-control" data-col="15"></div>
+                        <div class="col-md-3"><label class="form-label">อีเมล</label><input type="email" class="form-control" data-col="16"></div>
+                        <div class="col-md-3"><label class="form-label">กลุ่มเลือด</label>
                             <select class="form-select" data-col="17"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>สัญชาติ</label><input type="text" class="form-control" data-col="18" value="ไทย"></div>
-                        <div class="col-md-3"><label>เชื้อชาติ</label><input type="text" class="form-control" data-col="19" value="ไทย"></div>
-                        <div class="col-md-3"><label>ศาสนา</label><select class="form-select" data-col="20"><option value="พุทธ">พุทธ</option><option value="อิสลาม">อิสลาม</option><option value="คริสต์">คริสต์</option></select></div>
-                        <div class="col-md-3"><label>ภาษาหลัก</label><input type="text" class="form-control" data-col="21" value="ไทย"></div>
+                    <div class="row mb-4 g-3">
+                        <div class="col-md-3"><label class="form-label">สัญชาติ</label><input type="text" class="form-control" data-col="18" value="ไทย"></div>
+                        <div class="col-md-3"><label class="form-label">เชื้อชาติ</label><input type="text" class="form-control" data-col="19" value="ไทย"></div>
+                        <div class="col-md-3"><label class="form-label">ศาสนา</label><select class="form-select" data-col="20"><option value="พุทธ">พุทธ</option><option value="อิสลาม">อิสลาม</option><option value="คริสต์">คริสต์</option></select></div>
+                        <div class="col-md-3"><label class="form-label">ภาษาหลัก</label><input type="text" class="form-control" data-col="21" value="ไทย"></div>
                     </div>
+                    
+                    <div class="section-title mt-4">📸 รูปถ่ายนักเรียน</div>
                     <div class="row mb-3">
-                        <div class="col-md-6"><label>ภาษาอื่น</label><input type="text" class="form-control" data-col="22"></div>
                         <div class="col-md-6">
-                            <label>รูปถ่ายนักเรียน (ไม่เกิน 2MB)</label>
+                            <label class="form-label text-muted d-block">ขนาดไม่เกิน 2MB สัดส่วน 3:4 (ชุดนักเรียน)</label>
                             <input type="file" class="form-control d-none" id="photoFile" accept="image/*" onchange="onPhotoSelected(event)">
-                            <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('photoFile').click()">
+                            <div class="photo-upload-area mt-2" id="photoUploadArea" onclick="document.getElementById('photoFile').click()">
                                 <div id="photoPlaceholder">
-                                    <div style="font-size: 2rem; color: #aaa;">📷</div>
-                                    <div class="text-muted" style="font-size: 0.85rem;">คลิกเพื่อเลือกรูปถ่าย<br>(สัดส่วน 3:4)</div>
+                                    <div style="font-size: 2.5rem; color: var(--primary-light); margin-bottom: 10px;">📷</div>
+                                    <div class="text-primary fw-medium">คลิกเพื่ออัปโหลดรูปถ่าย</div>
                                 </div>
                                 <div id="photoPreviewWrap" style="display:none;">
                                     <img id="photoPreviewThumb" class="photo-preview-thumb" src="" alt="preview">
-                                    <div class="photo-actions">
-                                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); openCropper();">✂️ ครอบตัดใหม่</button>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); clearPhoto();">🗑️ ลบรูป</button>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); openCropper();">✂️ ครอบตัด</button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); clearPhoto();">🗑️ ลบ</button>
                                     </div>
                                 </div>
                             </div>
@@ -640,216 +594,209 @@
 
                 <!-- STEP 2: ที่อยู่ (คอลัมน์ 23 - 40) -->
                 <div class="wizard-step" id="step-2">
-                    <h5 class="mb-3">ที่อยู่ตามทะเบียนบ้าน</h5>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>รหัสประจำบ้าน</label><input type="text" class="form-control" data-col="23"></div>
-                        <div class="col-md-2"><label>บ้านเลขที่</label><input type="text" class="form-control" id="reg1" data-col="24"></div>
-                        <div class="col-md-2"><label>หมู่</label><input type="text" class="form-control" id="reg2" data-col="25"></div>
-                        <div class="col-md-5"><label>ถนน</label><input type="text" class="form-control" id="reg3" data-col="26"></div>
+                    <div class="section-title">🏠 ที่อยู่ตามทะเบียนบ้าน</div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-3"><label class="form-label">รหัสประจำบ้าน</label><input type="text" class="form-control" data-col="23"></div>
+                        <div class="col-md-2"><label class="form-label">บ้านเลขที่</label><input type="text" class="form-control" id="reg1" data-col="24"></div>
+                        <div class="col-md-2"><label class="form-label">หมู่</label><input type="text" class="form-control" id="reg2" data-col="25"></div>
+                        <div class="col-md-5"><label class="form-label">ถนน / ซอย</label><input type="text" class="form-control" id="reg3" data-col="26"></div>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row mb-3 g-3">
                         <div class="col-md-3 addr-group">
-                            <label>จังหวัด</label>
-                            <input type="text" class="form-control addr-input" id="reg4" data-col="27" data-addr="province" data-set="reg" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <label class="form-label">จังหวัด</label>
+                            <input type="text" class="form-control addr-input" id="reg4" data-col="27" data-addr="province" data-set="reg" autocomplete="off" placeholder="พิมพ์ชื่อจังหวัด...">
                             <div class="addr-dropdown" id="reg4-dropdown"></div>
                         </div>
                         <div class="col-md-3 addr-group">
-                            <label>อำเภอ/เขต</label>
-                            <input type="text" class="form-control addr-input" id="reg5" data-col="28" data-addr="amphoe" data-set="reg" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <label class="form-label">อำเภอ/เขต</label>
+                            <input type="text" class="form-control addr-input" id="reg5" data-col="28" data-addr="amphoe" data-set="reg" autocomplete="off" placeholder="พิมพ์ชื่ออำเภอ...">
                             <div class="addr-dropdown" id="reg5-dropdown"></div>
                         </div>
                         <div class="col-md-3 addr-group">
-                            <label>ตำบล/แขวง</label>
-                            <input type="text" class="form-control addr-input" id="reg6" data-col="29" data-addr="district" data-set="reg" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <label class="form-label">ตำบล/แขวง</label>
+                            <input type="text" class="form-control addr-input" id="reg6" data-col="29" data-addr="district" data-set="reg" autocomplete="off" placeholder="พิมพ์ชื่อตำบล...">
                             <div class="addr-dropdown" id="reg6-dropdown"></div>
                         </div>
                         <div class="col-md-3">
-                            <label>รหัสไปรษณีย์</label>
-                            <input type="text" class="form-control" id="reg7" data-col="30" readonly style="background:#f0f0f0;">
+                            <label class="form-label">รหัสไปรษณีย์</label>
+                            <input type="text" class="form-control bg-light" id="reg7" data-col="30" readonly>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="reg8" data-col="31"></div>
+                    <div class="row mb-5 g-3">
+                        <div class="col-md-4"><label class="form-label">เบอร์โทรศัพท์บ้าน</label><input type="text" class="form-control" id="reg8" data-col="31"></div>
                     </div>
 
-                    <hr>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0">ที่อยู่ปัจจุบัน</h5>
-                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="copyAddress()">คัดลอกที่อยู่ตามทะเบียนบ้าน</button>
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <div class="section-title border-0 mb-0 pb-0">📍 ที่อยู่ปัจจุบัน</div>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="copyAddress()">👇 ใช้ที่อยู่ตามทะเบียนบ้าน</button>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>รหัสประจำบ้าน</label><input type="text" class="form-control" data-col="32"></div>
-                        <div class="col-md-2"><label>บ้านเลขที่</label><input type="text" class="form-control" id="cur1" data-col="33"></div>
-                        <div class="col-md-2"><label>หมู่</label><input type="text" class="form-control" id="cur2" data-col="34"></div>
-                        <div class="col-md-5"><label>ถนน</label><input type="text" class="form-control" id="cur3" data-col="35"></div>
+                    
+                    <div class="row mb-3 g-3 mt-2">
+                        <div class="col-md-3"><label class="form-label">รหัสประจำบ้าน</label><input type="text" class="form-control" data-col="32"></div>
+                        <div class="col-md-2"><label class="form-label">บ้านเลขที่</label><input type="text" class="form-control" id="cur1" data-col="33"></div>
+                        <div class="col-md-2"><label class="form-label">หมู่</label><input type="text" class="form-control" id="cur2" data-col="34"></div>
+                        <div class="col-md-5"><label class="form-label">ถนน / ซอย</label><input type="text" class="form-control" id="cur3" data-col="35"></div>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row mb-3 g-3">
                         <div class="col-md-3 addr-group">
-                            <label>จังหวัด</label>
-                            <input type="text" class="form-control addr-input" id="cur4" data-col="36" data-addr="province" data-set="cur" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <label class="form-label">จังหวัด</label>
+                            <input type="text" class="form-control addr-input" id="cur4" data-col="36" data-addr="province" data-set="cur" autocomplete="off" placeholder="พิมพ์ชื่อจังหวัด...">
                             <div class="addr-dropdown" id="cur4-dropdown"></div>
                         </div>
                         <div class="col-md-3 addr-group">
-                            <label>อำเภอ/เขต</label>
-                            <input type="text" class="form-control addr-input" id="cur5" data-col="37" data-addr="amphoe" data-set="cur" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <label class="form-label">อำเภอ/เขต</label>
+                            <input type="text" class="form-control addr-input" id="cur5" data-col="37" data-addr="amphoe" data-set="cur" autocomplete="off" placeholder="พิมพ์ชื่ออำเภอ...">
                             <div class="addr-dropdown" id="cur5-dropdown"></div>
                         </div>
                         <div class="col-md-3 addr-group">
-                            <label>ตำบล/แขวง</label>
-                            <input type="text" class="form-control addr-input" id="cur6" data-col="38" data-addr="district" data-set="cur" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <label class="form-label">ตำบล/แขวง</label>
+                            <input type="text" class="form-control addr-input" id="cur6" data-col="38" data-addr="district" data-set="cur" autocomplete="off" placeholder="พิมพ์ชื่อตำบล...">
                             <div class="addr-dropdown" id="cur6-dropdown"></div>
                         </div>
                         <div class="col-md-3">
-                            <label>รหัสไปรษณีย์</label>
-                            <input type="text" class="form-control" id="cur7" data-col="39" readonly style="background:#f0f0f0;">
+                            <label class="form-label">รหัสไปรษณีย์</label>
+                            <input type="text" class="form-control bg-light" id="cur7" data-col="39" readonly>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="cur8" data-col="40"></div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-4"><label class="form-label">เบอร์โทรศัพท์ (ที่ติดต่อได้)</label><input type="text" class="form-control" id="cur8" data-col="40"></div>
                     </div>
                 </div>
 
                 <!-- STEP 3: ข้อมูลเพิ่มเติม (คอลัมน์ 41 - 52) -->
                 <div class="wizard-step" id="step-3">
-                    <h5 class="mb-3">รายละเอียดนักเรียน</h5>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><label>การพักนอนของนักเรียน</label>
+                    <div class="section-title">📄 รายละเอียดอื่นๆ ของนักเรียน</div>
+                    <div class="row mb-4 g-3">
+                        <div class="col-md-6"><label class="form-label">การพักนอนของนักเรียน</label>
                             <select class="form-select" data-col="41">
                                 <option value="พักกับบิดามารดา">พักกับบิดามารดา</option><option value="พักกับญาติ">พักกับญาติ</option>
                                 <option value="พักหอพัก/บ้านเช่า">พักหอพัก/บ้านเช่า</option><option value="พักในโรงเรียน">พักในโรงเรียน</option>
                             </select>
                         </div>
-                        <div class="col-md-6"><label>ความด้อยโอกาส</label>
+                        <div class="col-md-6"><label class="form-label">ความด้อยโอกาส</label>
                             <select class="form-select" data-col="42"><option value="ปกติ">ปกติ (ไม่ด้อยโอกาส)</option><option value="ยากจน">ยากจน</option><option value="กำพร้า">กำพร้า</option></select>
                         </div>
                     </div>
                     
-                    <h6 class="mt-4 mb-2 text-secondary">ความขาดแคลน</h6>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>แบบเรียน</label><select class="form-select" data-col="43"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
-                        <div class="col-md-3"><label>อาหารกลางวัน</label><select class="form-select" data-col="44"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
-                        <div class="col-md-3"><label>เครื่องเขียน</label><select class="form-select" data-col="45"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
-                        <div class="col-md-3"><label>เครื่องแบบ</label><select class="form-select" data-col="46"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                    <div class="sub-title">ความขาดแคลน</div>
+                    <div class="row mb-4 g-3 bg-light p-3 rounded-3 border">
+                        <div class="col-md-3"><label class="form-label">แบบเรียน</label><select class="form-select" data-col="43"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label class="form-label">อาหารกลางวัน</label><select class="form-select" data-col="44"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label class="form-label">เครื่องเขียน</label><select class="form-select" data-col="45"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label class="form-label">เครื่องแบบ</label><select class="form-select" data-col="46"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
                     </div>
 
-                    <h6 class="mt-4 mb-2 text-secondary">การเดินทางมาโรงเรียน</h6>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>การเดินทาง *</label>
+                    <div class="sub-title">การเดินทางมาโรงเรียน</div>
+                    <div class="row mb-4 g-3">
+                        <div class="col-md-4"><label class="form-label">วิธีการเดินทาง <span class="text-danger">*</span></label>
                             <select class="form-select" data-col="47" required><option value="">-- เลือก --</option><option value="เดินเท้า">เดินเท้า</option><option value="รถจักรยาน">รถจักรยาน</option><option value="รถยนต์ส่วนบุคคล">รถยนต์ส่วนบุคคล</option><option value="รถรับส่งนักเรียน">รถรับส่งนักเรียน</option></select>
                         </div>
-                        <div class="col-md-4"><label>ระยะเวลาเดินทาง (นาที)</label><input type="number" class="form-control" data-col="48"></div>
-                        <div class="col-md-4"><label>ห่างจาก รร. ถนนลาดยาง (เมตร)</label><input type="number" class="form-control" data-col="49" value="0"></div>
+                        <div class="col-md-4"><label class="form-label">ระยะเวลาเดินทาง (นาที)</label><input type="number" class="form-control" data-col="48"></div>
+                        <div class="col-md-4"><label class="form-label">ห่างจาก รร. ถนนลาดยาง (เมตร)</label><input type="number" class="form-control" data-col="49" value="0"></div>
                     </div>
 
-                    <h6 class="mt-4 mb-2 text-secondary">สุขภาพ</h6>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>ทักษะการว่ายน้ำ</label><select class="form-select" data-col="50"><option value="ว่ายไม่เป็น">ว่ายไม่เป็น</option><option value="ว่ายเป็น">ว่ายเป็น</option></select></div>
-                        <div class="col-md-4"><label>น้ำหนัก (กก.)</label><input type="number" class="form-control" data-col="51" step="0.1"></div>
-                        <div class="col-md-4"><label>ส่วนสูง (ซม.)</label><input type="number" class="form-control" data-col="52" step="0.1"></div>
+                    <div class="sub-title">สุขภาพร่างกาย</div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-4"><label class="form-label">ทักษะการว่ายน้ำ</label><select class="form-select" data-col="50"><option value="ว่ายไม่เป็น">ว่ายไม่เป็น</option><option value="ว่ายเป็น">ว่ายเป็น</option></select></div>
+                        <div class="col-md-4"><label class="form-label">น้ำหนัก (กก.)</label><input type="number" class="form-control" data-col="51" step="0.1"></div>
+                        <div class="col-md-4"><label class="form-label">ส่วนสูง (ซม.)</label><input type="number" class="form-control" data-col="52" step="0.1"></div>
                     </div>
                 </div>
 
                 <!-- STEP 4: ข้อมูลครอบครัว (คอลัมน์ 53 - 87) -->
                 <div class="wizard-step" id="step-4">
-                    <h5 class="mb-3">ข้อมูลพี่น้องและครอบครัว</h5>
-                    <div class="row mb-3">
-                        <div class="col-md-12"><label>สถานภาพสมรสของบิดามารดา</label>
+                    <div class="section-title">👨‍👩‍👧‍👦 ข้อมูลครอบครัวและผู้ปกครอง</div>
+                    
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-4"><label class="form-label">สถานภาพสมรสของบิดามารดา</label>
                             <select class="form-select" data-col="53"><option value="อยู่ด้วยกัน">อยู่ด้วยกัน</option><option value="แยกกันอยู่">แยกกันอยู่</option><option value="หย่าร้าง">หย่าร้าง</option><option value="บิดามารดาถึงแก่กรรม">บิดามารดาถึงแก่กรรม</option></select>
                         </div>
+                        <div class="col-md-4"><label class="form-label">พี่น้องที่ศึกษาอยู่ (ไม่รวมตัวเอง)</label><input type="number" class="form-control" data-col="58" value="0"></div>
+                        <div class="col-md-4"><label class="form-label">เป็นบุตรลำดับที่</label><input type="number" class="form-control" data-col="59" value="1"></div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>จำนวนพี่ชาย</label><input type="number" class="form-control" data-col="54" value="0"></div>
-                        <div class="col-md-3"><label>จำนวนน้องชาย</label><input type="number" class="form-control" data-col="55" value="0"></div>
-                        <div class="col-md-3"><label>จำนวนพี่สาว</label><input type="number" class="form-control" data-col="56" value="0"></div>
-                        <div class="col-md-3"><label>จำนวนน้องสาว</label><input type="number" class="form-control" data-col="57" value="0"></div>
+                    <div class="row mb-4 g-3 bg-light p-3 rounded-3 border">
+                        <div class="col-md-3"><label class="form-label">จำนวนพี่ชาย</label><input type="number" class="form-control" data-col="54" value="0"></div>
+                        <div class="col-md-3"><label class="form-label">จำนวนน้องชาย</label><input type="number" class="form-control" data-col="55" value="0"></div>
+                        <div class="col-md-3"><label class="form-label">จำนวนพี่สาว</label><input type="number" class="form-control" data-col="56" value="0"></div>
+                        <div class="col-md-3"><label class="form-label">จำนวนน้องสาว</label><input type="number" class="form-control" data-col="57" value="0"></div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><label>พี่น้องที่ศึกษาอยู่ (ไม่รวมตัวนักเรียน)</label><input type="number" class="form-control" data-col="58" value="0"></div>
-                        <div class="col-md-6"><label>เป็นบุตรลำดับที่</label><input type="number" class="form-control" data-col="59" value="1"></div>
-                    </div>
-
-                    <hr class="my-4">
                     
-                    <h5 class="mb-3 text-primary">ข้อมูลบิดา</h5>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>เลข ปชช. บิดา</label><input type="text" class="form-control" id="fId" data-col="60" maxlength="13"></div>
-                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="fType" data-col="61"><option value="บัตรประชาชน">บัตรประชาชน</option></select></div>
-                        <div class="col-md-4"><label>คำนำหน้า</label><input type="text" class="form-control" id="fPre" data-col="62" value="นาย"></div>
+                    <div class="sub-title text-primary">ข้อมูลบิดา</div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-4"><label class="form-label">เลข ปชช. บิดา</label><input type="text" class="form-control" id="fId" data-col="60" maxlength="13"></div>
+                        <div class="col-md-4"><label class="form-label">ชนิดบัตร</label><select class="form-select" id="fType" data-col="61"><option value="บัตรประชาชน">บัตรประชาชน</option></select></div>
+                        <div class="col-md-4"><label class="form-label">คำนำหน้า</label><input type="text" class="form-control" id="fPre" data-col="62" value="นาย"></div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><label>ชื่อบิดา</label><input type="text" class="form-control" id="fName" data-col="63"></div>
-                        <div class="col-md-6"><label>นามสกุล</label><input type="text" class="form-control" id="fLast" data-col="64"></div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-6"><label class="form-label">ชื่อบิดา</label><input type="text" class="form-control" id="fName" data-col="63"></div>
+                        <div class="col-md-6"><label class="form-label">นามสกุล</label><input type="text" class="form-control" id="fLast" data-col="64"></div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="fJob" data-col="65"></div>
-                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="fInc" data-col="66"></div>
-                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="fBlood" data-col="67"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
-                        <div class="col-md-3"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="fPhone" data-col="68"></div>
+                    <div class="row mb-4 g-3">
+                        <div class="col-md-3"><label class="form-label">อาชีพ</label><input type="text" class="form-control" id="fJob" data-col="65"></div>
+                        <div class="col-md-3"><label class="form-label">รายได้/เดือน</label><input type="number" class="form-control" id="fInc" data-col="66"></div>
+                        <div class="col-md-3"><label class="form-label">กลุ่มเลือด</label><select class="form-select" id="fBlood" data-col="67"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
+                        <div class="col-md-3"><label class="form-label">เบอร์โทรศัพท์บิดา</label><input type="text" class="form-control" id="fPhone" data-col="68"></div>
                     </div>
-
-                    <hr class="my-4">
                     
-                    <h5 class="mb-3 text-danger">ข้อมูลมารดา</h5>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>เลข ปชช. มารดา</label><input type="text" class="form-control" id="mId" data-col="69" maxlength="13"></div>
-                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="mType" data-col="70"><option value="บัตรประชาชน">บัตรประชาชน</option></select></div>
-                        <div class="col-md-4"><label>คำนำหน้า</label><input type="text" class="form-control" id="mPre" data-col="71" value="นาง"></div>
+                    <div class="sub-title text-danger">ข้อมูลมารดา</div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-4"><label class="form-label">เลข ปชช. มารดา</label><input type="text" class="form-control" id="mId" data-col="69" maxlength="13"></div>
+                        <div class="col-md-4"><label class="form-label">ชนิดบัตร</label><select class="form-select" id="mType" data-col="70"><option value="บัตรประชาชน">บัตรประชาชน</option></select></div>
+                        <div class="col-md-4"><label class="form-label">คำนำหน้า</label><input type="text" class="form-control" id="mPre" data-col="71" value="นาง"></div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><label>ชื่อมารดา</label><input type="text" class="form-control" id="mName" data-col="72"></div>
-                        <div class="col-md-6"><label>นามสกุล</label><input type="text" class="form-control" id="mLast" data-col="73"></div>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-6"><label class="form-label">ชื่อมารดา</label><input type="text" class="form-control" id="mName" data-col="72"></div>
+                        <div class="col-md-6"><label class="form-label">นามสกุล</label><input type="text" class="form-control" id="mLast" data-col="73"></div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="mJob" data-col="74"></div>
-                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="mInc" data-col="75"></div>
-                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="mBlood" data-col="76"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
-                        <div class="col-md-3"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="mPhone" data-col="77"></div>
+                    <div class="row mb-4 g-3">
+                        <div class="col-md-3"><label class="form-label">อาชีพ</label><input type="text" class="form-control" id="mJob" data-col="74"></div>
+                        <div class="col-md-3"><label class="form-label">รายได้/เดือน</label><input type="number" class="form-control" id="mInc" data-col="75"></div>
+                        <div class="col-md-3"><label class="form-label">กลุ่มเลือด</label><select class="form-select" id="mBlood" data-col="76"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
+                        <div class="col-md-3"><label class="form-label">เบอร์โทรศัพท์มารดา</label><input type="text" class="form-control" id="mPhone" data-col="77"></div>
                     </div>
 
-                    <hr class="my-4">
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0 text-success">ข้อมูลผู้ปกครอง</h5>
-                        <div>
+                    <div class="d-flex justify-content-between align-items-center mb-2 mt-5">
+                        <div class="sub-title text-success my-0">ข้อมูลผู้ปกครอง</div>
+                        <div class="d-flex gap-2">
                             <button type="button" class="btn btn-sm btn-outline-primary" onclick="copyToGuardian('father')">ใช้ข้อมูลบิดา</button>
                             <button type="button" class="btn btn-sm btn-outline-danger" onclick="copyToGuardian('mother')">ใช้ข้อมูลมารดา</button>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><label>เลข ปชช. ผู้ปกครอง *</label><input type="text" class="form-control" id="gId" data-col="78" maxlength="13" required></div>
-                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="gType" data-col="79"><option value="บัตรประชาชน">บัตรประชาชน</option></select></div>
-                        <div class="col-md-4"><label>คำนำหน้า *</label><input type="text" class="form-control" id="gPre" data-col="80" required></div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><label>ชื่อผู้ปกครอง *</label><input type="text" class="form-control" id="gName" data-col="81" required></div>
-                        <div class="col-md-6"><label>นามสกุล *</label><input type="text" class="form-control" id="gLast" data-col="82" required></div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="gJob" data-col="83"></div>
-                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="gInc" data-col="84"></div>
-                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="gBlood" data-col="85"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
-                        <div class="col-md-3"><label>เบอร์โทรศัพท์ *</label><input type="text" class="form-control" id="gPhone" data-col="86" required></div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12"><label>ความเกี่ยวข้องกับนักเรียน *</label>
+                    <div class="row mb-3 g-3 bg-light p-3 rounded-3 border">
+                        <div class="col-md-4"><label class="form-label">เลข ปชช. ผู้ปกครอง <span class="text-danger">*</span></label><input type="text" class="form-control" id="gId" data-col="78" maxlength="13" required></div>
+                        <div class="col-md-2"><label class="form-label">คำนำหน้า <span class="text-danger">*</span></label><input type="text" class="form-control" id="gPre" data-col="80" required></div>
+                        <div class="col-md-3"><label class="form-label">ชื่อผู้ปกครอง <span class="text-danger">*</span></label><input type="text" class="form-control" id="gName" data-col="81" required></div>
+                        <div class="col-md-3"><label class="form-label">นามสกุล <span class="text-danger">*</span></label><input type="text" class="form-control" id="gLast" data-col="82" required></div>
+                        
+                        <div class="col-md-4 mt-3"><label class="form-label">ความเกี่ยวข้องกับนักเรียน <span class="text-danger">*</span></label>
                             <select class="form-select" id="gRelation" data-col="87" required>
                                 <option value="">-- เลือก --</option><option value="บิดา">บิดา</option><option value="มารดา">มารดา</option><option value="ปู่/ย่า/ตา/ยาย">ปู่/ย่า/ตา/ยาย</option><option value="อื่นๆ">อื่นๆ</option>
                             </select>
                         </div>
+                        <div class="col-md-4 mt-3"><label class="form-label">เบอร์โทรศัพท์ติดต่อ <span class="text-danger">*</span></label><input type="text" class="form-control" id="gPhone" data-col="86" required></div>
+                        
+                        <input type="hidden" id="gType" data-col="79" value="บัตรประชาชน">
+                        <input type="hidden" id="gJob" data-col="83">
+                        <input type="hidden" id="gInc" data-col="84">
+                        <input type="hidden" id="gBlood" data-col="85">
                     </div>
                 </div>
 
                 <!-- STEP 5: ยืนยันข้อมูล -->
                 <div class="wizard-step" id="step-5">
-                    <div class="alert alert-info">📋 กรุณาตรวจสอบข้อมูลให้ถูกต้องก่อนกดยืนยัน หากต้องการแก้ไขให้กดปุ่ม "ย้อนกลับ"</div>
-                    <div id="summaryContent"></div>
+                    <div class="section-title">✅ ตรวจสอบและยืนยันข้อมูล</div>
+                    <div class="alert-info-modern">
+                        กรุณาตรวจสอบข้อมูลให้ถูกต้องก่อนกดยืนยัน หากต้องการแก้ไขสามารถกดปุ่ม <b>"ย้อนกลับ"</b> ได้
+                    </div>
+                    <div id="summaryContent" class="bg-light p-4 rounded-3 border"></div>
                 </div>
 
-                <hr>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" id="btnPrev" onclick="changeStep(-1)" style="display:none;">ย้อนกลับ</button>
-                    <button type="button" class="btn btn-primary" id="btnNext" onclick="changeStep(1)">ถัดไป</button>
-                    <button type="submit" class="btn btn-success" id="btnSubmit" style="display:none;">✅ ยืนยันการสมัครเรียน</button>
+                <div class="d-flex justify-content-between mt-5 pt-4 border-top">
+                    <button type="button" class="btn btn-outline-secondary px-4" id="btnPrev" onclick="changeStep(-1)" style="display:none;">← ย้อนกลับ</button>
+                    <div class="ms-auto">
+                        <button type="button" class="btn btn-primary px-5" id="btnNext" onclick="changeStep(1)">ถัดไป →</button>
+                        <button type="submit" class="btn btn-success px-5 fw-bold" id="btnSubmit" style="display:none;">ยืนยันการสมัครเรียน ✅</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -857,12 +804,12 @@
 </div>
 
 <!-- Progress Overlay -->
-<div id="progressOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); z-index:9999; justify-content:center; align-items:center;">
-    <div class="app-card text-center" style="min-width:300px; max-width:360px;">
+<div id="progressOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(5px); z-index:9999; justify-content:center; align-items:center;">
+    <div class="app-card text-center shadow-lg" style="min-width:320px; max-width:360px; border:none;">
         <div class="spinner-border mb-3 mx-auto" style="color:var(--primary); width:3rem; height:3rem;" role="status"></div>
-        <div id="progressText" class="fw-bold" style="color:var(--text);">กำลังบันทึกข้อมูล...</div>
-        <div class="progress mt-3" style="height:8px; border-radius:20px; background:var(--border);">
-            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%; background:var(--primary); border-radius:20px;"></div>
+        <div id="progressText" class="fw-bold" style="color:var(--primary-dark); font-size:1.1rem;">กำลังบันทึกข้อมูล...</div>
+        <div class="progress mt-4" style="height:10px; border-radius:20px; background:var(--bg);">
+            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width:0%; border-radius:20px;"></div>
         </div>
     </div>
 </div>
@@ -870,25 +817,25 @@
 <!-- Modal ครอบตัดรูปถ่าย -->
 <div class="modal fade" id="cropModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header py-2">
-                <h5 class="modal-title">ครอบตัดรูปถ่าย (สัดส่วน 3:4)</h5>
+        <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius);">
+            <div class="modal-header bg-light border-0 pb-2">
+                <h5 class="modal-title fw-bold text-primary">ครอบตัดรูปถ่าย (สัดส่วน 3:4)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <div class="img-container">
-                    <img id="cropImage" src="" alt="crop">
+            <div class="modal-body bg-light pt-0">
+                <div class="img-container bg-dark rounded-3 overflow-hidden" style="max-height: 55vh;">
+                    <img id="cropImage" src="" alt="crop" style="display: block; max-width: 100%;">
                 </div>
                 <div class="d-flex justify-content-center gap-2 mt-3">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="cropperInstance.rotate(-90)" title="หมุนซ้าย">↺ หมุนซ้าย</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="cropperInstance.rotate(90)" title="หมุนขวา">↻ หมุนขวา</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="cropperInstance.scaleX(cropperInstance.getData().scaleX === -1 ? 1 : -1)" title="พลิกแนวนอน">↔ พลิก</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="cropperInstance.reset()" title="รีเซ็ต">🔄 รีเซ็ต</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary bg-white" onclick="cropperInstance.rotate(-90)">↺ ซ้าย</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary bg-white" onclick="cropperInstance.rotate(90)">↻ ขวา</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary bg-white" onclick="cropperInstance.scaleX(cropperInstance.getData().scaleX === -1 ? 1 : -1)">↔ พลิก</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary bg-white" onclick="cropperInstance.reset()">🔄 คืนค่า</button>
                 </div>
             </div>
-            <div class="modal-footer py-2">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                <button type="button" class="btn btn-primary" onclick="confirmCrop()">✅ ยืนยันครอบตัด</button>
+            <div class="modal-footer border-0 bg-light">
+                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-primary px-4" onclick="confirmCrop()">บันทึกรูปภาพ</button>
             </div>
         </div>
     </div>
@@ -898,122 +845,74 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 
 <script>
+    // ==========================================
+    // อย่าลืมเปลี่ยน URL ตรงนี้เป็น Web App ของคุณ
+    // ==========================================
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyF5MTuzox5H4XQZE2ViHIdQ5QU-OiSxAGW2LcIjJs6NzsRHnzo5hx7EQfjpXKPZb8B/exec"; 
 
+    /* ------------- คง Logic เดิมไว้ทั้งหมด ------------- */
+    
     // ===== Photo Cropper =====
-    let cropperInstance = null;
-    let croppedPhotoBase64 = "";
-    let originalImageSrc = "";
-
+    let cropperInstance = null; let croppedPhotoBase64 = ""; let originalImageSrc = "";
     function onPhotoSelected(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        if (file.size > 2 * 1024 * 1024) {
-            alert('ไฟล์ใหญ่เกิน 2MB กรุณาเลือกไฟล์ที่เล็กกว่า');
-            e.target.value = '';
-            return;
-        }
+        const file = e.target.files[0]; if (!file) return;
+        if (file.size > 2 * 1024 * 1024) { alert('ไฟล์ใหญ่เกิน 2MB กรุณาเลือกไฟล์ที่เล็กกว่า'); e.target.value = ''; return; }
         const reader = new FileReader();
-        reader.onload = function(ev) {
-            originalImageSrc = ev.target.result;
-            openCropper();
-        };
+        reader.onload = function(ev) { originalImageSrc = ev.target.result; openCropper(); };
         reader.readAsDataURL(file);
     }
-
     function openCropper() {
-        if (!originalImageSrc) {
-            document.getElementById('photoFile').click();
-            return;
-        }
-        const cropImg = document.getElementById('cropImage');
-        cropImg.src = originalImageSrc;
-
-        const modal = new bootstrap.Modal(document.getElementById('cropModal'));
-        modal.show();
-
-        // รอ modal เปิดเสร็จแล้วค่อยสร้าง cropper
+        if (!originalImageSrc) { document.getElementById('photoFile').click(); return; }
+        const cropImg = document.getElementById('cropImage'); cropImg.src = originalImageSrc;
+        const modal = new bootstrap.Modal(document.getElementById('cropModal')); modal.show();
         document.getElementById('cropModal').addEventListener('shown.bs.modal', function initCropper() {
             if (cropperInstance) { cropperInstance.destroy(); }
-            cropperInstance = new Cropper(cropImg, {
-                aspectRatio: 3 / 4,
-                viewMode: 1,
-                dragMode: 'move',
-                autoCropArea: 0.85,
-                responsive: true,
-                restore: false,
-                guides: true,
-                center: true,
-                highlight: true,
-                cropBoxMovable: true,
-                cropBoxResizable: true,
-                toggleDragModeOnDblclick: false,
-            });
-            // ลบ listener เพื่อไม่ให้ซ้ำ
+            cropperInstance = new Cropper(cropImg, { aspectRatio: 3/4, viewMode: 1, dragMode: 'move', autoCropArea: 0.85, responsive: true, guides: true, center: true, highlight: true, cropBoxMovable: true, cropBoxResizable: true });
             document.getElementById('cropModal').removeEventListener('shown.bs.modal', initCropper);
         });
     }
-
     function confirmCrop() {
         if (!cropperInstance) return;
-        const canvas = cropperInstance.getCroppedCanvas({
-            width: 300,
-            height: 400,
-            imageSmoothingEnabled: true,
-            imageSmoothingQuality: 'high',
-        });
+        const canvas = cropperInstance.getCroppedCanvas({ width: 300, height: 400, imageSmoothingEnabled: true, imageSmoothingQuality: 'high' });
         croppedPhotoBase64 = canvas.toDataURL('image/jpeg', 0.85);
-
-        // แสดง preview
         document.getElementById('photoPreviewThumb').src = croppedPhotoBase64;
         document.getElementById('photoPlaceholder').style.display = 'none';
         document.getElementById('photoPreviewWrap').style.display = 'block';
         document.getElementById('photoUploadArea').classList.add('has-photo');
-
-        // ปิด modal
         bootstrap.Modal.getInstance(document.getElementById('cropModal')).hide();
-        cropperInstance.destroy();
-        cropperInstance = null;
+        cropperInstance.destroy(); cropperInstance = null;
     }
-
     function clearPhoto() {
-        croppedPhotoBase64 = "";
-        originalImageSrc = "";
-        document.getElementById('photoFile').value = '';
-        document.getElementById('photoPreviewThumb').src = '';
-        document.getElementById('photoPlaceholder').style.display = 'block';
-        document.getElementById('photoPreviewWrap').style.display = 'none';
-        document.getElementById('photoUploadArea').classList.remove('has-photo');
+        croppedPhotoBase64 = ""; originalImageSrc = ""; document.getElementById('photoFile').value = '';
+        document.getElementById('photoPreviewThumb').src = ''; document.getElementById('photoPlaceholder').style.display = 'block';
+        document.getElementById('photoPreviewWrap').style.display = 'none'; document.getElementById('photoUploadArea').classList.remove('has-photo');
     }
-
-    // ล้าง cropper ถ้าปิด modal โดยไม่กดยืนยัน
     document.getElementById('cropModal').addEventListener('hidden.bs.modal', function() {
         if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
     });
 
-    let currentStep = 1;
-    const totalSteps = 5;
-
-    function showSection(sectionId) {
-        ['formSection','dashboardSection','adminSection','landingSection'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'none';
+    // ===== Navigation & Wizard =====
+    let currentStep = 1; const totalSteps = 5;
+    function showSection(sectionId) {['formSection','dashboardSection','adminSection','landingSection'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.style.display = 'none';
         });
-        document.getElementById(sectionId).style.display = sectionId === 'landingSection' ? 'block' : 'block';
+        document.getElementById(sectionId).style.display = 'block';
+        window.scrollTo(0,0);
     }
-
     function changeStep(n) {
-        // Validate ก่อนไปหน้าถัดไป
         if (n > 0 && !validateStep(currentStep)) return;
-
         const steps = document.querySelectorAll('.wizard-step');
         steps[currentStep - 1].classList.remove('active');
         document.getElementById('ind-' + currentStep).classList.remove('active');
+        document.getElementById('ind-' + currentStep).classList.add('completed');
+        
         currentStep += n;
+        
         steps[currentStep - 1].classList.add('active');
         document.getElementById('ind-' + currentStep).classList.add('active');
+        document.getElementById('ind-' + currentStep).classList.remove('completed');
+        
         document.getElementById('btnPrev').style.display = currentStep === 1 ? 'none' : 'inline-block';
-
         if (currentStep === totalSteps) {
             document.getElementById('btnNext').style.display = 'none';
             document.getElementById('btnSubmit').style.display = 'inline-block';
@@ -1024,81 +923,49 @@
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
     function validateStep(step) {
         const stepEl = document.getElementById('step-' + step);
-        const required = stepEl.querySelectorAll('[required]');
-        let valid = true;
+        const required = stepEl.querySelectorAll('[required]'); let valid = true;
         required.forEach(el => {
             el.classList.remove('is-invalid');
-            if (!el.value || el.value.trim() === '') {
-                el.classList.add('is-invalid');
-                valid = false;
-            }
+            if (!el.value || el.value.trim() === '') { el.classList.add('is-invalid'); valid = false; }
         });
-        // Step 1: เช็คเลข ปชช. 13 หลัก
         if (step === 1) {
             const idCard = document.getElementById('formIdCard');
-            if (idCard.value.length !== 13 || !/^\d{13}$/.test(idCard.value)) {
-                idCard.classList.add('is-invalid');
-                valid = false;
-            }
+            if (idCard.value.length !== 13 || !/^\d{13}$/.test(idCard.value)) { idCard.classList.add('is-invalid'); valid = false; }
         }
-        if (!valid) {
-            alert('กรุณากรอกข้อมูลที่จำเป็น (*) ให้ครบถ้วน');
-        }
+        if (!valid) alert('กรุณากรอกข้อมูลที่จำเป็น (*) ให้ครบถ้วน หรือตรวจสอบความถูกต้อง');
         return valid;
     }
-
     function generateSummary() {
-        const g = (col) => {
-            const el = document.querySelector('[data-col="' + col + '"]');
-            return el ? (el.value || '-') : '-';
-        };
-        const photoThumb = croppedPhotoBase64
-            ? `<img src="${croppedPhotoBase64}" style="width:60px; height:80px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">`
-            : '<span class="text-muted">ไม่มีรูป</span>';
-
+        const g = (col) => { const el = document.querySelector('[data-col="' + col + '"]'); return el ? (el.value || '-') : '-'; };
+        const photoThumb = croppedPhotoBase64 ? `<img src="${croppedPhotoBase64}" style="width:90px; height:120px; object-fit:cover; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">` : '<div style="width:90px;height:120px;background:#e2e8f0;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:0.8rem;">ไม่มีรูป</div>';
         document.getElementById('summaryContent').innerHTML = `
-        <div class="row">
-            <div class="col-md-10">
-                <h6 class="text-primary fw-bold">ข้อมูลนักเรียน</h6>
-                <table class="table table-sm table-bordered mb-3">
-                    <tr><td class="fw-bold" width="30%">ชั้นที่สมัคร</td><td>${g(6)}</td></tr>
-                    <tr><td class="fw-bold">ชื่อ - นามสกุล</td><td>${g(8)}${g(10)} ${g(11)}</td></tr>
-                    <tr><td class="fw-bold">เลข ปชช.</td><td>${g(7)}</td></tr>
-                    <tr><td class="fw-bold">เพศ</td><td>${g(9)}</td></tr>
-                    <tr><td class="fw-bold">วันเกิด</td><td>${g(14)}</td></tr>
-                    <tr><td class="fw-bold">อีเมล</td><td>${g(16)}</td></tr>
-                </table>
+        <div class="row align-items-center mb-4 pb-4 border-bottom">
+            <div class="col-8 col-md-10">
+                <h5 class="fw-bold text-dark mb-3">1. ข้อมูลนักเรียน</h5>
+                <p class="mb-1"><b>สมัครเรียนชั้น :</b> ${g(6)}</p>
+                <p class="mb-1"><b>ชื่อ - นามสกุล :</b> ${g(8)}${g(10)} ${g(11)}</p>
+                <p class="mb-1"><b>เลข ปชช. :</b> ${g(7)}</p>
+                <p class="mb-0"><b>เบอร์ติดต่อปัจจุบัน :</b> ${g(40)}</p>
             </div>
-            <div class="col-md-2 text-center">${photoThumb}</div>
+            <div class="col-4 col-md-2 text-end">${photoThumb}</div>
         </div>
-        <h6 class="text-primary fw-bold">ที่อยู่ปัจจุบัน</h6>
-        <table class="table table-sm table-bordered mb-3">
-            <tr><td class="fw-bold" width="30%">ที่อยู่</td><td>${g(33)} หมู่ ${g(34)} ถ.${g(35)} ต.${g(38)} อ.${g(37)} จ.${g(36)} ${g(39)}</td></tr>
-            <tr><td class="fw-bold">โทรศัพท์</td><td>${g(40)}</td></tr>
-        </table>
-        <h6 class="text-primary fw-bold">ข้อมูลผู้ปกครอง</h6>
-        <table class="table table-sm table-bordered mb-3">
-            <tr><td class="fw-bold" width="30%">ชื่อ - นามสกุล</td><td>${g(80)}${g(81)} ${g(82)}</td></tr>
-            <tr><td class="fw-bold">ความเกี่ยวข้อง</td><td>${g(87)}</td></tr>
-            <tr><td class="fw-bold">เบอร์โทร</td><td>${g(86)}</td></tr>
-        </table>`;
+        <div class="mb-4 pb-4 border-bottom">
+            <h5 class="fw-bold text-dark mb-3">2. ที่อยู่ปัจจุบัน</h5>
+            <p class="mb-0">${g(33)} หมู่ ${g(34)} ถ.${g(35)} ต.${g(38)} อ.${g(37)} จ.${g(36)} ${g(39)}</p>
+        </div>
+        <div>
+            <h5 class="fw-bold text-dark mb-3">3. ข้อมูลผู้ปกครอง</h5>
+            <p class="mb-1"><b>ชื่อ - นามสกุล :</b> ${g(80)}${g(81)} ${g(82)}</p>
+            <p class="mb-1"><b>ความเกี่ยวข้อง :</b> ${g(87)}</p>
+            <p class="mb-0"><b>เบอร์โทรติดต่อ :</b> ${g(86)}</p>
+        </div>`;
     }
-
-    function copyAddress() {
-        for(let i=1; i<=8; i++) {
-            if(document.getElementById('cur'+i) && document.getElementById('reg'+i)) {
-                document.getElementById('cur'+i).value = document.getElementById('reg'+i).value;
-            }
-        }
-    }
-
+    function copyAddress() { for(let i=1; i<=8; i++) { if(document.getElementById('cur'+i) && document.getElementById('reg'+i)) { document.getElementById('cur'+i).value = document.getElementById('reg'+i).value; } } }
     function copyToGuardian(type) {
         let prefix = type === 'father' ? 'f' : 'm';
         document.getElementById('gId').value = document.getElementById(prefix + 'Id').value;
-        document.getElementById('gType').value = document.getElementById(prefix + 'Type').value;
         document.getElementById('gPre').value = document.getElementById(prefix + 'Pre').value;
         document.getElementById('gName').value = document.getElementById(prefix + 'Name').value;
         document.getElementById('gLast').value = document.getElementById(prefix + 'Last').value;
@@ -1109,1112 +976,253 @@
         document.getElementById('gRelation').value = type === 'father' ? 'บิดา' : 'มารดา';
     }
 
-    let globalStudents = [];
-    let adminLoggedIn = false;
-
-    // ===== Admin Login (รหัสจาก server) =====
+    // ===== App Core =====
+    let globalStudents =[]; let adminLoggedIn = false;
     function promptAdminLogin() {
-        const code = prompt('กรุณากรอกรหัสแอดมิน:');
-        if (!code) return;
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'verifyAdmin', data: { password: code } })
-        }).then(r => r.json()).then(res => {
-            if (res.status === 'success' && res.data === true) {
-                adminLoggedIn = true;
-                showSection('adminSection');
-                loadAdminDashboard();
-            } else {
-                alert('รหัสไม่ถูกต้อง');
-            }
-        }).catch(() => alert('ไม่สามารถเชื่อมต่อระบบได้'));
+        const code = prompt('🔒 กรุณากรอกรหัสผ่านแอดมิน:'); if (!code) return;
+        fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'verifyAdmin', data: { password: code } }) })
+        .then(r => r.json()).then(res => { if (res.status === 'success' && res.data === true) { adminLoggedIn = true; showSection('adminSection'); loadAdminDashboard(); } else { alert('❌ รหัสผ่านไม่ถูกต้อง'); } }).catch(() => alert('ไม่สามารถเชื่อมต่อระบบได้'));
     }
-
-    function logoutAdmin() {
-        adminLoggedIn = false;
-        showSection('formSection');
-    }
-
+    function logoutAdmin() { adminLoggedIn = false; showSection('landingSection'); }
     function changeAdminPassword() {
-        const oldPass = prompt('กรอกรหัสเดิม:');
-        if (!oldPass) return;
-        const newPass = prompt('กรอกรหัสใหม่:');
-        if (!newPass || newPass.length < 4) { alert('รหัสใหม่ต้องมีอย่างน้อย 4 หลัก'); return; }
-        const confirmPass = prompt('ยืนยันรหัสใหม่อีกครั้ง:');
-        if (newPass !== confirmPass) { alert('รหัสไม่ตรงกัน'); return; }
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'changeAdminPassword', data: { oldPassword: oldPass, newPassword: newPass } })
-        }).then(r => r.json()).then(res => {
-            if (res.status === 'success') alert('เปลี่ยนรหัสสำเร็จ');
-            else alert('เปลี่ยนรหัสไม่สำเร็จ: ' + (res.message || 'รหัสเดิมไม่ถูกต้อง'));
-        }).catch(() => alert('ไม่สามารถเชื่อมต่อระบบได้'));
+        const oldPass = prompt('กรอกรหัสเดิม:'); if (!oldPass) return;
+        const newPass = prompt('กรอกรหัสใหม่ (อย่างน้อย 4 หลัก):'); if (!newPass || newPass.length < 4) { alert('รหัสใหม่ต้องมีอย่างน้อย 4 หลัก'); return; }
+        const confirmPass = prompt('ยืนยันรหัสใหม่อีกครั้ง:'); if (newPass !== confirmPass) { alert('รหัสไม่ตรงกัน'); return; }
+        fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'changeAdminPassword', data: { oldPassword: oldPass, newPassword: newPass } }) })
+        .then(r => r.json()).then(res => { if (res.status === 'success') alert('เปลี่ยนรหัสสำเร็จ'); else alert('เปลี่ยนรหัสไม่สำเร็จ: ' + (res.message || 'รหัสเดิมไม่ถูกต้อง')); }).catch(() => alert('ไม่สามารถเชื่อมต่อระบบได้'));
     }
 
-    // ===== Public Dashboard =====
+    // --- Dashboard สาธารณะ ---
     function loadPublicDashboard() {
-        const year = document.getElementById('dashYear').value;
-        const tbody = document.getElementById('publicTableBody');
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
-
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'getStudents', data: { year: year } })
-        }).then(res => res.json()).then(res => {
-            if (res.data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
-                return;
-            }
-            globalStudents = res.data;
-            let html = '';
-            res.data.forEach((s, index) => {
-                const no = index + 1;
+        const year = document.getElementById('dashYear').value; const tbody = document.getElementById('publicTableBody');
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm text-primary me-2"></div>กำลังโหลดข้อมูล...</td></tr>';
+        fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'getStudents', data: { year: year } }) })
+        .then(res => res.json()).then(res => {
+            if (res.data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">ยังไม่มีผู้สมัครในปีการศึกษานี้</td></tr>'; return; }
+            globalStudents = res.data; let html = '';
+            res.data.forEach((s, i) => {
                 let d = new Date(s.timestamp).toLocaleDateString('th-TH');
-                let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : 'bg-success';
-                html += `<tr>
-                    <td class="text-center fw-bold">${no}</td>
-                    <td>${d}</td>
-                    <td>${s.name}</td>
-                    <td>${s.grade}</td>
-                    <td><span class="badge ${badge}">${s.status}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="publicAction(${index},'print')" title="พิมพ์">🖨️</button>
-                        <button class="btn btn-sm btn-outline-warning" onclick="publicAction(${index},'edit')" title="แก้ไข">✏️</button>
-                    </td>
-                </tr>`;
+                let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : (s.status==='ยืนยันแล้ว'?'bg-success text-white':'bg-danger text-white');
+                html += `<tr><td class="text-center fw-bold">${i+1}</td><td>${d}</td><td>${s.name}</td><td>${s.grade}</td><td><span class="badge ${badge}">${s.status}</span></td><td>
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="publicAction(${i},'print')" title="พิมพ์ใบสมัคร">🖨️</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="publicAction(${i},'edit')" title="แก้ไขข้อมูล">✏️</button></td></tr>`;
             });
             tbody.innerHTML = html;
         });
     }
-
     function publicAction(index, action) {
-        const student = globalStudents[index];
-        const guardianPhone = student.rawData[85] || '';
-        const input = prompt('กรุณากรอกเบอร์โทรศัพท์ผู้ปกครองเพื่อยืนยันตัวตน:');
-        if (!input) return;
-        if (input.trim() === guardianPhone.trim()) {
-            if (action === 'print') printApplication(index);
-            else if (action === 'edit') editApplication(index);
-        } else {
-            alert('เบอร์โทรไม่ถูกต้อง กรุณาลองใหม่');
-        }
+        const student = globalStudents[index]; const guardianPhone = student.rawData[85] || '';
+        const input = prompt('🔐 เพื่อความปลอดภัย กรุณากรอก "เบอร์โทรศัพท์ผู้ปกครอง" ที่ใช้สมัครเพื่อยืนยันตัวตน:'); if (!input) return;
+        if (input.trim() === guardianPhone.trim()) { if (action === 'print') printApplication(index); else if (action === 'edit') editApplication(index); } else { alert('❌ เบอร์โทรไม่ถูกต้อง กรุณาลองใหม่'); }
     }
 
-    // ===== Admin Dashboard =====
+    // --- Dashboard แอดมิน ---
     function loadAdminDashboard() {
         if (!adminLoggedIn) return;
-        const year = document.getElementById('adminYear').value;
-        const tbody = document.getElementById('adminTableBody');
-        tbody.innerHTML = '<tr><td colspan="9" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
-
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'getStudents', data: { year: year } })
-        }).then(res => res.json()).then(res => {
+        const year = document.getElementById('adminYear').value; const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary me-2"></div>กำลังโหลดข้อมูล...</td></tr>';
+        fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'getStudents', data: { year: year } }) })
+        .then(res => res.json()).then(res => {
             if (res.data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
-                document.getElementById('statTotal').textContent = '0';
-                document.getElementById('statPending').textContent = '0';
-                document.getElementById('statApproved').textContent = '0';
-                document.getElementById('statM1').textContent = '0';
-                document.getElementById('statM4').textContent = '0';
-                return;
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center py-4 text-danger">ยังไม่มีผู้สมัคร</td></tr>';
+                document.getElementById('statTotal').textContent='0'; document.getElementById('statPending').textContent='0'; document.getElementById('statApproved').textContent='0'; document.getElementById('statM1').textContent='0'; document.getElementById('statM4').textContent='0'; return;
             }
             globalStudents = res.data;
-
-            // สถิติ
-            let pending = 0, approved = 0, m1 = 0, m4 = 0;
-            res.data.forEach(s => {
-                if (s.status === 'รอตรวจสอบ') pending++;
-                else approved++;
-                if (s.grade === 'ม.1') m1++;
-                else if (s.grade === 'ม.4') m4++;
-            });
-            document.getElementById('statTotal').textContent = res.data.length;
-            document.getElementById('statPending').textContent = pending;
-            document.getElementById('statApproved').textContent = approved;
-            document.getElementById('statM1').textContent = m1;
-            document.getElementById('statM4').textContent = m4;
-
+            let pending=0, approved=0, m1=0, m4=0;
+            res.data.forEach(s => { if (s.status === 'รอตรวจสอบ') pending++; else if (s.status === 'ยืนยันแล้ว') approved++; if (s.grade === 'ม.1') m1++; else if (s.grade === 'ม.4') m4++; });
+            document.getElementById('statTotal').textContent = res.data.length; document.getElementById('statPending').textContent = pending; document.getElementById('statApproved').textContent = approved; document.getElementById('statM1').textContent = m1; document.getElementById('statM4').textContent = m4;
+            
             let html = '';
-            res.data.forEach((s, index) => {
-                const no = index + 1;
-                let d = new Date(s.timestamp).toLocaleDateString('th-TH');
-                let guardianPhone = s.rawData[85] || '-';
-                let phoneLinkHtml = guardianPhone !== '-'
-                    ? `<a href="tel:${guardianPhone}" class="text-decoration-none">📞 ${guardianPhone}</a>`
-                    : '-';
-
-                // รูปภาพนักเรียน
-                let photoUrl = s.rawData[3] || '';
-                let photoHtml = '';
-                if (photoUrl) {
-                    let fileId = '';
-                    const mA = photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                    const mB = photoUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-                    if (mA) fileId = mA[1];
-                    else if (mB) fileId = mB[1];
-                    if (fileId) photoUrl = 'https://lh3.googleusercontent.com/d/' + fileId;
-                    photoHtml = `<img src="${photoUrl}" referrerpolicy="no-referrer" style="width:35px; height:45px; object-fit:cover; border-radius:3px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${photoUrl}','_blank')" title="คลิกดูรูปใหญ่">`;
-                } else {
-                    photoHtml = `<span class="text-muted" style="font-size:0.75rem;">ไม่มีรูป</span>`;
-                }
-
-                // สถานะ dropdown
-                let statusSelect = `<select class="form-select form-select-sm" style="width:130px;" onchange="changeStatus(${index}, this.value)">
+            res.data.forEach((s, i) => {
+                let d = new Date(s.timestamp).toLocaleDateString('th-TH'); let phone = s.rawData[85] || '-';
+                let photoHtml = s.rawData[3] ? `<img src="${s.rawData[3].replace('/d/','/uc?id=').split('/view')[0]}" style="width:35px; height:45px; object-fit:cover; border-radius:4px; border:1px solid #e2e8f0; cursor:pointer;" onclick="window.open('${s.rawData[3]}','_blank')">` : `<div style="width:35px;height:45px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#94a3b8;">ไม่มีรูป</div>`;
+                
+                let selectCls = s.status==='ยืนยันแล้ว'?'text-success':(s.status==='รอตรวจสอบ'?'text-warning text-dark':'text-danger');
+                let statusSelect = `<select class="form-select form-select-sm fw-bold ${selectCls}" style="width:110px; font-size:0.8rem;" onchange="changeStatus(${i}, this.value)">
                     <option value="รอตรวจสอบ" ${s.status==='รอตรวจสอบ'?'selected':''}>รอตรวจสอบ</option>
                     <option value="ยืนยันแล้ว" ${s.status==='ยืนยันแล้ว'?'selected':''}>ยืนยันแล้ว</option>
-                    <option value="ไม่ผ่าน" ${s.status==='ไม่ผ่าน'?'selected':''}>ไม่ผ่าน</option>
-                </select>`;
-                html += `<tr>
-                    <td class="text-center fw-bold">${no}</td>
-                    <td class="text-center">${photoHtml}</td>
-                    <td>${d}</td>
-                    <td>${s.idCard}</td>
-                    <td>${s.name}</td>
-                    <td>${s.grade}</td>
-                    <td>${phoneLinkHtml}</td>
-                    <td>${statusSelect}</td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="printApplication(${index})" title="พิมพ์">🖨️</button>
-                        <button class="btn btn-sm btn-outline-warning me-1" onclick="editApplication(${index})" title="แก้ไข">✏️</button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteApplication(${index})" title="ลบ">🗑️</button>
-                    </td>
-                </tr>`;
+                    <option value="ไม่ผ่าน" ${s.status==='ไม่ผ่าน'?'selected':''}>ไม่ผ่าน</option></select>`;
+                html += `<tr><td class="text-center fw-bold text-muted">${i+1}</td><td class="text-center">${photoHtml}</td><td>${d}</td><td>${s.idCard}</td><td>${s.name}</td><td>${s.grade}</td><td>${phone!=='-'?`<a href="tel:${phone}" class="text-decoration-none">📞 ${phone}</a>`:'-'}</td><td>${statusSelect}</td>
+                    <td><div class="btn-group"><button class="btn btn-sm btn-outline-primary" onclick="printApplication(${i})" title="พิมพ์">🖨️</button><button class="btn btn-sm btn-outline-secondary" onclick="editApplication(${i})" title="แก้ไข">✏️</button><button class="btn btn-sm btn-outline-danger" onclick="deleteApplication(${i})" title="ลบ">🗑️</button></div></td></tr>`;
             });
             tbody.innerHTML = html;
         });
     }
 
-    // ===== ค้นหาในตาราง =====
-    function filterAdminTable() {
-        const q = document.getElementById('adminSearch').value.toLowerCase();
-        const rows = document.querySelectorAll('#adminTableBody tr');
-        rows.forEach(row => {
-            row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
-        });
-    }
-    function filterPublicTable() {
-        const q = document.getElementById('publicSearch').value.toLowerCase();
-        const rows = document.querySelectorAll('#publicTableBody tr');
-        rows.forEach(row => {
-            row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+    function changeStatus(index, newStatus) {
+        const student = globalStudents[index];
+        fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'updateStatus', data: { year: document.getElementById('adminYear').value, rowNumber: student.rowNumber, status: newStatus } }) })
+        .then(res => res.json()).then(res => {
+            if (res.status === 'success') {
+                student.status = newStatus; student.rawData[2] = newStatus;
+                let pending=0, approved=0; globalStudents.forEach(s => { if (s.status === 'รอตรวจสอบ') pending++; else if(s.status === 'ยืนยันแล้ว') approved++; });
+                document.getElementById('statPending').textContent = pending; document.getElementById('statApproved').textContent = approved;
+                // รีโหลดสี dropdown (ง่ายๆ คือโหลดตารางใหม่)
+                loadAdminDashboard();
+            }
         });
     }
 
-    // ===== Export Excel =====
+    function filterAdminTable() { const q = document.getElementById('adminSearch').value.toLowerCase(); document.querySelectorAll('#adminTableBody tr').forEach(r => r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'); }
+    function filterPublicTable() { const q = document.getElementById('publicSearch').value.toLowerCase(); document.querySelectorAll('#publicTableBody tr').forEach(r => r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'); }
+
+    // --- Export & Delete ---
     function exportExcel() {
         if (!globalStudents.length) { alert('ไม่มีข้อมูลให้ Export'); return; }
-        let csv = '\\uFEFF'; // BOM for Thai
-        // Header
-        csv += 'ลำดับ,วันที่สมัคร,เลข ปชช.,คำนำหน้า,ชื่อ,นามสกุล,เพศ,ชั้น,วันเกิด,จังหวัดเกิด,เบอร์ผู้ปกครอง,ชื่อผู้ปกครอง,สถานะ\\n';
-        globalStudents.forEach((s, i) => {
-            const rd = s.rawData;
-            csv += `${i+1},${new Date(s.timestamp).toLocaleDateString('th-TH')},${rd[6]||''},${rd[7]||''},${rd[9]||''},${rd[10]||''},${rd[8]||''},${rd[5]||''},${rd[13]||''},${rd[14]||''},${rd[85]||''},${(rd[79]||'')+(rd[80]||'')+' '+(rd[81]||'')},${rd[2]||''}\\n`;
-        });
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'รายชื่อผู้สมัคร_' + document.getElementById('adminYear').value + '.csv';
-        a.click();
-        URL.revokeObjectURL(url);
+        let csv = '\uFEFFลำดับ,วันที่สมัคร,เลข ปชช.,คำนำหน้า,ชื่อ,นามสกุล,เพศ,ชั้น,วันเกิด,จังหวัดเกิด,เบอร์ผู้ปกครอง,ชื่อผู้ปกครอง,สถานะ\n';
+        globalStudents.forEach((s, i) => { const r = s.rawData; csv += `${i+1},${new Date(s.timestamp).toLocaleDateString('th-TH')},'${r[6]||''} ,${r[7]||''},${r[9]||''},${r[10]||''},${r[8]||''},${r[5]||''},${r[13]||''},${r[14]||''},'${r[85]||''} ,${(r[79]||'')+(r[80]||'')+' '+(r[81]||'')},${r[2]||''}\n`; });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' })); a.download = 'รายชื่อผู้สมัคร_' + document.getElementById('adminYear').value + '.csv'; a.click();
     }
-
-    // ===== ลบข้อมูลผู้สมัคร =====
     function deleteApplication(index) {
-        const student = globalStudents[index];
-        if (!confirm('ต้องการลบข้อมูล "' + student.name + '" ใช่หรือไม่?\\n\\n⚠️ การลบไม่สามารถกู้คืนได้')) return;
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'deleteApplication',
-                data: { year: document.getElementById('adminYear').value, rowNumber: student.rowNumber }
-            })
-        }).then(r => r.json()).then(res => {
-            if (res.status === 'success') {
-                alert('ลบข้อมูลสำเร็จ');
-                loadAdminDashboard();
-            } else alert('เกิดข้อผิดพลาด: ' + (res.message || ''));
-        }).catch(() => alert('ไม่สามารถเชื่อมต่อระบบได้'));
+        const student = globalStudents[index]; if (!confirm('⚠️ ต้องการลบข้อมูล "' + student.name + '" ใช่หรือไม่?\n\nการลบจะไม่สามารถกู้คืนได้')) return;
+        fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteApplication', data: { year: document.getElementById('adminYear').value, rowNumber: student.rowNumber } }) }).then(r=>r.json()).then(res=>{ if(res.status==='success'){ alert('ลบข้อมูลสำเร็จ'); loadAdminDashboard();} });
     }
 
-    // ===== พิมพ์ใบสมัครทั้งหมด =====
+    // --- แก้ไขใบสมัคร ---
+    function editApplication(index) {
+        const student = globalStudents[index]; const rd = student.rawData;
+        showSection('formSection');
+        document.querySelectorAll('input[data-col], select[data-col]').forEach(el => {
+            const rdIndex = parseInt(el.getAttribute('data-col')) - 1;
+            if (rd[rdIndex] !== undefined && rd[rdIndex] !== '') {
+                // เอาเครื่องหมาย ' ด้านหน้าออกเวลาแสดงในฟอร์มแก้ไข
+                let val = String(rd[rdIndex]);
+                if (val.startsWith("'")) val = val.substring(1);
+                el.value = val;
+            }
+        });
+        if (rd[3]) {
+            let photoUrl = rd[3];
+            originalImageSrc = photoUrl; croppedPhotoBase64 = ''; 
+            document.getElementById('photoPreviewThumb').src = photoUrl.replace('/d/','/uc?id=').split('/view')[0];
+            document.getElementById('photoPlaceholder').style.display = 'none'; document.getElementById('photoPreviewWrap').style.display = 'block'; document.getElementById('photoUploadArea').classList.add('has-photo');
+        }
+        currentStep = 1;
+        document.querySelectorAll('.wizard-step').forEach((s, i) => s.classList.toggle('active', i === 0));
+        document.querySelectorAll('.step-item').forEach((s, i) => {
+            s.classList.remove('active', 'completed');
+            if(i === 0) s.classList.add('active');
+        });
+        document.getElementById('btnPrev').style.display = 'none'; document.getElementById('btnNext').style.display = 'inline-block'; document.getElementById('btnSubmit').style.display = 'none';
+        document.getElementById('admissionForm').dataset.editIndex = index; document.getElementById('admissionForm').dataset.editRow = student.rowNumber;
+    }
+
+    // --- Submit Form ---
+    document.getElementById('admissionForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); const form = document.getElementById('admissionForm'); const editIndex = form.dataset.editIndex; const isEdit = editIndex !== undefined && editIndex !== '';
+        showProgress(isEdit ? 'กำลังอัปเดตข้อมูล...' : 'กำลังบันทึกข้อมูล...', 10); document.getElementById('btnSubmit').disabled = true;
+        let formDataArray = new Array(82).fill(""); 
+        document.querySelectorAll('input[data-col], select[data-col]').forEach(el => formDataArray[parseInt(el.getAttribute('data-col')) - 6] = el.value );
+        showProgress(isEdit ? 'กำลังอัปเดต...' : 'กำลังตรวจสอบข้อมูล...', 30);
+
+        if (!isEdit) {
+            try {
+                const checkRes = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkDuplicate', data: { year: document.getElementById('applyYear').value, idCard: document.getElementById('formIdCard').value } }) }).then(r => r.json());
+                if (checkRes.status === 'success' && checkRes.data === true) { hideProgress(); document.getElementById('btnSubmit').disabled = false; alert('❌ เลขประจำตัวประชาชนนี้มีการสมัครแล้ว!\n\nหากต้องการแก้ไขข้อมูล กรุณาไปที่เมนู "ตรวจสอบ"'); return; }
+            } catch(err) {}
+        }
+
+        showProgress('กำลังอัปโหลดข้อมูล...', 60);
+        let payload = {
+            action: isEdit ? 'updateApplication' : 'submitApplication',
+            data: { year: document.getElementById('applyYear').value, idCard: document.getElementById('formIdCard').value, photoBase64: croppedPhotoBase64 || "", formData: formDataArray }
+        };
+        if (isEdit) payload.data.rowNumber = globalStudents[parseInt(editIndex)].rowNumber;
+
+        fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) })
+        .then(res => res.json()).then(res => {
+            showProgress('สำเร็จ!', 100);
+            if(res.status === 'success') { setTimeout(() => { hideProgress(); alert(isEdit ? '✅ อัปเดตข้อมูลสำเร็จ!' : '🎉 สมัครเรียนสำเร็จ!'); window.location.reload(); }, 500); }
+            else { hideProgress(); alert('ข้อผิดพลาด: ' + res.message); }
+        }).catch(() => { hideProgress(); alert('เชื่อมต่อระบบไม่ได้ ลองใหม่อีกครั้ง'); document.getElementById('btnSubmit').disabled = false; });
+    });
+
+    function showProgress(text, percent) { document.getElementById('progressOverlay').style.display = 'flex'; document.getElementById('progressText').textContent = text; document.getElementById('progressBar').style.width = percent + '%'; }
+    function hideProgress() { document.getElementById('progressOverlay').style.display = 'none'; }
+
+    // --- พิมพ์ใบสมัคร (ใช้โค้ดดึงรูปล่าสุด) ---
     function printAllApplications() {
         if (!globalStudents.length) { alert('ไม่มีข้อมูลให้พิมพ์'); return; }
         if (!confirm('ต้องการพิมพ์ใบสมัครทั้งหมด ' + globalStudents.length + ' ใบ?')) return;
+        const printWindow = window.open('', '_blank'); let allPages = '';
+        globalStudents.forEach((s, i) => { allPages += generateSinglePageHtml(i); if (i < globalStudents.length - 1) allPages += '<div style="page-break-after:always;"></div>'; });
+        printWindow.document.write(`<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>ใบสมัครทั้งหมด</title><style>${getPrintStyles()}</style></head><body><div class="print-bar"><button onclick="window.print()">🖨️ พิมพ์ทั้งหมด (${globalStudents.length} ใบ)</button></div>${allPages}</body></html>`); printWindow.document.close();
+    }
+    function printApplication(index) {
         const printWindow = window.open('', '_blank');
-        let allPages = '';
-        globalStudents.forEach((s, i) => {
-            allPages += generateSinglePageHtml(i);
-            if (i < globalStudents.length - 1) allPages += '<div style="page-break-after:always;"></div>';
-        });
-        const fullHtml = `<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>ใบสมัครทั้งหมด</title>
-        <style>${getPrintStyles()}</style></head><body>
-        <div class="print-bar"><button onclick="window.print()">🖨️ พิมพ์ทั้งหมด (${globalStudents.length} ใบ)</button></div>
-        ${allPages}</body></html>`;
-        printWindow.document.write(fullHtml);
+        printWindow.document.write(`<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>ใบสมัครเรียน_${globalStudents[index].rawData[6]}</title><style>${getPrintStyles()}</style></head><body><div class="print-bar"><button onclick="window.print()">🖨️ พิมพ์ใบสมัคร</button></div>${generateSinglePageHtml(index)}</body></html>`);
         printWindow.document.close();
     }
 
     function generateSinglePageHtml(index) {
-        const student = globalStudents[index];
-        const rd = student.rawData;
-        const v = (val) => val ? val : "-";
-        let photoUrl = rd[3] || "";
-        if (photoUrl) {
-            let fileId = "";
-            const matchA = photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            const matchB = photoUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-            if (matchA) fileId = matchA[1];
-            else if (matchB) fileId = matchB[1];
-            if (fileId) photoUrl = "https://lh3.googleusercontent.com/d/" + fileId;
-        }
-        const imgTag = photoUrl
-            ? '<img src="'+photoUrl+'" class="photo-img" referrerpolicy="no-referrer">'
-            : '<div class="photo-placeholder">รูปถ่าย</div>';
+        const rd = globalStudents[index].rawData; const v = (val) => {
+            if(!val) return "-";
+            let str = String(val);
+            if(str.startsWith("'")) return str.substring(1); // ลบ ' ออกเวลาพิมพ์
+            return str;
+        };
+        let photoUrl = rd[3] || ""; 
+        if(photoUrl) photoUrl = photoUrl.replace('/d/', '/uc?id=').split('/view')[0];
+        const imgTag = photoUrl ? `<img src="${photoUrl}" class="photo-img">` : `<div class="photo-placeholder">รูปถ่าย<br>1.5 นิ้ว</div>`;
         const totalSiblings = parseInt(rd[53]||0)+parseInt(rd[54]||0)+parseInt(rd[55]||0)+parseInt(rd[56]||0);
         const applyDate = new Date(rd[0]).toLocaleDateString('th-TH');
-        return getPageBodyContent(rd, v, imgTag, totalSiblings, applyDate);
+        return `<div class="page"><div class="top-row"><div class="header"><h1>ใบสมัครเข้าเรียน</h1><h2>โรงเรียนบ้านคลอง 14 &nbsp;ปีการศึกษา <span class="hl">${v(rd[1])}</span></h2><div class="apply-date">วันที่สมัคร <span class="hl">${applyDate}</span></div></div><div class="photo-box">${imgTag}</div></div><div class="sec">๑. ข้อมูลส่วนตัวนักเรียน</div><div class="row"><div class="c"><span class="l">ชั้นที่สมัคร</span> <span class="d" style="font-weight:700">${v(rd[5])}</span></div><div class="c g"><span class="l">เลข ปชช.</span> <span class="d">${v(rd[6])}</span></div><div class="c"><span class="l">เพศ</span> <span class="d">${v(rd[8])}</span></div></div><div class="row"><div class="c g"><span class="l">ชื่อ-สกุล (ไทย)</span> <span class="d">${v(rd[7])}${v(rd[9])} ${v(rd[10])}</span></div><div class="c g"><span class="l">(อังกฤษ)</span> <span class="d">${v(rd[11])} ${v(rd[12])}</span></div></div><div class="row"><div class="c"><span class="l">เกิดวันที่</span> <span class="d">${v(rd[13])}</span></div><div class="c"><span class="l">จ.ที่เกิด</span> <span class="d">${v(rd[14])}</span></div><div class="c"><span class="l">เลือด</span> <span class="d">${v(rd[16])}</span></div><div class="c"><span class="l">สัญชาติ</span> <span class="d">${v(rd[17])}</span></div><div class="c"><span class="l">เชื้อชาติ</span> <span class="d">${v(rd[18])}</span></div><div class="c"><span class="l">ศาสนา</span> <span class="d">${v(rd[19])}</span></div></div><div class="row"><div class="c"><span class="l">น้ำหนัก</span> <span class="d">${v(rd[50])}</span><span class="u">กก.</span></div><div class="c"><span class="l">สูง</span> <span class="d">${v(rd[51])}</span><span class="u">ซม.</span></div><div class="c"><span class="l">อีเมล</span> <span class="d">${v(rd[15])}</span></div></div><div class="sec">๒. ที่อยู่</div><table class="tbl"><tr><th style="width:14%">รายการ</th><th style="width:43%">ตามทะเบียนบ้าน</th><th style="width:43%">ที่อยู่ปัจจุบัน</th></tr><tr><td class="lc">รหัสบ้าน</td><td>${v(rd[22])}</td><td>${v(rd[31])}</td></tr><tr><td class="lc">เลขที่/หมู่/ถนน</td><td>${v(rd[23])} หมู่ ${v(rd[24])} ถ.${v(rd[25])}</td><td>${v(rd[32])} หมู่ ${v(rd[33])} ถ.${v(rd[34])}</td></tr><tr><td class="lc">ต./อ./จ.</td><td>${v(rd[28])} / ${v(rd[27])} / ${v(rd[26])}</td><td>${v(rd[37])} / ${v(rd[36])} / ${v(rd[35])}</td></tr><tr><td class="lc">ไปรษณีย์</td><td>${v(rd[29])}</td><td>${v(rd[38])}</td></tr><tr><td class="lc">โทรศัพท์</td><td>${v(rd[30])}</td><td>${v(rd[39])}</td></tr></table><div class="sec">๓. ข้อมูลครอบครัวและผู้ปกครอง</div><div class="row"><div class="c"><span class="l">สถานภาพ</span> <span class="d">${v(rd[52])}</span></div><div class="c"><span class="l">บุตรลำดับที่</span> <span class="d">${v(rd[58])}</span></div><div class="c"><span class="l">พี่น้องรวม</span> <span class="d">${totalSiblings}</span><span class="u">คน</span></div><div class="c"><span class="l">กำลังศึกษา</span> <span class="d">${v(rd[57])}</span><span class="u">คน</span></div></div><div class="row"><div class="c"><span class="l">พี่ชาย</span> <span class="d">${v(rd[53])}</span><span class="u">คน</span></div><div class="c"><span class="l">น้องชาย</span> <span class="d">${v(rd[54])}</span><span class="u">คน</span></div><div class="c"><span class="l">พี่สาว</span> <span class="d">${v(rd[55])}</span><span class="u">คน</span></div><div class="c"><span class="l">น้องสาว</span> <span class="d">${v(rd[56])}</span><span class="u">คน</span></div></div><table class="tbl"><tr><th style="width:12%">รายการ</th><th style="width:29.3%">บิดา</th><th style="width:29.3%">มารดา</th><th style="width:29.3%">ผู้ปกครอง (${v(rd[86])})</th></tr><tr><td class="lc">ชื่อ-สกุล</td><td>${v(rd[61])}${v(rd[62])} ${v(rd[63])}</td><td>${v(rd[70])}${v(rd[71])} ${v(rd[72])}</td><td>${v(rd[79])}${v(rd[80])} ${v(rd[81])}</td></tr><tr><td class="lc">เลข ปชช.</td><td>${v(rd[59])}</td><td>${v(rd[68])}</td><td>${v(rd[77])}</td></tr><tr><td class="lc">อาชีพ/รายได้</td><td>${v(rd[64])} / ${v(rd[65])}</td><td>${v(rd[73])} / ${v(rd[74])}</td><td>${v(rd[82])} / ${v(rd[83])}</td></tr><tr><td class="lc">เบอร์โทร</td><td>${v(rd[67])}</td><td>${v(rd[76])}</td><td>${v(rd[85])}</td></tr></table><div class="sec">๔. ข้อมูลเพิ่มเติม</div><div class="row"><div class="c"><span class="l">การพักนอน</span> <span class="d">${v(rd[40])}</span></div><div class="c"><span class="l">ด้อยโอกาส</span> <span class="d">${v(rd[41])}</span></div><div class="c"><span class="l">ว่ายน้ำ</span> <span class="d">${v(rd[49])}</span></div><div class="c"><span class="l">เดินทาง</span> <span class="d">${v(rd[46])}</span></div><div class="c"><span class="l">เวลา</span> <span class="d">${v(rd[47])}</span><span class="u">นาที</span></div></div><div class="row"><div class="c"><span class="l">ขาดแบบเรียน</span> <span class="d">${v(rd[42])}</span></div><div class="c"><span class="l">อาหาร</span> <span class="d">${v(rd[43])}</span></div><div class="c"><span class="l">เครื่องเขียน</span> <span class="d">${v(rd[44])}</span></div><div class="c"><span class="l">เครื่องแบบ</span> <span class="d">${v(rd[45])}</span></div></div><div class="cert">ข้าพเจ้าขอรับรองว่าข้อความข้างต้นเป็นความจริงทุกประการ และยินยอมปฏิบัติตามกฎระเบียบของโรงเรียนบ้านคลอง ๑๔ อย่างเคร่งครัด</div><div class="sig-row"><div class="sig-box"><span class="sig-ln"></span><div class="sig-nm">( ${v(rd[7])}${v(rd[9])} ${v(rd[10])} )</div><div class="sig-lb">ผู้สมัครเข้าเรียน</div><div class="sig-dt">วันที่ ${applyDate}</div></div><div class="sig-box"><span class="sig-ln"></span><div class="sig-nm">( ${v(rd[79])}${v(rd[80])} ${v(rd[81])} )</div><div class="sig-lb">ผู้ปกครอง</div><div class="sig-dt">วันที่ ${applyDate}</div></div></div></div>`;
     }
-
-    // แยก print styles เป็นฟังก์ชัน (ใช้ร่วมกัน)
     function getPrintStyles() {
-        return `@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Sarabun',sans-serif;font-size:11pt;color:#1a1a1a;line-height:1.3;background:#6b7280;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-        .page{width:210mm;height:297mm;margin:10px auto;padding:7mm 10mm 5mm 10mm;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,0.35);position:relative;overflow:hidden}
-        .header{text-align:center;padding-bottom:5px;border-bottom:2px solid #1e3a5f;margin-bottom:3px}
-        .header h1{font-size:17pt;font-weight:700;color:#1e3a5f;letter-spacing:1px;margin-bottom:1px}
-        .header h2{font-size:12.5pt;font-weight:500;color:#374151}
-        .header h2 .hl{font-weight:700;color:#1e3a5f;border-bottom:1.5px dotted #1e3a5f;padding:0 6px}
-        .top-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:3px}
-        .top-row .header{flex:1}
-        .photo-box{flex-shrink:0}
-        .photo-img{width:2.5cm;height:3.2cm;object-fit:cover;border:1px solid #555;border-radius:2px}
-        .photo-placeholder{width:2.5cm;height:3.2cm;border:1px dashed #aaa;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9pt;color:#aaa;text-align:center;line-height:1.2}
-        .apply-date{text-align:right;font-size:10pt;color:#888;margin-top:3px}
-        .apply-date .hl{color:#1a1a1a;font-weight:500}
-        .sec{font-size:11pt;font-weight:700;color:#fff;background:#1e3a5f;padding:2px 8px;border-radius:2px;margin:5px 0 3px 0}
-        .row{display:flex;flex-wrap:wrap;padding:1.5px 0;border-bottom:1px solid #eee}
-        .row:last-child{border-bottom:none}
-        .c{padding:1px 4px;font-size:10.5pt;display:inline-flex;align-items:baseline;flex-shrink:0}
-        .c .l{font-weight:600;color:#444;white-space:nowrap;margin-right:2px;font-size:10pt}
-        .c .d{border-bottom:1px dotted #bbb;min-width:20px;text-align:center;padding:0 3px;color:#111;font-weight:500}
-        .c .u{font-size:9.5pt;color:#888;margin-left:1px}
-        .c.g{flex:1}.c.g .d{flex:1}
-        .tbl{width:100%;border-collapse:collapse;margin:2px 0;font-size:10pt}
-        .tbl th,.tbl td{border:1px solid #d1d5db;padding:2px 5px;vertical-align:middle}
-        .tbl th{background:#e8edf3;font-weight:600;color:#1e3a5f;text-align:center;font-size:9.5pt}
-        .tbl td{color:#1a1a1a}.tbl td.lc{background:#f3f4f6;font-weight:600;color:#444;text-align:center;font-size:9.5pt}
-        .cert{margin-top:6px;text-indent:35px;text-align:justify;font-size:10.5pt;line-height:1.4;color:#444}
-        .sig-row{display:flex;justify-content:space-between;margin-top:8px}
-        .sig-box{text-align:center;width:44%;font-size:10pt}
-        .sig-ln{display:block;width:80%;margin:22px auto 2px auto;border-bottom:1px dotted #555}
-        .sig-nm{font-size:10pt;color:#444}.sig-lb{font-weight:600;color:#1e3a5f;font-size:10.5pt}
-        .sig-dt{font-size:9pt;color:#888;margin-top:1px}
-        .print-bar{text-align:center;padding:12px;background:#f3f4f6;border-bottom:1px solid #ddd}
-        .print-bar button{font-family:'Sarabun',sans-serif;font-size:13pt;font-weight:600;padding:8px 30px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer}
-        .print-bar button:hover{background:#2c5282}
-        @media print{body{background:#fff}.print-bar{display:none}.page{margin:0;padding:7mm 10mm 5mm 10mm;box-shadow:none;width:100%;height:100%}@page{size:A4;margin:0}}`;
+        return `@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap');*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:'Sarabun',sans-serif;font-size:11pt;color:#1a1a1a;line-height:1.3;background:#6b7280;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{width:210mm;height:297mm;margin:10px auto;padding:7mm 10mm 5mm 10mm;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,0.35);position:relative;overflow:hidden}.header{text-align:center;padding-bottom:5px;border-bottom:2px solid #1e3a5f;margin-bottom:3px}.header h1{font-size:17pt;font-weight:700;color:#1e3a5f;letter-spacing:1px;margin-bottom:1px}.header h2{font-size:12.5pt;font-weight:500;color:#374151}.header h2 .hl{font-weight:700;color:#1e3a5f;border-bottom:1.5px dotted #1e3a5f;padding:0 6px}.top-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:3px}.top-row .header{flex:1}.photo-box{flex-shrink:0}.photo-img{width:2.5cm;height:3.2cm;object-fit:cover;border:1px solid #555;border-radius:2px}.photo-placeholder{width:2.5cm;height:3.2cm;border:1px dashed #aaa;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9pt;color:#aaa;text-align:center;line-height:1.2}.apply-date{text-align:right;font-size:10pt;color:#888;margin-top:3px}.apply-date .hl{color:#1a1a1a;font-weight:500}.sec{font-size:11pt;font-weight:700;color:#fff;background:#1e3a5f;padding:2px 8px;border-radius:2px;margin:5px 0 3px 0}.row{display:flex;flex-wrap:wrap;padding:1.5px 0;border-bottom:1px solid #eee}.row:last-child{border-bottom:none}.c{padding:1px 4px;font-size:10.5pt;display:inline-flex;align-items:baseline;flex-shrink:0}.c .l{font-weight:600;color:#444;white-space:nowrap;margin-right:2px;font-size:10pt}.c .d{border-bottom:1px dotted #bbb;min-width:20px;text-align:center;padding:0 3px;color:#111;font-weight:500}.c .u{font-size:9.5pt;color:#888;margin-left:1px}.c.g{flex:1}.c.g .d{flex:1}.tbl{width:100%;border-collapse:collapse;margin:2px 0;font-size:10pt}.tbl th,.tbl td{border:1px solid #d1d5db;padding:2px 5px;vertical-align:middle}.tbl th{background:#e8edf3;font-weight:600;color:#1e3a5f;text-align:center;font-size:9.5pt}.tbl td{color:#1a1a1a}.tbl td.lc{background:#f3f4f6;font-weight:600;color:#444;text-align:center;font-size:9.5pt}.cert{margin-top:6px;text-indent:35px;text-align:justify;font-size:10.5pt;line-height:1.4;color:#444}.sig-row{display:flex;justify-content:space-between;margin-top:8px}.sig-box{text-align:center;width:44%;font-size:10pt}.sig-ln{display:block;width:80%;margin:22px auto 2px auto;border-bottom:1px dotted #555}.sig-nm{font-size:10pt;color:#444}.sig-lb{font-weight:600;color:#1e3a5f;font-size:10.5pt}.sig-dt{font-size:9pt;color:#888;margin-top:1px}.print-bar{text-align:center;padding:12px;background:#f3f4f6;border-bottom:1px solid #ddd}.print-bar button{font-family:'Sarabun',sans-serif;font-size:13pt;font-weight:600;padding:8px 30px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer}.print-bar button:hover{background:#2c5282}@media print{body{background:#fff}.print-bar{display:none}.page{margin:0;padding:7mm 10mm 5mm 10mm;box-shadow:none;width:100%;height:100%}@page{size:A4;margin:0}}`;
     }
 
-    // สร้าง page content (ไม่รวม html/head/body — ใช้ร่วมได้)
-    function getPageBodyContent(rd, v, imgTag, totalSiblings, applyDate) {
-        return `<div class="page">
-    <div class="top-row">
-      <div class="header">
-        <h1>ใบสมัครเข้าเรียน</h1>
-        <h2>โรงเรียนบ้านคลอง 14 &nbsp;ปีการศึกษา <span class="hl">${v(rd[1])}</span></h2>
-        <div class="apply-date">วันที่สมัคร <span class="hl">${applyDate}</span></div>
-      </div>
-      <div class="photo-box">${imgTag}</div>
-    </div>
-    <div class="sec">๑. ข้อมูลส่วนตัวนักเรียน</div>
-    <div class="row"><div class="c"><span class="l">ชั้นที่สมัคร</span> <span class="d" style="font-weight:700">${v(rd[5])}</span></div><div class="c g"><span class="l">เลข ปชช.</span> <span class="d">${v(rd[6])}</span></div><div class="c"><span class="l">เพศ</span> <span class="d">${v(rd[8])}</span></div></div>
-    <div class="row"><div class="c g"><span class="l">ชื่อ-สกุล (ไทย)</span> <span class="d">${v(rd[7])}${v(rd[9])} ${v(rd[10])}</span></div><div class="c g"><span class="l">(อังกฤษ)</span> <span class="d">${v(rd[11])} ${v(rd[12])}</span></div></div>
-    <div class="row"><div class="c"><span class="l">เกิดวันที่</span> <span class="d">${v(rd[13])}</span></div><div class="c"><span class="l">จ.ที่เกิด</span> <span class="d">${v(rd[14])}</span></div><div class="c"><span class="l">เลือด</span> <span class="d">${v(rd[16])}</span></div><div class="c"><span class="l">สัญชาติ</span> <span class="d">${v(rd[17])}</span></div><div class="c"><span class="l">เชื้อชาติ</span> <span class="d">${v(rd[18])}</span></div><div class="c"><span class="l">ศาสนา</span> <span class="d">${v(rd[19])}</span></div></div>
-    <div class="row"><div class="c"><span class="l">น้ำหนัก</span> <span class="d">${v(rd[50])}</span><span class="u">กก.</span></div><div class="c"><span class="l">สูง</span> <span class="d">${v(rd[51])}</span><span class="u">ซม.</span></div><div class="c"><span class="l">อีเมล</span> <span class="d">${v(rd[15])}</span></div></div>
-    <div class="sec">๒. ที่อยู่</div>
-    <table class="tbl"><tr><th style="width:14%">รายการ</th><th style="width:43%">ตามทะเบียนบ้าน</th><th style="width:43%">ที่อยู่ปัจจุบัน</th></tr>
-    <tr><td class="lc">รหัสบ้าน</td><td>${v(rd[22])}</td><td>${v(rd[31])}</td></tr>
-    <tr><td class="lc">เลขที่/หมู่/ถนน</td><td>${v(rd[23])} หมู่ ${v(rd[24])} ถ.${v(rd[25])}</td><td>${v(rd[32])} หมู่ ${v(rd[33])} ถ.${v(rd[34])}</td></tr>
-    <tr><td class="lc">ต./อ./จ.</td><td>${v(rd[28])} / ${v(rd[27])} / ${v(rd[26])}</td><td>${v(rd[37])} / ${v(rd[36])} / ${v(rd[35])}</td></tr>
-    <tr><td class="lc">ไปรษณีย์</td><td>${v(rd[29])}</td><td>${v(rd[38])}</td></tr>
-    <tr><td class="lc">โทรศัพท์</td><td>${v(rd[30])}</td><td>${v(rd[39])}</td></tr></table>
-    <div class="sec">๓. ข้อมูลครอบครัวและผู้ปกครอง</div>
-    <div class="row"><div class="c"><span class="l">สถานภาพ</span> <span class="d">${v(rd[52])}</span></div><div class="c"><span class="l">บุตรลำดับที่</span> <span class="d">${v(rd[58])}</span></div><div class="c"><span class="l">พี่น้องรวม</span> <span class="d">${totalSiblings}</span><span class="u">คน</span></div><div class="c"><span class="l">กำลังศึกษา</span> <span class="d">${v(rd[57])}</span><span class="u">คน</span></div></div>
-    <div class="row"><div class="c"><span class="l">พี่ชาย</span> <span class="d">${v(rd[53])}</span><span class="u">คน</span></div><div class="c"><span class="l">น้องชาย</span> <span class="d">${v(rd[54])}</span><span class="u">คน</span></div><div class="c"><span class="l">พี่สาว</span> <span class="d">${v(rd[55])}</span><span class="u">คน</span></div><div class="c"><span class="l">น้องสาว</span> <span class="d">${v(rd[56])}</span><span class="u">คน</span></div></div>
-    <table class="tbl"><tr><th style="width:12%">รายการ</th><th style="width:29.3%">บิดา</th><th style="width:29.3%">มารดา</th><th style="width:29.3%">ผู้ปกครอง (${v(rd[86])})</th></tr>
-    <tr><td class="lc">ชื่อ-สกุล</td><td>${v(rd[61])}${v(rd[62])} ${v(rd[63])}</td><td>${v(rd[70])}${v(rd[71])} ${v(rd[72])}</td><td>${v(rd[79])}${v(rd[80])} ${v(rd[81])}</td></tr>
-    <tr><td class="lc">เลข ปชช.</td><td>${v(rd[59])}</td><td>${v(rd[68])}</td><td>${v(rd[77])}</td></tr>
-    <tr><td class="lc">อาชีพ/รายได้</td><td>${v(rd[64])} / ${v(rd[65])}</td><td>${v(rd[73])} / ${v(rd[74])}</td><td>${v(rd[82])} / ${v(rd[83])}</td></tr>
-    <tr><td class="lc">เบอร์โทร</td><td>${v(rd[67])}</td><td>${v(rd[76])}</td><td>${v(rd[85])}</td></tr></table>
-    <div class="sec">๔. ข้อมูลเพิ่มเติม</div>
-    <div class="row"><div class="c"><span class="l">การพักนอน</span> <span class="d">${v(rd[40])}</span></div><div class="c"><span class="l">ด้อยโอกาส</span> <span class="d">${v(rd[41])}</span></div><div class="c"><span class="l">ว่ายน้ำ</span> <span class="d">${v(rd[49])}</span></div><div class="c"><span class="l">เดินทาง</span> <span class="d">${v(rd[46])}</span></div><div class="c"><span class="l">เวลา</span> <span class="d">${v(rd[47])}</span><span class="u">นาที</span></div></div>
-    <div class="row"><div class="c"><span class="l">ขาดแบบเรียน</span> <span class="d">${v(rd[42])}</span></div><div class="c"><span class="l">อาหาร</span> <span class="d">${v(rd[43])}</span></div><div class="c"><span class="l">เครื่องเขียน</span> <span class="d">${v(rd[44])}</span></div><div class="c"><span class="l">เครื่องแบบ</span> <span class="d">${v(rd[45])}</span></div></div>
-    <div class="cert">ข้าพเจ้าขอรับรองว่าข้อความข้างต้นเป็นความจริงทุกประการ และยินยอมปฏิบัติตามกฎระเบียบของโรงเรียนบ้านคลอง ๑๔ อย่างเคร่งครัด</div>
-    <div class="sig-row"><div class="sig-box"><span class="sig-ln"></span><div class="sig-nm">( ${v(rd[7])}${v(rd[9])} ${v(rd[10])} )</div><div class="sig-lb">ผู้สมัครเข้าเรียน</div><div class="sig-dt">วันที่ ${applyDate}</div></div><div class="sig-box"><span class="sig-ln"></span><div class="sig-nm">( ${v(rd[79])}${v(rd[80])} ${v(rd[81])} )</div><div class="sig-lb">ผู้ปกครอง</div><div class="sig-dt">วันที่ ${applyDate}</div></div></div>
-  </div>`;
-    }
-
-    // ===== เปลี่ยนสถานะ (แอดมิน) =====
-    function changeStatus(index, newStatus) {
-        const student = globalStudents[index];
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'updateStatus',
-                data: { year: document.getElementById('adminYear').value, rowNumber: student.rowNumber, status: newStatus }
-            })
-        }).then(res => res.json()).then(res => {
-            if (res.status === 'success') {
-                student.status = newStatus;
-                student.rawData[2] = newStatus;
-                // อัปเดตสถิติ
-                let pending = 0, approved = 0;
-                globalStudents.forEach(s => { if (s.status === 'รอตรวจสอบ') pending++; else approved++; });
-                document.getElementById('statPending').textContent = pending;
-                document.getElementById('statApproved').textContent = approved;
-            }
-        });
-    }
-
-    // ===== ฟังก์ชันแก้ไขข้อมูล =====
-    function editApplication(index) {
-        const student = globalStudents[index];
-        const rd = student.rawData;
-
-        // เปลี่ยนไปหน้าฟอร์ม
-        showSection('formSection');
-
-        // เติมข้อมูลลงฟอร์ม
-        document.querySelectorAll('input[data-col], select[data-col]').forEach(el => {
-            const colIndex = parseInt(el.getAttribute('data-col'));
-            // data-col 6-87 → rawData index 5-86
-            const rdIndex = colIndex - 1;
-            if (rd[rdIndex] !== undefined && rd[rdIndex] !== '') {
-                el.value = rd[rdIndex];
-            }
-        });
-
-        // ถ้ามีรูป ให้โหลด preview
-        if (rd[3]) {
-            let photoUrl = rd[3];
-            let fileId = '';
-            const matchA = photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            const matchB = photoUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-            if (matchA) fileId = matchA[1];
-            else if (matchB) fileId = matchB[1];
-            if (fileId) photoUrl = 'https://lh3.googleusercontent.com/d/' + fileId;
-
-            originalImageSrc = photoUrl;
-            croppedPhotoBase64 = ''; // จะใช้ URL เดิมถ้าไม่ได้ครอบตัดใหม่
-            document.getElementById('photoPreviewThumb').src = photoUrl;
-            document.getElementById('photoPlaceholder').style.display = 'none';
-            document.getElementById('photoPreviewWrap').style.display = 'block';
-            document.getElementById('photoUploadArea').classList.add('has-photo');
-        }
-
-        // เปลี่ยนปุ่ม submit เป็นโหมดแก้ไข
-        currentStep = 1;
-        document.querySelectorAll('.wizard-step').forEach((s, i) => {
-            s.classList.toggle('active', i === 0);
-        });
-        document.querySelectorAll('.step-indicator .step').forEach((s, i) => {
-            s.classList.toggle('active', i === 0);
-        });
-        document.getElementById('btnPrev').style.display = 'none';
-        document.getElementById('btnNext').style.display = 'inline-block';
-        document.getElementById('btnSubmit').style.display = 'none';
-
-        // เก็บ row index สำหรับ update
-        document.getElementById('admissionForm').dataset.editIndex = index;
-        document.getElementById('admissionForm').dataset.editRow = student.rowNumber || '';
-
-        // scroll ขึ้นบนสุด
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ============================================================
-    // ฟังก์ชันสั่งพิมพ์ — ปรับใหม่ให้พอดี A4 ไม่ล้น
-    // ============================================================
-    function printApplication(index) {
-        const student = globalStudents[index];
-        const rd = student.rawData;
-
-        const v = (val) => val ? val : "-";
-        
-        // แปลง Google Drive URL ให้เป็น direct image link
-        let photoUrl = rd[3] || "";
-        if (photoUrl) {
-            // รูปแบบ: https://drive.google.com/file/d/FILE_ID/view...
-            // หรือ: https://drive.google.com/open?id=FILE_ID
-            let fileId = "";
-            const matchA = photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            const matchB = photoUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-            if (matchA) fileId = matchA[1];
-            else if (matchB) fileId = matchB[1];
-
-            if (fileId) {
-                photoUrl = `https://lh3.googleusercontent.com/d/${fileId}`;
-            }
-        }
-        const imgTag = photoUrl 
-            ? `<img src="${photoUrl}" class="photo-img" crossorigin="anonymous" referrerpolicy="no-referrer">` 
-            : `<div class="photo-placeholder">รูปถ่าย<br>1.5 นิ้ว</div>`;
-
-        const totalSiblings = parseInt(rd[53]||0)+parseInt(rd[54]||0)+parseInt(rd[55]||0)+parseInt(rd[56]||0);
-        const applyDate = new Date(rd[0]).toLocaleDateString('th-TH');
-
-        const printHtml = `<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <title>ใบสมัครเรียน_${v(rd[6])}</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Sarabun', sans-serif;
-      font-size: 11pt;
-      color: #1a1a1a;
-      line-height: 1.3;
-      background: #6b7280;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
-    .page {
-      width: 210mm;
-      height: 297mm;
-      margin: 10px auto;
-      padding: 7mm 10mm 5mm 10mm;
-      background: #fff;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.35);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* ===== HEADER ===== */
-    .header {
-      text-align: center;
-      padding-bottom: 5px;
-      border-bottom: 2px solid #1e3a5f;
-      margin-bottom: 3px;
-    }
-    .header h1 {
-      font-size: 17pt;
-      font-weight: 700;
-      color: #1e3a5f;
-      letter-spacing: 1px;
-      margin-bottom: 1px;
-    }
-    .header h2 {
-      font-size: 12.5pt;
-      font-weight: 500;
-      color: #374151;
-    }
-    .header h2 .hl {
-      font-weight: 700;
-      color: #1e3a5f;
-      border-bottom: 1.5px dotted #1e3a5f;
-      padding: 0 6px;
-    }
-
-    /* ===== PHOTO ===== */
-    .top-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 3px;
-    }
-    .top-row .header { flex: 1; }
-    .photo-box {
-      flex-shrink: 0;
-    }
-    .photo-img {
-      width: 2.5cm;
-      height: 3.2cm;
-      object-fit: cover;
-      border: 1px solid #555;
-      border-radius: 2px;
-    }
-    .photo-placeholder {
-      width: 2.5cm;
-      height: 3.2cm;
-      border: 1px dashed #aaa;
-      border-radius: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9pt;
-      color: #aaa;
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    .apply-date {
-      text-align: right;
-      font-size: 10pt;
-      color: #888;
-      margin-top: 3px;
-    }
-    .apply-date .hl { color: #1a1a1a; font-weight: 500; }
-
-    /* ===== SECTION TITLE ===== */
-    .sec {
-      font-size: 11pt;
-      font-weight: 700;
-      color: #fff;
-      background: #1e3a5f;
-      padding: 2px 8px;
-      border-radius: 2px;
-      margin: 5px 0 3px 0;
-    }
-
-    /* ===== FIELD ROWS ===== */
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 1.5px 0;
-      border-bottom: 1px solid #eee;
-    }
-    .row:last-child { border-bottom: none; }
-
-    .c {
-      padding: 1px 4px;
-      font-size: 10.5pt;
-      display: inline-flex;
-      align-items: baseline;
-      flex-shrink: 0;
-    }
-    .c .l {
-      font-weight: 600;
-      color: #444;
-      white-space: nowrap;
-      margin-right: 2px;
-      font-size: 10pt;
-    }
-    .c .d {
-      border-bottom: 1px dotted #bbb;
-      min-width: 20px;
-      text-align: center;
-      padding: 0 3px;
-      color: #111;
-      font-weight: 500;
-    }
-    .c .u {
-      font-size: 9.5pt;
-      color: #888;
-      margin-left: 1px;
-    }
-    .c.g { flex: 1; }
-    .c.g .d { flex: 1; }
-
-    /* ===== TABLE ===== */
-    .tbl {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 2px 0;
-      font-size: 10pt;
-    }
-    .tbl th, .tbl td {
-      border: 1px solid #d1d5db;
-      padding: 2px 5px;
-      vertical-align: middle;
-    }
-    .tbl th {
-      background: #e8edf3;
-      font-weight: 600;
-      color: #1e3a5f;
-      text-align: center;
-      font-size: 9.5pt;
-    }
-    .tbl td { color: #1a1a1a; }
-    .tbl td.lc {
-      background: #f3f4f6;
-      font-weight: 600;
-      color: #444;
-      text-align: center;
-      font-size: 9.5pt;
-    }
-
-    /* ===== CERT + SIGNATURE ===== */
-    .cert {
-      margin-top: 6px;
-      text-indent: 35px;
-      text-align: justify;
-      font-size: 10.5pt;
-      line-height: 1.4;
-      color: #444;
-    }
-    .sig-row {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-    }
-    .sig-box {
-      text-align: center;
-      width: 44%;
-      font-size: 10pt;
-    }
-    .sig-ln {
-      display: block;
-      width: 80%;
-      margin: 22px auto 2px auto;
-      border-bottom: 1px dotted #555;
-    }
-    .sig-nm { font-size: 10pt; color: #444; }
-    .sig-lb { font-weight: 600; color: #1e3a5f; font-size: 10.5pt; }
-    .sig-dt { font-size: 9pt; color: #888; margin-top: 1px; }
-
-    /* ===== PRINT BUTTON ===== */
-    .print-bar {
-      text-align: center;
-      padding: 12px;
-      background: #f3f4f6;
-      border-bottom: 1px solid #ddd;
-    }
-    .print-bar button {
-      font-family: 'Sarabun', sans-serif;
-      font-size: 13pt;
-      font-weight: 600;
-      padding: 8px 30px;
-      background: #1e3a5f;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .print-bar button:hover { background: #2c5282; }
-
-    /* ===== PRINT ===== */
-    @media print {
-      body { background: #fff; }
-      .print-bar { display: none; }
-      .page {
-        margin: 0;
-        padding: 7mm 10mm 5mm 10mm;
-        box-shadow: none;
-        width: 100%;
-        height: 100%;
-      }
-      @page {
-        size: A4;
-        margin: 0;
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- ปุ่มสั่งพิมพ์ -->
-  <div class="print-bar">
-    <button onclick="window.print()">🖨️ พิมพ์ใบสมัคร</button>
-  </div>
-
-  <div class="page">
-
-    <div class="top-row">
-      <div class="header">
-        <h1>ใบสมัครเข้าเรียน</h1>
-        <h2>โรงเรียนบ้านคลอง 14 &nbsp;ปีการศึกษา <span class="hl">${v(rd[1])}</span></h2>
-        <div class="apply-date">วันที่สมัคร <span class="hl">${applyDate}</span></div>
-      </div>
-      <div class="photo-box">${imgTag}</div>
-    </div>
-
-    <!-- ===== 1. ข้อมูลส่วนตัว ===== -->
-    <div class="sec">๑. ข้อมูลส่วนตัวนักเรียน</div>
-
-    <div class="row">
-      <div class="c"><span class="l">ชั้นที่สมัคร</span> <span class="d" style="font-weight:700">${v(rd[5])}</span></div>
-      <div class="c g"><span class="l">เลข ปชช.</span> <span class="d">${v(rd[6])}</span></div>
-      <div class="c"><span class="l">เพศ</span> <span class="d">${v(rd[8])}</span></div>
-    </div>
-    <div class="row">
-      <div class="c g"><span class="l">ชื่อ-สกุล (ไทย)</span> <span class="d">${v(rd[7])}${v(rd[9])} ${v(rd[10])}</span></div>
-      <div class="c g"><span class="l">(อังกฤษ)</span> <span class="d">${v(rd[11])} ${v(rd[12])}</span></div>
-    </div>
-    <div class="row">
-      <div class="c"><span class="l">เกิดวันที่</span> <span class="d">${v(rd[13])}</span></div>
-      <div class="c"><span class="l">จ.ที่เกิด</span> <span class="d">${v(rd[14])}</span></div>
-      <div class="c"><span class="l">เลือด</span> <span class="d">${v(rd[16])}</span></div>
-      <div class="c"><span class="l">สัญชาติ</span> <span class="d">${v(rd[17])}</span></div>
-      <div class="c"><span class="l">เชื้อชาติ</span> <span class="d">${v(rd[18])}</span></div>
-      <div class="c"><span class="l">ศาสนา</span> <span class="d">${v(rd[19])}</span></div>
-    </div>
-    <div class="row">
-      <div class="c"><span class="l">น้ำหนัก</span> <span class="d">${v(rd[50])}</span><span class="u">กก.</span></div>
-      <div class="c"><span class="l">สูง</span> <span class="d">${v(rd[51])}</span><span class="u">ซม.</span></div>
-      <div class="c"><span class="l">อีเมล</span> <span class="d">${v(rd[15])}</span></div>
-    </div>
-
-    <!-- ===== 2. ที่อยู่ ===== -->
-    <div class="sec">๒. ที่อยู่</div>
-
-    <table class="tbl">
-      <tr>
-        <th style="width:14%">รายการ</th>
-        <th style="width:43%">ตามทะเบียนบ้าน</th>
-        <th style="width:43%">ที่อยู่ปัจจุบัน</th>
-      </tr>
-      <tr><td class="lc">รหัสบ้าน</td><td>${v(rd[22])}</td><td>${v(rd[31])}</td></tr>
-      <tr><td class="lc">เลขที่ / หมู่ / ถนน</td><td>${v(rd[23])} หมู่ ${v(rd[24])} ถ.${v(rd[25])}</td><td>${v(rd[32])} หมู่ ${v(rd[33])} ถ.${v(rd[34])}</td></tr>
-      <tr><td class="lc">ต./อ./จ.</td><td>${v(rd[28])} / ${v(rd[27])} / ${v(rd[26])}</td><td>${v(rd[37])} / ${v(rd[36])} / ${v(rd[35])}</td></tr>
-      <tr><td class="lc">ไปรษณีย์</td><td>${v(rd[29])}</td><td>${v(rd[38])}</td></tr>
-      <tr><td class="lc">โทรศัพท์</td><td>${v(rd[30])}</td><td>${v(rd[39])}</td></tr>
-    </table>
-
-    <!-- ===== 3. ครอบครัว ===== -->
-    <div class="sec">๓. ข้อมูลครอบครัวและผู้ปกครอง</div>
-
-    <div class="row">
-      <div class="c"><span class="l">สถานภาพ</span> <span class="d">${v(rd[52])}</span></div>
-      <div class="c"><span class="l">บุตรลำดับที่</span> <span class="d">${v(rd[58])}</span></div>
-      <div class="c"><span class="l">พี่น้องรวม</span> <span class="d">${totalSiblings}</span><span class="u">คน</span></div>
-      <div class="c"><span class="l">กำลังศึกษา</span> <span class="d">${v(rd[57])}</span><span class="u">คน</span></div>
-    </div>
-    <div class="row">
-      <div class="c"><span class="l">พี่ชาย</span> <span class="d">${v(rd[53])}</span><span class="u">คน</span></div>
-      <div class="c"><span class="l">น้องชาย</span> <span class="d">${v(rd[54])}</span><span class="u">คน</span></div>
-      <div class="c"><span class="l">พี่สาว</span> <span class="d">${v(rd[55])}</span><span class="u">คน</span></div>
-      <div class="c"><span class="l">น้องสาว</span> <span class="d">${v(rd[56])}</span><span class="u">คน</span></div>
-    </div>
-
-    <table class="tbl">
-      <tr>
-        <th style="width:12%">รายการ</th>
-        <th style="width:29.3%">บิดา</th>
-        <th style="width:29.3%">มารดา</th>
-        <th style="width:29.3%">ผู้ปกครอง (${v(rd[86])})</th>
-      </tr>
-      <tr>
-        <td class="lc">ชื่อ-สกุล</td>
-        <td>${v(rd[61])}${v(rd[62])} ${v(rd[63])}</td>
-        <td>${v(rd[70])}${v(rd[71])} ${v(rd[72])}</td>
-        <td>${v(rd[79])}${v(rd[80])} ${v(rd[81])}</td>
-      </tr>
-      <tr>
-        <td class="lc">เลข ปชช.</td>
-        <td>${v(rd[59])}</td>
-        <td>${v(rd[68])}</td>
-        <td>${v(rd[77])}</td>
-      </tr>
-      <tr>
-        <td class="lc">อาชีพ / รายได้</td>
-        <td>${v(rd[64])} / ${v(rd[65])}</td>
-        <td>${v(rd[73])} / ${v(rd[74])}</td>
-        <td>${v(rd[82])} / ${v(rd[83])}</td>
-      </tr>
-      <tr>
-        <td class="lc">เบอร์โทร</td>
-        <td>${v(rd[67])}</td>
-        <td>${v(rd[76])}</td>
-        <td>${v(rd[85])}</td>
-      </tr>
-    </table>
-
-    <!-- ===== 4. เพิ่มเติม ===== -->
-    <div class="sec">๔. ข้อมูลเพิ่มเติม</div>
-
-    <div class="row">
-      <div class="c"><span class="l">การพักนอน</span> <span class="d">${v(rd[40])}</span></div>
-      <div class="c"><span class="l">ด้อยโอกาส</span> <span class="d">${v(rd[41])}</span></div>
-      <div class="c"><span class="l">ว่ายน้ำ</span> <span class="d">${v(rd[49])}</span></div>
-      <div class="c"><span class="l">เดินทาง</span> <span class="d">${v(rd[46])}</span></div>
-      <div class="c"><span class="l">เวลา</span> <span class="d">${v(rd[47])}</span><span class="u">นาที</span></div>
-    </div>
-    <div class="row">
-      <div class="c"><span class="l">ขาดแบบเรียน</span> <span class="d">${v(rd[42])}</span></div>
-      <div class="c"><span class="l">อาหาร</span> <span class="d">${v(rd[43])}</span></div>
-      <div class="c"><span class="l">เครื่องเขียน</span> <span class="d">${v(rd[44])}</span></div>
-      <div class="c"><span class="l">เครื่องแบบ</span> <span class="d">${v(rd[45])}</span></div>
-    </div>
-
-    <!-- คำรับรอง -->
-    <div class="cert">
-      ข้าพเจ้าขอรับรองว่าข้อความข้างต้นเป็นความจริงทุกประการ และยินยอมปฏิบัติตามกฎระเบียบของโรงเรียนบ้านคลอง ๑๔ อย่างเคร่งครัด
-    </div>
-
-    <!-- ลายเซ็น -->
-    <div class="sig-row">
-      <div class="sig-box">
-        <span class="sig-ln"></span>
-        <div class="sig-nm">( ${v(rd[7])}${v(rd[9])} ${v(rd[10])} )</div>
-        <div class="sig-lb">ผู้สมัครเข้าเรียน</div>
-        <div class="sig-dt">วันที่ ${applyDate}</div>
-      </div>
-      <div class="sig-box">
-        <span class="sig-ln"></span>
-        <div class="sig-nm">( ${v(rd[79])}${v(rd[80])} ${v(rd[81])} )</div>
-        <div class="sig-lb">ผู้ปกครอง</div>
-        <div class="sig-dt">วันที่ ${applyDate}</div>
-      </div>
-    </div>
-
-  </div>
-</body>
-</html>`;
-
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(printHtml);
-        printWindow.document.close();
-    }
-
-
-    document.getElementById('admissionForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const form = document.getElementById('admissionForm');
-        const editIndex = form.dataset.editIndex;
-        const isEdit = editIndex !== undefined && editIndex !== '';
-
-        // แสดง progress overlay
-        showProgress(isEdit ? 'กำลังอัปเดตข้อมูล...' : 'กำลังบันทึกข้อมูล...', 10);
-        document.getElementById('btnSubmit').disabled = true;
-
-        let photoBase64 = croppedPhotoBase64 || "";
-
-        let formDataArray = new Array(82).fill(""); 
-        document.querySelectorAll('input[data-col], select[data-col]').forEach(el => {
-            let colIndex = parseInt(el.getAttribute('data-col'));
-            formDataArray[colIndex - 6] = el.value; 
-        });
-
-        showProgress(isEdit ? 'กำลังอัปเดต...' : 'กำลังตรวจสอบข้อมูล...', 30);
-
-        // เช็คซ้ำ (เฉพาะสมัครใหม่)
-        if (!isEdit) {
-            try {
-                const checkRes = await fetch(WEB_APP_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'checkDuplicate', data: { year: document.getElementById('applyYear').value, idCard: document.getElementById('formIdCard').value } })
-                }).then(r => r.json());
-                if (checkRes.status === 'success' && checkRes.data === true) {
-                    hideProgress();
-                    document.getElementById('btnSubmit').disabled = false;
-                    alert('เลขประจำตัวประชาชนนี้มีการสมัครแล้ว!\n\nหากต้องการแก้ไขข้อมูล กรุณาไปที่หน้า "ตรวจสอบสถานะ" แล้วกดปุ่มแก้ไข');
-                    return;
-                }
-            } catch(err) { /* ถ้าเช็คไม่ได้ ให้ส่งต่อไป */ }
-        }
-
-        showProgress('กำลังส่งข้อมูล...', 60);
-
-        let payload;
-        if (isEdit) {
-            const student = globalStudents[parseInt(editIndex)];
-            payload = {
-                action: 'updateApplication',
-                data: {
-                    year: document.getElementById('applyYear').value,
-                    rowNumber: student.rowNumber,
-                    idCard: document.getElementById('formIdCard').value,
-                    photoBase64: photoBase64,
-                    formData: formDataArray
-                }
-            };
-        } else {
-            payload = {
-                action: 'submitApplication',
-                data: {
-                    year: document.getElementById('applyYear').value,
-                    idCard: document.getElementById('formIdCard').value,
-                    photoBase64: photoBase64,
-                    formData: formDataArray
-                }
-            };
-        }
-
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        }).then(res => res.json()).then(res => {
-            showProgress('บันทึกสำเร็จ!', 100);
-            if(res.status === 'success') {
-                setTimeout(() => {
-                    hideProgress();
-                    alert(isEdit ? 'อัปเดตข้อมูลสำเร็จ!' : 'สมัครเรียนสำเร็จ!');
-                    delete form.dataset.editIndex;
-                    delete form.dataset.editRow;
-                    window.location.reload();
-                }, 500);
-            } else {
-                hideProgress();
-                alert('ข้อผิดพลาด: ' + res.message);
-            }
-        }).catch(err => { hideProgress(); alert('เชื่อมต่อระบบไม่ได้ ลองใหม่อีกครั้ง'); })
-        .finally(() => {
-            document.getElementById('btnSubmit').innerHTML = '✅ ยืนยันการสมัครเรียน';
-            document.getElementById('btnSubmit').disabled = false;
-        });
-    });
-
-    function showProgress(text, percent) {
-        const overlay = document.getElementById('progressOverlay');
-        overlay.style.display = 'flex';
-        document.getElementById('progressText').textContent = text;
-        document.getElementById('progressBar').style.width = percent + '%';
-    }
-    function hideProgress() {
-        document.getElementById('progressOverlay').style.display = 'none';
-    }
-
-    // ===========================================================
-    // Thai Address Autocomplete
-    // ===========================================================
-    let thaiAddrDB = null; // flat array: [{district, amphoe, province, zipcode}, ...]
-
-    // โหลดข้อมูล nested → แปลงเป็น flat
+    // --- Thai Address Autocomplete ---
+    let thaiAddrDB = null;
     function loadThaiAddressDB() {
-        const urls = [
-            'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/latest/province_with_district_and_sub_district.json',
-            'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/v1/province_with_amphure_tambon.json'
-        ];
-        tryLoadUrl(urls, 0);
-    }
-
-    function tryLoadUrl(urls, idx) {
-        if (idx >= urls.length) { console.warn('ไม่สามารถโหลดข้อมูลที่อยู่ได้'); return; }
-        fetch(urls[idx])
-            .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-            .then(data => {
-                thaiAddrDB = flattenThaiDB(data);
-                console.log('Thai Address DB loaded:', thaiAddrDB.length, 'records');
-            })
-            .catch(() => tryLoadUrl(urls, idx + 1));
-    }
-
-    function flattenThaiDB(provinces) {
-        const flat = [];
-        for (const prov of provinces) {
-            const provName = prov.name_th || prov.province || '';
-            const amphures = prov.amphure || prov.districts || prov.amphures || [];
-            for (const amp of amphures) {
-                const ampName = amp.name_th || amp.amphoe || amp.district || '';
-                const tambons = amp.tambon || amp.sub_districts || amp.tambons || [];
-                for (const tam of tambons) {
-                    flat.push({
-                        province: provName,
-                        amphoe: ampName,
-                        district: tam.name_th || tam.tambon || tam.sub_district || '',
-                        zipcode: String(tam.zip_code || tam.zipcode || '')
-                    });
+        const urls =['https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/latest/province_with_district_and_sub_district.json','https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/v1/province_with_amphure_tambon.json'];
+        (function tryLoadUrl(idx) {
+            if (idx >= urls.length) return;
+            fetch(urls[idx]).then(r => r.json()).then(data => {
+                thaiAddrDB =[];
+                for (const prov of data) { const pName = prov.name_th || prov.province || ''; const amps = prov.amphure || prov.districts || prov.amphures ||[];
+                    for (const amp of amps) { const aName = amp.name_th || amp.amphoe || amp.district || ''; const tams = amp.tambon || amp.sub_districts || amp.tambons ||[];
+                        for (const tam of tams) { thaiAddrDB.push({ province: pName, amphoe: aName, district: tam.name_th || tam.tambon || tam.sub_district || '', zipcode: String(tam.zip_code || tam.zipcode || '') }); }
+                    }
                 }
-            }
-        }
-        return flat;
+            }).catch(() => tryLoadUrl(idx + 1));
+        })(0);
     }
-
     loadThaiAddressDB();
-
-    // Mapping: set + field → input id
-    function getAddrIds(set) {
-        return { province: set+'4', amphoe: set+'5', district: set+'6', zipcode: set+'7' };
-    }
-
-    function searchAddr(field, query, filters) {
-        if (!thaiAddrDB || !query) return [];
-        const q = query.trim().toLowerCase();
-        let seen = new Set();
-        let results = [];
-        for (const row of thaiAddrDB) {
-            const val = String(row[field] || '');
-            if (!val.toLowerCase().includes(q)) continue;
-            let match = true;
-            if (filters) {
-                for (const [fk, fv] of Object.entries(filters)) {
-                    if (fv && String(row[fk] || '') !== fv) { match = false; break; }
-                }
-            }
+    function searchAddr(field, q, filters) {
+        if (!thaiAddrDB || !q) return[];
+        q = q.trim().toLowerCase(); let seen = new Set(), results = [];
+        for (const r of thaiAddrDB) {
+            const v = String(r[field] || ''); if (!v.toLowerCase().includes(q)) continue;
+            let match = true; if (filters) { for (const [fk, fv] of Object.entries(filters)) { if (fv && String(r[fk] || '') !== fv) { match = false; break; } } }
             if (!match) continue;
-            if (!seen.has(val)) {
-                seen.add(val);
-                results.push({ value: val, row: row });
-            }
+            if (!seen.has(v)) { seen.add(v); results.push({ value: v, row: r }); }
             if (results.length >= 20) break;
-        }
-        return results;
+        } return results;
     }
-
-    function onAddrSelect(set, field, selectedRow) {
-        const ids = getAddrIds(set);
-        if (field === 'province') {
-            document.getElementById(ids.province).value = selectedRow.province;
-            document.getElementById(ids.amphoe).value = '';
-            document.getElementById(ids.district).value = '';
-            document.getElementById(ids.zipcode).value = '';
-        } else if (field === 'amphoe') {
-            document.getElementById(ids.amphoe).value = selectedRow.amphoe;
-            document.getElementById(ids.province).value = selectedRow.province;
-            document.getElementById(ids.district).value = '';
-            document.getElementById(ids.zipcode).value = '';
-        } else if (field === 'district') {
-            document.getElementById(ids.district).value = selectedRow.district;
-            document.getElementById(ids.amphoe).value = selectedRow.amphoe;
-            document.getElementById(ids.province).value = selectedRow.province;
-            document.getElementById(ids.zipcode).value = selectedRow.zipcode;
-        }
-        ['province','amphoe','district'].forEach(f => {
-            const el = document.getElementById(ids[f]);
-            if (el && el.value) el.classList.add('has-value');
-            else if (el) el.classList.remove('has-value');
-        });
-    }
-
-    // ผูก event กับทุก addr-input
     document.addEventListener('input', function(e) {
         if (!e.target.classList.contains('addr-input')) return;
-        const input = e.target;
-        const field = input.dataset.addr;
-        const set = input.dataset.set;
-        const dropdownEl = document.getElementById(input.id + '-dropdown');
-        const ids = getAddrIds(set);
-        const query = input.value.trim();
-
-        if (!query || !thaiAddrDB) { dropdownEl.classList.remove('show'); return; }
-
+        const input = e.target; const f = input.dataset.addr; const set = input.dataset.set; const dd = document.getElementById(input.id + '-dropdown');
+        const ids = { province: set+'4', amphoe: set+'5', district: set+'6', zipcode: set+'7' }; const q = input.value.trim();
+        if (!q || !thaiAddrDB) { dd.classList.remove('show'); return; }
         let filters = {};
-        if (field === 'amphoe') {
-            filters.province = document.getElementById(ids.province).value;
-        } else if (field === 'district') {
-            filters.province = document.getElementById(ids.province).value;
-            filters.amphoe = document.getElementById(ids.amphoe).value;
-        }
-
-        const results = searchAddr(field, query, filters);
-        if (results.length === 0) { dropdownEl.classList.remove('show'); return; }
-
-        dropdownEl.innerHTML = results.map((r, i) => {
-            let label = r.value;
-            if (field === 'district') label += ` → ${r.row.amphoe}, ${r.row.province}`;
-            else if (field === 'amphoe') label += ` → ${r.row.province}`;
-            return `<div class="addr-item" data-index="${i}">${label}</div>`;
-        }).join('');
-        dropdownEl.classList.add('show');
-        dropdownEl._results = results;
+        if (f === 'amphoe') filters.province = document.getElementById(ids.province).value;
+        else if (f === 'district') { filters.province = document.getElementById(ids.province).value; filters.amphoe = document.getElementById(ids.amphoe).value; }
+        const res = searchAddr(f, q, filters);
+        if (res.length === 0) { dd.classList.remove('show'); return; }
+        dd.innerHTML = res.map((r, i) => `<div class="addr-item" data-index="${i}">${r.value}${f==='district'?` → ${r.row.amphoe}, ${r.row.province}`:(f==='amphoe'?` → ${r.row.province}`:'')}</div>`).join('');
+        dd.classList.add('show'); dd._results = res;
     });
-
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('addr-item')) {
-            const dropdown = e.target.parentElement;
-            const idx = parseInt(e.target.dataset.index);
-            const result = dropdown._results[idx];
-            const inputId = dropdown.id.replace('-dropdown', '');
-            const input = document.getElementById(inputId);
-            onAddrSelect(input.dataset.set, input.dataset.addr, result.row);
-            dropdown.classList.remove('show');
-            return;
+            const dd = e.target.parentElement; const res = dd._results[parseInt(e.target.dataset.index)];
+            const input = document.getElementById(dd.id.replace('-dropdown', '')); const ids = { province: input.dataset.set+'4', amphoe: input.dataset.set+'5', district: input.dataset.set+'6', zipcode: input.dataset.set+'7' };
+            if (input.dataset.addr === 'province') { document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.amphoe).value = ''; document.getElementById(ids.district).value = ''; document.getElementById(ids.zipcode).value = ''; }
+            else if (input.dataset.addr === 'amphoe') { document.getElementById(ids.amphoe).value = res.row.amphoe; document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.district).value = ''; document.getElementById(ids.zipcode).value = ''; }
+            else if (input.dataset.addr === 'district') { document.getElementById(ids.district).value = res.row.district; document.getElementById(ids.amphoe).value = res.row.amphoe; document.getElementById(ids.province).value = res.row.province; document.getElementById(ids.zipcode).value = res.row.zipcode; }['province','amphoe','district'].forEach(f => { const el = document.getElementById(ids[f]); if(el) el.classList.toggle('has-value', el.value !== ''); });
+            dd.classList.remove('show'); return;
         }
         document.querySelectorAll('.addr-dropdown.show').forEach(d => d.classList.remove('show'));
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' || e.key === 'Tab') {
-            document.querySelectorAll('.addr-dropdown.show').forEach(d => d.classList.remove('show'));
-        }
     });
 </script>
 </body>
