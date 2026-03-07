@@ -347,38 +347,153 @@
         document.getElementById('gRelation').value = type === 'father' ? 'บิดา' : 'มารดา';
     }
 
+let globalStudents =[]; // เก็บตัวแปรข้อมูลเพื่อนำไปใช้สร้างหน้าพิมพ์
+
     function loadDashboard() {
         const year = document.getElementById('dashYear').value;
         const tbody = document.getElementById('studentTableBody');
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
+        
+        // ⚠️ อย่าลืมแก้หัวตาราง THEAD ให้มีคอลัมน์ <th>ใบสมัคร</th> เพิ่มด้วยนะครับ
         
         fetch(WEB_APP_URL, {
             method: 'POST',
             body: JSON.stringify({ action: 'getStudents', data: { year: year } })
         }).then(res => res.json()).then(res => {
             if(res.data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
                 return;
             }
+            
+            globalStudents = res.data; // เก็บข้อมูลลงตัวแปร
             let html = '';
-            res.data.forEach(s => {
-let d = new Date(s.timestamp).toLocaleDateString('th-TH');
-let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : 'bg-success';
-let pdfBtn = s.pdfUrl ? `<a href="${s.pdfUrl}" target="_blank" class="btn btn-sm btn-outline-danger">📄 ดูใบสมัคร</a>` : `-`;
-
-html += `<tr>
-  <td>${d}</td>
-  <td>${s.idCard}</td>
-  <td>${s.name}</td>
-  <td>${s.grade}</td>
-  <td><span class="badge ${badge}">${s.status}</span></td>
-  <td>${pdfBtn}</td>
-</tr>`;
+            
+            res.data.forEach((s, index) => {
+                let d = new Date(s.timestamp).toLocaleDateString('th-TH');
+                let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : 'bg-success';
+                let printBtn = `<button class="btn btn-sm btn-outline-primary" onclick="printApplication(${index})">🖨️ พิมพ์ใบสมัคร</button>`;
+                
+                html += `<tr>
+                    <td>${d}</td>
+                    <td>${s.idCard}</td>
+                    <td>${s.name}</td>
+                    <td>${s.grade}</td>
+                    <td><span class="badge ${badge}">${s.status}</span></td>
+                    <td>${printBtn}</td>
+                </tr>`;
             });
             tbody.innerHTML = html;
         });
     }
 
+    // ฟังก์ชันสร้างหน้าต่างใหม่และสั่งพิมพ์ (Print)
+    function printApplication(index) {
+        const student = globalStudents[index];
+        const rd = student.rawData; // ดึงข้อมูลดิบจาก Array แถวใน Google Sheets
+
+        // จัดเตรียมตัวแปร
+        const appYear = rd[1] || "-";
+        const photoUrl = rd[3];
+        const grade = rd[5] || "-";
+        const idCard = rd[6] || "-";
+        const fullName = `${rd[7] || ""}${rd[9] || ""} ${rd[10] || ""}`;
+        const dob = rd[13] || "-";
+        
+        // ที่อยู่ปัจจุบัน
+        const curHouse = rd[32] || "-";
+        const curMoo = rd[33] ? `ม.${rd[33]}` : "";
+        const curRoad = rd[34] ? `ถ.${rd[34]}` : "";
+        const curTambon = rd[37] ? `ต.${rd[37]}` : "";
+        const curAmphoe = rd[36] ? `อ.${rd[36]}` : "";
+        const curProv = rd[35] ? `จ.${rd[35]}` : "";
+        const curZip = rd[38] || "";
+        const phone = rd[39] || "-";
+        const address = `บ้านเลขที่ ${curHouse} ${curMoo} ${curRoad} ${curTambon} ${curAmphoe} ${curProv} ${curZip}`;
+
+        // ข้อมูลผู้ปกครอง
+        const gName = `${rd[80] || ""}${rd[82] || ""} ${rd[83] || ""}`;
+        const gPhone = rd[86] || "-";
+        const gRel = rd[87] || "-";
+
+        const imgTag = photoUrl ? `<img src="${photoUrl}" style="width:120px; height:150px; object-fit:cover; border:1px solid #000;">` : `<div style="width:120px; height:150px; border:1px solid #000; text-align:center; line-height:150px;">ไม่มีรูปถ่าย</div>`;
+
+        // สร้าง HTML สำหรับปริ้น
+        const printHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>ใบสมัครเรียน_${idCard}</title>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap');
+            body { font-family: 'Sarabun', sans-serif; font-size: 14pt; color: #000; line-height: 1.5; padding: 20px; }
+            h2 { text-align: center; font-size: 18pt; margin-bottom: 5px; }
+            h3 { text-align: center; font-size: 16pt; margin-top: 0; font-weight: 400; }
+            .section-title { font-weight: bold; font-size: 15pt; background-color: #eee; padding: 5px 10px; margin-top: 20px; border-radius: 5px; -webkit-print-color-adjust: exact; }
+            .row { margin-bottom: 8px; }
+            .label { font-weight: bold; }
+            @media print {
+              body { padding: 0; }
+            }
+          </style>
+        </head>
+        <body>
+          <table width="100%">
+            <tr>
+              <td width="70%">
+                <h2>ใบสมัครเข้าเรียน โรงเรียนบ้านคลอง 14</h2>
+                <h3>ปีการศึกษา ${appYear}</h3>
+                <div class="row"><span class="label">วันที่สมัคร:</span> ${new Date(rd[0]).toLocaleDateString('th-TH')}</div>
+              </td>
+              <td width="30%" align="right">
+                ${imgTag}
+              </td>
+            </tr>
+          </table>
+
+          <div class="section-title">1. ข้อมูลนักเรียน</div>
+          <div class="row"><span class="label">ระดับชั้นที่สมัคร:</span> ${grade}</div>
+          <div class="row"><span class="label">ชื่อ-นามสกุล:</span> ${fullName}</div>
+          <div class="row"><span class="label">เลขประจำตัวประชาชน:</span> ${idCard}</div>
+          <div class="row"><span class="label">วันเกิด:</span> ${dob}</div>
+
+          <div class="section-title">2. ข้อมูลการติดต่อ (ปัจจุบัน)</div>
+          <div class="row"><span class="label">ที่อยู่:</span> ${address}</div>
+          <div class="row"><span class="label">เบอร์โทรศัพท์:</span> ${phone}</div>
+
+          <div class="section-title">3. ข้อมูลผู้ปกครอง</div>
+          <div class="row"><span class="label">ชื่อ-นามสกุล:</span> ${gName}</div>
+          <div class="row"><span class="label">ความเกี่ยวข้อง:</span> ${gRel}</div>
+          <div class="row"><span class="label">เบอร์โทรศัพท์:</span> ${gPhone}</div>
+
+          <br><br><br><br>
+          <table width="100%" style="margin-top: 50px;">
+            <tr>
+              <td width="50%" align="center">
+                (ลงชื่อ)........................................................ผู้สมัคร<br><br>
+                ( ${fullName} )
+              </td>
+              <td width="50%" align="center">
+                (ลงชื่อ)........................................................ผู้ปกครอง<br><br>
+                ( ${gName} )
+              </td>
+            </tr>
+          </table>
+          <script>
+            // เมื่อภาพโหลดเสร็จให้เด้งคำสั่ง Print ทันที
+            window.onload = function() {
+              setTimeout(function(){ window.print(); window.close(); }, 500);
+            };
+          </script>
+        </body>
+        </html>
+        `;
+
+        // เปิดหน้าต่างใหม่
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printHtml);
+        printWindow.document.close();
+    }
     const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
