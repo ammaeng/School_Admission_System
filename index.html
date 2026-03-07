@@ -599,7 +599,53 @@
     function showSection(sectionId) {['formSection','dashboardSection','adminSection','landingSection'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; }); document.getElementById(sectionId).style.display = 'block'; window.scrollTo(0,0); }
     function changeStep(n) { if (n > 0 && !validateStep(currentStep)) return; const steps = document.querySelectorAll('.wizard-step'); steps[currentStep - 1].classList.remove('active'); document.getElementById('ind-' + currentStep).classList.remove('active'); document.getElementById('ind-' + currentStep).classList.add('completed'); currentStep += n; steps[currentStep - 1].classList.add('active'); document.getElementById('ind-' + currentStep).classList.add('active'); document.getElementById('ind-' + currentStep).classList.remove('completed'); document.getElementById('btnPrev').style.display = currentStep === 1 ? 'none' : 'inline-block'; if (currentStep === totalSteps) { document.getElementById('btnNext').style.display = 'none'; document.getElementById('btnSubmit').style.display = 'inline-block'; generateSummary(); } else { document.getElementById('btnNext').style.display = 'inline-block'; document.getElementById('btnSubmit').style.display = 'none'; } window.scrollTo({ top: 0, behavior: 'smooth' }); }
     function validateStep(step) { const stepEl = document.getElementById('step-' + step); const required = stepEl.querySelectorAll('[required]'); let valid = true; required.forEach(el => { el.classList.remove('is-invalid'); if (!el.value || el.value.trim() === '') { el.classList.add('is-invalid'); valid = false; } }); if (step === 1) { const idCard = document.getElementById('formIdCard'); if (idCard.value.length !== 13 || !/^\d{13}$/.test(idCard.value)) { idCard.classList.add('is-invalid'); valid = false; } } if (!valid) alert('กรุณากรอกข้อมูลที่จำเป็น (*) ให้ครบถ้วน'); return valid; }
-    function generateSummary() { const g = (col) => { const el = document.querySelector('[data-col="' + col + '"]'); return el ? (el.value || '-') : '-'; }; const photoThumb = croppedPhotoBase64 ? `<img src="${croppedPhotoBase64}" style="width:90px; height:120px; object-fit:cover; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">` : '<div style="width:90px;height:120px;background:#e2e8f0;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:0.8rem;">ไม่มีรูป</div>'; document.getElementById('summaryContent').innerHTML = `<div class="row align-items-center mb-4 pb-4 border-bottom"><div class="col-8 col-md-10"><h5 class="fw-bold text-dark mb-3">1. ข้อมูลนักเรียน</h5><p class="mb-1"><b>สมัครเรียนชั้น :</b> ${g(6)}</p><p class="mb-1"><b>ชื่อ - นามสกุล :</b> ${g(8)}${g(10)} ${g(11)}</p><p class="mb-1"><b>เลข ปชช. :</b> ${g(7)}</p><p class="mb-0"><b>เบอร์ติดต่อปัจจุบัน :</b> ${g(40)}</p></div><div class="col-4 col-md-2 text-end">${photoThumb}</div></div><div class="mb-4 pb-4 border-bottom"><h5 class="fw-bold text-dark mb-3">2. ที่อยู่ปัจจุบัน</h5><p class="mb-0">${g(33)} หมู่ ${g(34)} ถ.${g(35)} ต.${g(38)} อ.${g(37)} จ.${g(36)} ${g(39)}</p></div><div><h5 class="fw-bold text-dark mb-3">3. ข้อมูลผู้ปกครอง</h5><p class="mb-1"><b>ชื่อ - นามสกุล :</b> ${g(80)}${g(81)} ${g(82)}</p><p class="mb-1"><b>ความเกี่ยวข้อง :</b> ${g(87)}</p><p class="mb-0"><b>เบอร์โทรติดต่อ :</b> ${g(86)}</p></div>`; }
+function generateSummary() { 
+        const g = (col) => { const el = document.querySelector('[data-col="' + col + '"]'); return el ? (el.value || '-') : '-'; }; 
+        
+        // ดึงรูปถ่ายมาแสดง (ถ้ามี)
+        const photoThumb = croppedPhotoBase64 
+            ? `<img src="${croppedPhotoBase64}" style="width:100px; height:133px; object-fit:cover; border-radius:8px; border:1px solid #cbd5e1; box-shadow: var(--shadow-sm);">` 
+            : `<div style="width:100px;height:133px;background:#f8fafc;border:2px dashed #cbd5e1;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:0.8rem;">ไม่มีรูป</div>`; 
+        
+        document.getElementById('summaryContent').innerHTML = `
+        <div class="row mb-4">
+            <div class="col-8 col-md-9">
+                <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">1. ข้อมูลส่วนตัวนักเรียน</h6>
+                <div class="row mb-2"><div class="col-sm-4 text-muted small">ชั้นที่สมัคร :</div><div class="col-sm-8 fw-bold">${g(6)}</div></div>
+                <div class="row mb-2"><div class="col-sm-4 text-muted small">ชื่อ - นามสกุล :</div><div class="col-sm-8 fw-bold">${g(8)}${g(10)} ${g(11)}</div></div>
+                <div class="row mb-2"><div class="col-sm-4 text-muted small">เลข ปชช. :</div><div class="col-sm-8 fw-bold">${g(7)}</div></div>
+                <div class="row mb-2"><div class="col-sm-4 text-muted small">วันเกิด / เพศ :</div><div class="col-sm-8">${g(14)} / ${g(9)}</div></div>
+                <div class="row mb-2"><div class="col-sm-4 text-muted small">สัญชาติ / ศาสนา :</div><div class="col-sm-8">${g(18)} / ${g(20)}</div></div>
+            </div>
+            <div class="col-4 col-md-3 text-end">
+                ${photoThumb}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">2. ข้อมูลที่อยู่</h6>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">ตามทะเบียนบ้าน :</div><div class="col-sm-8">${g(24)} ม.${g(25)} ถ.${g(26)} ต.${g(29)} อ.${g(28)} จ.${g(27)} <span class="text-muted">(${g(30)})</span></div></div>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">ที่อยู่ปัจจุบัน :</div><div class="col-sm-8">${g(33)} ม.${g(34)} ถ.${g(35)} ต.${g(38)} อ.${g(37)} จ.${g(36)} <span class="text-muted">(${g(39)})</span></div></div>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">เบอร์ติดต่อปัจจุบัน :</div><div class="col-sm-8 fw-bold">${g(40)}</div></div>
+        </div>
+
+        <div class="mb-4">
+            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">3. ข้อมูลครอบครัวและผู้ปกครอง</h6>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">ข้อมูลบิดา :</div><div class="col-sm-8">${g(62)}${g(63)} ${g(64)} <span class="text-muted text-nowrap">(โทร: ${g(68)})</span></div></div>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">ข้อมูลมารดา :</div><div class="col-sm-8">${g(71)}${g(72)} ${g(73)} <span class="text-muted text-nowrap">(โทร: ${g(77)})</span></div></div>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">ชื่อผู้ปกครอง :</div><div class="col-sm-8 fw-bold text-dark">${g(80)}${g(81)} ${g(82)}</div></div>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">ความเกี่ยวข้อง :</div><div class="col-sm-8">${g(87)}</div></div>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">เบอร์ผู้ปกครอง :</div><div class="col-sm-8 fw-bold text-danger">${g(86)}</div></div>
+        </div>
+
+        <div class="mb-2">
+            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">4. ข้อมูลเพิ่มเติม</h6>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">การเดินทาง :</div><div class="col-sm-8">${g(47)} <span class="text-muted">(ใช้เวลา ${g(48)} นาที)</span></div></div>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">การพักนอน :</div><div class="col-sm-8">${g(41)}</div></div>
+            <div class="row mb-2"><div class="col-sm-4 text-muted small">น้ำหนัก / ส่วนสูง :</div><div class="col-sm-8">${g(51)} กก. / ${g(52)} ซม.</div></div>
+        </div>
+        `; 
+    }
     function copyAddress() { for(let i=1; i<=8; i++) { if(document.getElementById('cur'+i) && document.getElementById('reg'+i)) { document.getElementById('cur'+i).value = document.getElementById('reg'+i).value; } } }
     function copyToGuardian(type) { let prefix = type === 'father' ? 'f' : 'm'; document.getElementById('gId').value = document.getElementById(prefix + 'Id').value; document.getElementById('gPre').value = document.getElementById(prefix + 'Pre').value; document.getElementById('gName').value = document.getElementById(prefix + 'Name').value; document.getElementById('gLast').value = document.getElementById(prefix + 'Last').value; document.getElementById('gJob').value = document.getElementById(prefix + 'Job').value; document.getElementById('gInc').value = document.getElementById(prefix + 'Inc').value; document.getElementById('gBlood').value = document.getElementById(prefix + 'Blood').value; document.getElementById('gPhone').value = document.getElementById(prefix + 'Phone').value; document.getElementById('gRelation').value = type === 'father' ? 'บิดา' : 'มารดา'; }
 
