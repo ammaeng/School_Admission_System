@@ -197,8 +197,182 @@
                 </div>
 
                 <!-- STEP 3 และ STEP 4 จะนำมาต่อตรงนี้ -->
-                <div id="step-3-placeholder"></div>
-                <div id="step-4-placeholder"></div>
+              <!-- ============================================== -->
+                <!-- STEP 3: ข้อมูลเพิ่มเติม / รายละเอียดนักเรียน (คอลัมน์ 48 - 61) -->
+                <!-- ============================================== -->
+                <div class="wizard-step" id="step-3">
+                    <h5 class="mb-3">รายละเอียดนักเรียน</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6"><label>การพักนอนของนักเรียน</label>
+                            <select class="form-select" data-col="48">
+                                <option value="พักกับบิดามารดา">พักกับบิดามารดา</option>
+                                <option value="พักกับญาติ">พักกับญาติ</option>
+                                <option value="พักหอพัก/บ้านเช่า">พักหอพัก/บ้านเช่า</option>
+                                <option value="พักในโรงเรียน">พักในโรงเรียน</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6"><label>ความด้อยโอกาส</label>
+                            <select class="form-select" data-col="49">
+                                <option value="ปกติ (ไม่ด้อยโอกาส)">ปกติ (ไม่ด้อยโอกาส)</option>
+                                <option value="ยากจน">ยากจน</option>
+                                <option value="กำพร้า">กำพร้า</option>
+                                <option value="ได้รับผลกระทบจากเอดส์">ได้รับผลกระทบจากเอดส์</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <h6 class="mt-4 mb-2 text-secondary">ความขาดแคลน</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-3"><label>แบบเรียน</label><select class="form-select" data-col="50"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label>อาหารกลางวัน</label><select class="form-select" data-col="51"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label>เครื่องเขียน</label><select class="form-select" data-col="52"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                        <div class="col-md-3"><label>เครื่องแบบ</label><select class="form-select" data-col="53"><option value="ไม่ขาดแคลน">ไม่ขาดแคลน</option><option value="ขาดแคลน">ขาดแคลน</option></select></div>
+                    </div>
+
+                    <h6 class="mt-4 mb-2 text-secondary">การเดินทางมาโรงเรียน</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6"><label>การเดินทาง *</label>
+                            <select class="form-select" data-col="54" required>
+                                <option value="">-- เลือก --</option>
+                                <option value="เดินเท้า">เดินเท้า</option>
+                                <option value="รถจักรยาน">รถจักรยาน</option>
+                                <option value="รถจักรยานยนต์">รถจักรยานยนต์</option>
+                                <option value="รถยนต์ส่วนบุคคล">รถยนต์ส่วนบุคคล</option>
+                                <option value="รถโดยสารประจำทาง">รถโดยสารประจำทาง</option>
+                                <option value="รถรับส่งนักเรียน">รถรับส่งนักเรียน</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6"><label>ระยะเวลาเดินทาง (นาที) *</label><input type="number" class="form-control" data-col="55" required></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4"><label>ระยะทาง: ทางน้ำ (เมตร)</label><input type="number" class="form-control" data-col="56" value="0"></div>
+                        <div class="col-md-4"><label>ระยะทาง: ถนนลูกรัง (เมตร)</label><input type="number" class="form-control" data-col="57" value="0"></div>
+                        <div class="col-md-4"><label>ระยะทาง: ถนนลาดยาง (เมตร)</label><input type="number" class="form-control" data-col="58" value="0"></div>
+                    </div>
+
+                    <h6 class="mt-4 mb-2 text-secondary">สุขภาพ</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-4"><label>ทักษะการว่ายน้ำ</label>
+                            <select class="form-select" data-col="59">
+                                <option value="ว่ายไม่เป็น">ว่ายไม่เป็น</option>
+                                <option value="ว่ายเป็น">ว่ายเป็น</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4"><label>น้ำหนัก (กิโลกรัม) *</label><input type="number" class="form-control" data-col="60" step="0.1" required></div>
+                        <div class="col-md-4"><label>ส่วนสูง (เซนติเมตร) *</label><input type="number" class="form-control" data-col="61" step="0.1" required></div>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- STEP 4: ข้อมูลครอบครัว (คอลัมน์ 62 - 99) -->
+                <!-- ============================================== -->
+                <div class="wizard-step" id="step-4">
+                    <h5 class="mb-3">ข้อมูลพี่น้องและครอบครัว</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-12"><label>สถานภาพสมรสของบิดามารดา</label>
+                            <select class="form-select" data-col="62">
+                                <option value="อยู่ด้วยกัน">อยู่ด้วยกัน</option>
+                                <option value="แยกกันอยู่">แยกกันอยู่</option>
+                                <option value="หย่าร้าง">หย่าร้าง</option>
+                                <option value="บิดาถึงแก่กรรม">บิดาถึงแก่กรรม</option>
+                                <option value="มารดาถึงแก่กรรม">มารดาถึงแก่กรรม</option>
+                                <option value="บิดามารดาถึงแก่กรรม">บิดามารดาถึงแก่กรรม</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3"><label>จำนวนพี่ชาย</label><input type="number" class="form-control" data-col="63" value="0"></div>
+                        <div class="col-md-3"><label>จำนวนน้องชาย</label><input type="number" class="form-control" data-col="64" value="0"></div>
+                        <div class="col-md-3"><label>จำนวนพี่สาว</label><input type="number" class="form-control" data-col="65" value="0"></div>
+                        <div class="col-md-3"><label>จำนวนน้องสาว</label><input type="number" class="form-control" data-col="66" value="0"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6"><label>รวมพี่น้องที่กำลังศึกษาอยู่ (ไม่รวมตัวนักเรียน)</label><input type="number" class="form-control" data-col="67" value="0"></div>
+                        <div class="col-md-6"><label>นักเรียนเป็นบุตรลำดับที่</label><input type="number" class="form-control" data-col="68" value="1"></div>
+                    </div>
+
+                    <hr class="my-4">
+                    
+                    <!-- ข้อมูลบิดา -->
+                    <h5 class="mb-3 text-primary">ข้อมูลบิดา</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-4"><label>เลข ปชช. บิดา</label><input type="text" class="form-control" id="fId" data-col="69" maxlength="13"></div>
+                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="fType" data-col="70"><option value="บัตรประชาชน">บัตรประชาชน</option><option value="พาสปอร์ต">พาสปอร์ต</option></select></div>
+                        <div class="col-md-4"><label>คำนำหน้า</label><input type="text" class="form-control" id="fPre" data-col="71" value="นาย"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4"><label>ชื่อบิดา</label><input type="text" class="form-control" id="fName" data-col="72"></div>
+                        <div class="col-md-4"><label>ชื่อกลาง</label><input type="text" class="form-control" id="fMid" data-col="73"></div>
+                        <div class="col-md-4"><label>นามสกุล</label><input type="text" class="form-control" id="fLast" data-col="74"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="fJob" data-col="75"></div>
+                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="fInc" data-col="76"></div>
+                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="fBlood" data-col="77"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
+                        <div class="col-md-3"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="fPhone" data-col="78"></div>
+                    </div>
+
+                    <hr class="my-4">
+                    
+                    <!-- ข้อมูลมารดา -->
+                    <h5 class="mb-3 text-danger">ข้อมูลมารดา</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-4"><label>เลข ปชช. มารดา</label><input type="text" class="form-control" id="mId" data-col="79" maxlength="13"></div>
+                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="mType" data-col="80"><option value="บัตรประชาชน">บัตรประชาชน</option><option value="พาสปอร์ต">พาสปอร์ต</option></select></div>
+                        <div class="col-md-4"><label>คำนำหน้า</label><input type="text" class="form-control" id="mPre" data-col="81" value="นาง"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4"><label>ชื่อมารดา</label><input type="text" class="form-control" id="mName" data-col="82"></div>
+                        <div class="col-md-4"><label>ชื่อกลาง</label><input type="text" class="form-control" id="mMid" data-col="83"></div>
+                        <div class="col-md-4"><label>นามสกุล</label><input type="text" class="form-control" id="mLast" data-col="84"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="mJob" data-col="85"></div>
+                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="mInc" data-col="86"></div>
+                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="mBlood" data-col="87"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
+                        <div class="col-md-3"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="mPhone" data-col="88"></div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- ข้อมูลผู้ปกครอง -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0 text-success">ข้อมูลผู้ปกครอง</h5>
+                        <div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="copyToGuardian('father')">ใช้ข้อมูลบิดา</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="copyToGuardian('mother')">ใช้ข้อมูลมารดา</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4"><label>เลข ปชช. ผู้ปกครอง *</label><input type="text" class="form-control" id="gId" data-col="89" maxlength="13" required></div>
+                        <div class="col-md-4"><label>ชนิดบัตร</label><select class="form-select" id="gType" data-col="90"><option value="บัตรประชาชน">บัตรประชาชน</option><option value="พาสปอร์ต">พาสปอร์ต</option></select></div>
+                        <div class="col-md-4"><label>คำนำหน้า *</label><input type="text" class="form-control" id="gPre" data-col="91" required></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4"><label>ชื่อผู้ปกครอง *</label><input type="text" class="form-control" id="gName" data-col="92" required></div>
+                        <div class="col-md-4"><label>ชื่อกลาง</label><input type="text" class="form-control" id="gMid" data-col="93"></div>
+                        <div class="col-md-4"><label>นามสกุล *</label><input type="text" class="form-control" id="gLast" data-col="94" required></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3"><label>อาชีพ</label><input type="text" class="form-control" id="gJob" data-col="95"></div>
+                        <div class="col-md-3"><label>รายได้/เดือน</label><input type="number" class="form-control" id="gInc" data-col="96"></div>
+                        <div class="col-md-3"><label>กลุ่มเลือด</label><select class="form-select" id="gBlood" data-col="97"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="O">O</option><option value="AB">AB</option></select></div>
+                        <div class="col-md-3"><label>เบอร์โทรศัพท์ *</label><input type="text" class="form-control" id="gPhone" data-col="98" required></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12"><label>ความเกี่ยวข้องกับนักเรียน *</label>
+                            <select class="form-select" id="gRelation" data-col="99" required>
+                                <option value="">-- เลือก --</option>
+                                <option value="บิดา">บิดา</option>
+                                <option value="มารดา">มารดา</option>
+                                <option value="ปู่/ย่า/ตา/ยาย">ปู่/ย่า/ตา/ยาย</option>
+                                <option value="ลุง/ป้า/น้า/อา">ลุง/ป้า/น้า/อา</option>
+                                <option value="พี่">พี่</option>
+                                <option value="อื่นๆ">อื่นๆ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- ปุ่มเปลี่ยนหน้า ฟอร์ม -->
                 <hr>
@@ -339,6 +513,25 @@
             document.getElementById('btnSubmit').disabled = false;
         });
     });
+
+    // ฟังก์ชันสำหรับก๊อปปี้ข้อมูลบิดา/มารดา มาเป็นข้อมูลผู้ปกครอง
+    function copyToGuardian(type) {
+        let prefix = type === 'father' ? 'f' : 'm';
+        
+        document.getElementById('gId').value = document.getElementById(prefix + 'Id').value;
+        document.getElementById('gType').value = document.getElementById(prefix + 'Type').value;
+        document.getElementById('gPre').value = document.getElementById(prefix + 'Pre').value;
+        document.getElementById('gName').value = document.getElementById(prefix + 'Name').value;
+        document.getElementById('gMid').value = document.getElementById(prefix + 'Mid').value;
+        document.getElementById('gLast').value = document.getElementById(prefix + 'Last').value;
+        document.getElementById('gJob').value = document.getElementById(prefix + 'Job').value;
+        document.getElementById('gInc').value = document.getElementById(prefix + 'Inc').value;
+        document.getElementById('gBlood').value = document.getElementById(prefix + 'Blood').value;
+        document.getElementById('gPhone').value = document.getElementById(prefix + 'Phone').value;
+        
+        // เซ็ตความสัมพันธ์อัตโนมัติ
+        document.getElementById('gRelation').value = type === 'father' ? 'บิดา' : 'มารดา';
+    }
 </script>
 </body>
 </html>
