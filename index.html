@@ -1606,69 +1606,70 @@
     }
 
     // ===========================================================
-    // Thai Address Autocomplete (ข้อมูลจังหวัด/อำเภอ/ตำบล/ไปรษณีย์)
+    // Thai Address Autocomplete
     // ===========================================================
-    let thaiAddrDB = null;
+    let thaiAddrDB = null; // flat array: [{district, amphoe, province, zipcode}, ...]
 
-    // โหลดข้อมูลจาก CDN
-    fetch('https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/database/raw_database/db.json')
-        .then(r => r.json())
-        .then(data => {
-            thaiAddrDB = data;
-            console.log('Thai Address DB loaded:', data.length, 'records');
-        })
-        .catch(() => {
-            // fallback: ลองอีก URL
-            fetch('https://raw.githubusercontent.com/earthchie/jquery.Thailand.js/master/jquery.Thailand.js/database/raw_database/db.json')
-                .then(r => r.json())
-                .then(data => { thaiAddrDB = data; })
-                .catch(e => console.warn('ไม่สามารถโหลดข้อมูลที่อยู่ได้', e));
-        });
-
-    // Mapping: set + field → input id
-    // reg: reg4=จังหวัด, reg5=อำเภอ, reg6=ตำบล, reg7=ไปรษณีย์
-    // cur: cur4=จังหวัด, cur5=อำเภอ, cur6=ตำบล, cur7=ไปรษณีย์
-    function getAddrIds(set) {
-        return {
-            province: set + '4',
-            amphoe: set + '5',
-            district: set + '6',
-            zipcode: set + '7'
-        };
+    // โหลดข้อมูล nested → แปลงเป็น flat
+    function loadThaiAddressDB() {
+        const urls = [
+            'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/latest/province_with_district_and_sub_district.json',
+            'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/v1/province_with_amphure_tambon.json'
+        ];
+        tryLoadUrl(urls, 0);
     }
 
-    // ค้นหา unique values จาก DB
+    function tryLoadUrl(urls, idx) {
+        if (idx >= urls.length) { console.warn('ไม่สามารถโหลดข้อมูลที่อยู่ได้'); return; }
+        fetch(urls[idx])
+            .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(data => {
+                thaiAddrDB = flattenThaiDB(data);
+                console.log('Thai Address DB loaded:', thaiAddrDB.length, 'records');
+            })
+            .catch(() => tryLoadUrl(urls, idx + 1));
+    }
+
+    function flattenThaiDB(provinces) {
+        const flat = [];
+        for (const prov of provinces) {
+            const provName = prov.name_th || prov.province || '';
+            const amphures = prov.amphure || prov.districts || prov.amphures || [];
+            for (const amp of amphures) {
+                const ampName = amp.name_th || amp.amphoe || amp.district || '';
+                const tambons = amp.tambon || amp.sub_districts || amp.tambons || [];
+                for (const tam of tambons) {
+                    flat.push({
+                        province: provName,
+                        amphoe: ampName,
+                        district: tam.name_th || tam.tambon || tam.sub_district || '',
+                        zipcode: String(tam.zip_code || tam.zipcode || '')
+                    });
+                }
+            }
+        }
+        return flat;
+    }
+
+    loadThaiAddressDB();
+
+    // Mapping: set + field → input id
+    function getAddrIds(set) {
+        return { province: set+'4', amphoe: set+'5', district: set+'6', zipcode: set+'7' };
+    }
+
     function searchAddr(field, query, filters) {
         if (!thaiAddrDB || !query) return [];
         const q = query.trim().toLowerCase();
-        // field mapping: province→p, amphoe→a, district→d, zipcode→z (ใน DB แบบ compact)
-        // DB format: [{d:"ตำบล", a:"อำเภอ", p:"จังหวัด", z:"รหัสไปรษณีย์"}, ...]
-        // หรือ flat array: [district, amphoe, province, zipcode]
-        let keyMap = { province: 'p', amphoe: 'a', district: 'd', zipcode: 'z' };
-
-        // detect DB format
-        let results = [];
-        if (Array.isArray(thaiAddrDB) && thaiAddrDB[0]) {
-            let sampleKeys = Object.keys(thaiAddrDB[0]);
-            // format: {d, a, p, z}
-            if (sampleKeys.includes('d')) {
-                keyMap = { province: 'p', amphoe: 'a', district: 'd', zipcode: 'z' };
-            }
-            // format: {district, amphoe, province, zipcode}
-            else if (sampleKeys.includes('district')) {
-                keyMap = { province: 'province', amphoe: 'amphoe', district: 'district', zipcode: 'zipcode' };
-            }
-        }
-
         let seen = new Set();
+        let results = [];
         for (const row of thaiAddrDB) {
-            const val = String(row[keyMap[field]] || '');
+            const val = String(row[field] || '');
             if (!val.toLowerCase().includes(q)) continue;
-            // apply filters
             let match = true;
             if (filters) {
                 for (const [fk, fv] of Object.entries(filters)) {
-                    if (fv && String(row[keyMap[fk]] || '') !== fv) { match = false; break; }
+                    if (fv && String(row[fk] || '') !== fv) { match = false; break; }
                 }
             }
             if (!match) continue;
@@ -1681,39 +1682,28 @@
         return results;
     }
 
-    // เมื่อเลือกรายการ → เติมช่องถัดไปอัตโนมัติ
     function onAddrSelect(set, field, selectedRow) {
         const ids = getAddrIds(set);
-        let keyMap;
-        if (thaiAddrDB && thaiAddrDB[0]) {
-            const sampleKeys = Object.keys(thaiAddrDB[0]);
-            if (sampleKeys.includes('d')) keyMap = { province: 'p', amphoe: 'a', district: 'd', zipcode: 'z' };
-            else keyMap = { province: 'province', amphoe: 'amphoe', district: 'district', zipcode: 'zipcode' };
-        }
-
-        // เติมข้อมูลที่เกี่ยวข้อง
         if (field === 'province') {
-            document.getElementById(ids.province).value = selectedRow[keyMap.province];
+            document.getElementById(ids.province).value = selectedRow.province;
             document.getElementById(ids.amphoe).value = '';
             document.getElementById(ids.district).value = '';
             document.getElementById(ids.zipcode).value = '';
         } else if (field === 'amphoe') {
-            document.getElementById(ids.amphoe).value = selectedRow[keyMap.amphoe];
-            document.getElementById(ids.province).value = selectedRow[keyMap.province];
+            document.getElementById(ids.amphoe).value = selectedRow.amphoe;
+            document.getElementById(ids.province).value = selectedRow.province;
             document.getElementById(ids.district).value = '';
             document.getElementById(ids.zipcode).value = '';
         } else if (field === 'district') {
-            document.getElementById(ids.district).value = selectedRow[keyMap.district];
-            document.getElementById(ids.amphoe).value = selectedRow[keyMap.amphoe];
-            document.getElementById(ids.province).value = selectedRow[keyMap.province];
-            document.getElementById(ids.zipcode).value = selectedRow[keyMap.zipcode];
+            document.getElementById(ids.district).value = selectedRow.district;
+            document.getElementById(ids.amphoe).value = selectedRow.amphoe;
+            document.getElementById(ids.province).value = selectedRow.province;
+            document.getElementById(ids.zipcode).value = selectedRow.zipcode;
         }
-
-        // Mark has-value
         ['province','amphoe','district'].forEach(f => {
             const el = document.getElementById(ids[f]);
-            if (el.value) el.classList.add('has-value');
-            else el.classList.remove('has-value');
+            if (el && el.value) el.classList.add('has-value');
+            else if (el) el.classList.remove('has-value');
         });
     }
 
@@ -1729,7 +1719,6 @@
 
         if (!query || !thaiAddrDB) { dropdownEl.classList.remove('show'); return; }
 
-        // กำหนด filter ตามลำดับ: จังหวัด → อำเภอ → ตำบล
         let filters = {};
         if (field === 'amphoe') {
             filters.province = document.getElementById(ids.province).value;
@@ -1743,22 +1732,14 @@
 
         dropdownEl.innerHTML = results.map((r, i) => {
             let label = r.value;
-            // แสดงข้อมูลเพิ่มเติมสำหรับ context
-            let keyMap;
-            const sampleKeys = Object.keys(thaiAddrDB[0]);
-            if (sampleKeys.includes('d')) keyMap = { province: 'p', amphoe: 'a', district: 'd', zipcode: 'z' };
-            else keyMap = { province: 'province', amphoe: 'amphoe', district: 'district', zipcode: 'zipcode' };
-            if (field === 'district') label += ` → ${r.row[keyMap.amphoe]}, ${r.row[keyMap.province]}`;
-            else if (field === 'amphoe') label += ` → ${r.row[keyMap.province]}`;
+            if (field === 'district') label += ` → ${r.row.amphoe}, ${r.row.province}`;
+            else if (field === 'amphoe') label += ` → ${r.row.province}`;
             return `<div class="addr-item" data-index="${i}">${label}</div>`;
         }).join('');
         dropdownEl.classList.add('show');
-
-        // เก็บ results ไว้ใน element
         dropdownEl._results = results;
     });
 
-    // คลิกเลือกรายการ
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('addr-item')) {
             const dropdown = e.target.parentElement;
@@ -1766,18 +1747,13 @@
             const result = dropdown._results[idx];
             const inputId = dropdown.id.replace('-dropdown', '');
             const input = document.getElementById(inputId);
-            const field = input.dataset.addr;
-            const set = input.dataset.set;
-
-            onAddrSelect(set, field, result.row);
+            onAddrSelect(input.dataset.set, input.dataset.addr, result.row);
             dropdown.classList.remove('show');
             return;
         }
-        // ปิด dropdown อื่นๆ
         document.querySelectorAll('.addr-dropdown.show').forEach(d => d.classList.remove('show'));
     });
 
-    // ปิด dropdown เมื่อกด Escape หรือ Tab
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' || e.key === 'Tab') {
             document.querySelectorAll('.addr-dropdown.show').forEach(d => d.classList.remove('show'));
