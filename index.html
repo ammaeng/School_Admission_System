@@ -761,7 +761,7 @@ function generateSummary() {
             
             globalStudents = res.data;
             let pending=0, approved=0, m1=0, m4=0;
-            res.data.forEach(s => { if (s.status === 'รอตรวจสอบ') pending++; else if (s.status === 'ยืนยันแล้ว') approved++; if (s.grade === 'ม.1') m1++; else if (s.grade === 'ม.4') m4++; });
+            res.data.forEach(s => { if (s.status === 'รอตรวจสอบ') pending++; else if (s.status === 'ยืนยันแล้ว') approved++; if (s.grade === 'อ.2') m1++; else if (s.grade === 'ม.1') m4++; });
             document.getElementById('statTotal').textContent = res.data.length; document.getElementById('statPending').textContent = pending; document.getElementById('statApproved').textContent = approved; document.getElementById('statM1').textContent = m1; document.getElementById('statM4').textContent = m4;
             
             let html = '';
