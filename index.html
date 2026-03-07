@@ -676,22 +676,61 @@
     </div>
 
     <!-- ===== 2. ที่อยู่ ===== -->
-    <div class="sec-title">๒. ที่อยู่ปัจจุบันและการติดต่อ</div>
+    <div class="sec-title">๒. ที่อยู่และการติดต่อ</div>
+
+    <table class="family-table">
+      <thead>
+        <tr>
+          <th style="width:15%;">รายการ</th>
+          <th style="width:42.5%;">ที่อยู่ตามทะเบียนบ้าน</th>
+          <th style="width:42.5%;">ที่อยู่ปัจจุบัน</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="lbl-cell">รหัสบ้าน</td>
+          <td>${v(rd[22])}</td>
+          <td>${v(rd[31])}</td>
+        </tr>
+        <tr>
+          <td class="lbl-cell">บ้านเลขที่</td>
+          <td>${v(rd[23])}</td>
+          <td>${v(rd[32])}</td>
+        </tr>
+        <tr>
+          <td class="lbl-cell">หมู่ / ถนน</td>
+          <td>หมู่ ${v(rd[24])} ถนน${v(rd[25])}</td>
+          <td>หมู่ ${v(rd[33])} ถนน${v(rd[34])}</td>
+        </tr>
+        <tr>
+          <td class="lbl-cell">ตำบล/แขวง</td>
+          <td>${v(rd[28])}</td>
+          <td>${v(rd[37])}</td>
+        </tr>
+        <tr>
+          <td class="lbl-cell">อำเภอ/เขต</td>
+          <td>${v(rd[27])}</td>
+          <td>${v(rd[36])}</td>
+        </tr>
+        <tr>
+          <td class="lbl-cell">จังหวัด</td>
+          <td>${v(rd[26])}</td>
+          <td>${v(rd[35])}</td>
+        </tr>
+        <tr>
+          <td class="lbl-cell">ไปรษณีย์</td>
+          <td>${v(rd[29])}</td>
+          <td>${v(rd[38])}</td>
+        </tr>
+        <tr>
+          <td class="lbl-cell">โทรศัพท์</td>
+          <td>${v(rd[30])}</td>
+          <td>${v(rd[39])}</td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="fields">
-      <div class="f"><span class="lbl">รหัสบ้าน</span> <span class="val">${v(rd[31])}</span></div>
-      <div class="f"><span class="lbl">บ้านเลขที่</span> <span class="val">${v(rd[32])}</span></div>
-      <div class="f"><span class="lbl">หมู่</span> <span class="val">${v(rd[33])}</span></div>
-      <div class="f grow"><span class="lbl">ถนน</span> <span class="val">${v(rd[34])}</span></div>
-    </div>
-    <div class="fields">
-      <div class="f grow"><span class="lbl">ตำบล/แขวง</span> <span class="val">${v(rd[37])}</span></div>
-      <div class="f grow"><span class="lbl">อำเภอ/เขต</span> <span class="val">${v(rd[36])}</span></div>
-      <div class="f grow"><span class="lbl">จังหวัด</span> <span class="val">${v(rd[35])}</span></div>
-    </div>
-    <div class="fields">
-      <div class="f"><span class="lbl">ไปรษณีย์</span> <span class="val">${v(rd[38])}</span></div>
-      <div class="f"><span class="lbl">โทรศัพท์</span> <span class="val">${v(rd[39])}</span></div>
       <div class="f grow"><span class="lbl">อีเมล</span> <span class="val">${v(rd[15])}</span></div>
     </div>
 
