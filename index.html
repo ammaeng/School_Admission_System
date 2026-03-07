@@ -420,9 +420,9 @@
 
     body {
       font-family: 'Sarabun', sans-serif;
-      font-size: 13pt;
+      font-size: 11pt;
       color: #1a1a1a;
-      line-height: 1.45;
+      line-height: 1.3;
       background: #6b7280;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
@@ -430,9 +430,9 @@
 
     .page {
       width: 210mm;
-      min-height: 297mm;
-      margin: 15px auto;
-      padding: 10mm 12mm 8mm 12mm;
+      height: 297mm;
+      margin: 10px auto;
+      padding: 7mm 10mm 5mm 10mm;
       background: #fff;
       box-shadow: 0 4px 24px rgba(0,0,0,0.35);
       position: relative;
@@ -442,204 +442,202 @@
     /* ===== HEADER ===== */
     .header {
       text-align: center;
-      padding-bottom: 8px;
-      border-bottom: 2.5px solid #1e3a5f;
-      margin-bottom: 6px;
-      position: relative;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #1e3a5f;
+      margin-bottom: 3px;
     }
     .header h1 {
-      font-size: 19pt;
+      font-size: 17pt;
       font-weight: 700;
       color: #1e3a5f;
       letter-spacing: 1px;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .header h2 {
-      font-size: 14pt;
+      font-size: 12.5pt;
       font-weight: 500;
       color: #374151;
     }
-    .header h2 .val { 
-      font-weight: 700; 
+    .header h2 .hl {
+      font-weight: 700;
       color: #1e3a5f;
       border-bottom: 1.5px dotted #1e3a5f;
-      padding: 0 8px;
+      padding: 0 6px;
     }
 
     /* ===== PHOTO ===== */
     .photo-box {
       position: absolute;
-      top: 10mm;
-      right: 12mm;
+      top: 7mm;
+      right: 10mm;
       z-index: 10;
     }
     .photo-img {
-      width: 2.8cm;
-      height: 3.6cm;
+      width: 2.5cm;
+      height: 3.2cm;
       object-fit: cover;
-      border: 1.5px solid #374151;
-      border-radius: 3px;
+      border: 1px solid #555;
+      border-radius: 2px;
     }
     .photo-placeholder {
-      width: 2.8cm;
-      height: 3.6cm;
-      border: 1.5px dashed #9ca3af;
-      border-radius: 3px;
+      width: 2.5cm;
+      height: 3.2cm;
+      border: 1px dashed #aaa;
+      border-radius: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10pt;
-      color: #9ca3af;
+      font-size: 9pt;
+      color: #aaa;
       text-align: center;
-      line-height: 1.3;
+      line-height: 1.2;
     }
 
     .apply-date {
       text-align: right;
-      font-size: 11.5pt;
-      color: #6b7280;
-      margin: 4px 3.5cm 6px 0;
+      font-size: 10pt;
+      color: #888;
+      margin: 2px 3cm 4px 0;
     }
-    .apply-date .val { color: #1a1a1a; font-weight: 500; }
+    .apply-date .hl { color: #1a1a1a; font-weight: 500; }
 
     /* ===== SECTION TITLE ===== */
-    .sec-title {
-      font-size: 13.5pt;
+    .sec {
+      font-size: 11pt;
       font-weight: 700;
       color: #fff;
       background: #1e3a5f;
-      padding: 3px 10px;
-      border-radius: 3px;
-      margin: 8px 0 5px 0;
-      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin: 5px 0 3px 0;
     }
 
     /* ===== FIELD ROWS ===== */
-    .fields {
+    .row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0;
-      padding: 2px 0;
-      border-bottom: 1px solid #e5e7eb;
+      padding: 1.5px 0;
+      border-bottom: 1px solid #eee;
     }
-    .fields:last-child { border-bottom: none; }
+    .row:last-child { border-bottom: none; }
 
-    .f {
-      padding: 2.5px 6px;
-      font-size: 12.5pt;
+    .c {
+      padding: 1px 4px;
+      font-size: 10.5pt;
       display: inline-flex;
       align-items: baseline;
       flex-shrink: 0;
     }
-    .f .lbl {
+    .c .l {
       font-weight: 600;
-      color: #374151;
+      color: #444;
       white-space: nowrap;
-      margin-right: 3px;
-      font-size: 11.5pt;
+      margin-right: 2px;
+      font-size: 10pt;
     }
-    .f .val {
-      border-bottom: 1px dotted #9ca3af;
-      min-width: 30px;
+    .c .d {
+      border-bottom: 1px dotted #bbb;
+      min-width: 20px;
       text-align: center;
-      padding: 0 4px;
+      padding: 0 3px;
       color: #111;
       font-weight: 500;
     }
-    .f .unit {
-      font-size: 11pt;
-      color: #6b7280;
-      margin-left: 2px;
+    .c .u {
+      font-size: 9.5pt;
+      color: #888;
+      margin-left: 1px;
     }
-
-    /* auto-fill remaining space */
-    .f.grow { flex: 1; }
-    .f.grow .val { flex: 1; }
+    .c.g { flex: 1; }
+    .c.g .d { flex: 1; }
 
     /* ===== TABLE ===== */
-    .family-table {
+    .tbl {
       width: 100%;
       border-collapse: collapse;
-      margin: 4px 0;
-      font-size: 11.5pt;
+      margin: 2px 0;
+      font-size: 10pt;
     }
-    .family-table th,
-    .family-table td {
+    .tbl th, .tbl td {
       border: 1px solid #d1d5db;
-      padding: 3px 6px;
+      padding: 2px 5px;
       vertical-align: middle;
     }
-    .family-table th {
+    .tbl th {
       background: #e8edf3;
       font-weight: 600;
       color: #1e3a5f;
       text-align: center;
-      font-size: 11pt;
+      font-size: 9.5pt;
     }
-    .family-table td {
-      color: #1a1a1a;
-    }
-    .family-table td.lbl-cell {
+    .tbl td { color: #1a1a1a; }
+    .tbl td.lc {
       background: #f3f4f6;
       font-weight: 600;
-      color: #374151;
-      width: 13%;
+      color: #444;
       text-align: center;
-      font-size: 11pt;
+      font-size: 9.5pt;
     }
 
-    /* ===== CERTIFICATION ===== */
+    /* ===== CERT + SIGNATURE ===== */
     .cert {
-      margin-top: 10px;
-      text-indent: 40px;
+      margin-top: 6px;
+      text-indent: 35px;
       text-align: justify;
-      font-size: 12.5pt;
-      line-height: 1.5;
-      color: #374151;
+      font-size: 10.5pt;
+      line-height: 1.4;
+      color: #444;
     }
-
-    /* ===== SIGNATURES ===== */
     .sig-row {
       display: flex;
       justify-content: space-between;
-      margin-top: 14px;
-      gap: 20px;
+      margin-top: 8px;
     }
     .sig-box {
       text-align: center;
-      width: 45%;
-      font-size: 12pt;
+      width: 44%;
+      font-size: 10pt;
     }
-    .sig-line {
+    .sig-ln {
       display: block;
       width: 80%;
-      margin: 28px auto 4px auto;
-      border-bottom: 1px dotted #374151;
+      margin: 22px auto 2px auto;
+      border-bottom: 1px dotted #555;
     }
-    .sig-name {
-      font-size: 11.5pt;
-      color: #374151;
+    .sig-nm { font-size: 10pt; color: #444; }
+    .sig-lb { font-weight: 600; color: #1e3a5f; font-size: 10.5pt; }
+    .sig-dt { font-size: 9pt; color: #888; margin-top: 1px; }
+
+    /* ===== PRINT BUTTON ===== */
+    .print-bar {
+      text-align: center;
+      padding: 12px;
+      background: #f3f4f6;
+      border-bottom: 1px solid #ddd;
     }
-    .sig-label {
+    .print-bar button {
+      font-family: 'Sarabun', sans-serif;
+      font-size: 13pt;
       font-weight: 600;
-      color: #1e3a5f;
-      font-size: 12pt;
+      padding: 8px 30px;
+      background: #1e3a5f;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
-    .sig-date {
-      font-size: 10.5pt;
-      color: #6b7280;
-      margin-top: 2px;
-    }
+    .print-bar button:hover { background: #2c5282; }
 
     /* ===== PRINT ===== */
     @media print {
       body { background: #fff; }
+      .print-bar { display: none; }
       .page {
         margin: 0;
-        padding: 8mm 12mm 6mm 12mm;
+        padding: 7mm 10mm 5mm 10mm;
         box-shadow: none;
         width: 100%;
-        min-height: auto;
+        height: 100%;
       }
       @page {
         size: A4;
@@ -649,175 +647,127 @@
   </style>
 </head>
 <body>
+  <!-- ปุ่มสั่งพิมพ์ -->
+  <div class="print-bar">
+    <button onclick="window.print()">🖨️ พิมพ์ใบสมัคร</button>
+  </div>
+
   <div class="page">
 
-    <!-- รูปถ่าย -->
     <div class="photo-box">${imgTag}</div>
 
-    <!-- หัวเรื่อง -->
     <div class="header">
       <h1>ใบสมัครเข้าเรียน</h1>
-      <h2>โรงเรียนบ้านคลอง 14 &nbsp;ปีการศึกษา <span class="val">${v(rd[1])}</span></h2>
+      <h2>โรงเรียนบ้านคลอง 14 &nbsp;ปีการศึกษา <span class="hl">${v(rd[1])}</span></h2>
     </div>
-
-    <div class="apply-date">วันที่สมัคร <span class="val">${applyDate}</span></div>
+    <div class="apply-date">วันที่สมัคร <span class="hl">${applyDate}</span></div>
 
     <!-- ===== 1. ข้อมูลส่วนตัว ===== -->
-    <div class="sec-title">๑. ข้อมูลส่วนตัวนักเรียน</div>
+    <div class="sec">๑. ข้อมูลส่วนตัวนักเรียน</div>
 
-    <div class="fields">
-      <div class="f"><span class="lbl">ชั้นที่สมัคร</span> <span class="val" style="font-weight:700;">${v(rd[5])}</span></div>
-      <div class="f grow"><span class="lbl">เลขประจำตัวประชาชน</span> <span class="val">${v(rd[6])}</span></div>
+    <div class="row">
+      <div class="c"><span class="l">ชั้นที่สมัคร</span> <span class="d" style="font-weight:700">${v(rd[5])}</span></div>
+      <div class="c g"><span class="l">เลข ปชช.</span> <span class="d">${v(rd[6])}</span></div>
+      <div class="c"><span class="l">เพศ</span> <span class="d">${v(rd[8])}</span></div>
     </div>
-    <div class="fields">
-      <div class="f grow"><span class="lbl">ชื่อ-นามสกุล</span> <span class="val">${v(rd[7])}${v(rd[9])} ${v(rd[10])}</span></div>
-      <div class="f"><span class="lbl">เพศ</span> <span class="val">${v(rd[8])}</span></div>
+    <div class="row">
+      <div class="c g"><span class="l">ชื่อ-สกุล (ไทย)</span> <span class="d">${v(rd[7])}${v(rd[9])} ${v(rd[10])}</span></div>
+      <div class="c g"><span class="l">(อังกฤษ)</span> <span class="d">${v(rd[11])} ${v(rd[12])}</span></div>
     </div>
-    <div class="fields">
-      <div class="f grow"><span class="lbl">ชื่อ (อังกฤษ)</span> <span class="val">${v(rd[11])} ${v(rd[12])}</span></div>
+    <div class="row">
+      <div class="c"><span class="l">เกิดวันที่</span> <span class="d">${v(rd[13])}</span></div>
+      <div class="c"><span class="l">จ.ที่เกิด</span> <span class="d">${v(rd[14])}</span></div>
+      <div class="c"><span class="l">เลือด</span> <span class="d">${v(rd[16])}</span></div>
+      <div class="c"><span class="l">สัญชาติ</span> <span class="d">${v(rd[17])}</span></div>
+      <div class="c"><span class="l">เชื้อชาติ</span> <span class="d">${v(rd[18])}</span></div>
+      <div class="c"><span class="l">ศาสนา</span> <span class="d">${v(rd[19])}</span></div>
     </div>
-    <div class="fields">
-      <div class="f"><span class="lbl">เกิดวันที่</span> <span class="val">${v(rd[13])}</span></div>
-      <div class="f"><span class="lbl">จังหวัดที่เกิด</span> <span class="val">${v(rd[14])}</span></div>
-      <div class="f"><span class="lbl">กรุ๊ปเลือด</span> <span class="val">${v(rd[16])}</span></div>
-    </div>
-    <div class="fields">
-      <div class="f"><span class="lbl">สัญชาติ</span> <span class="val">${v(rd[17])}</span></div>
-      <div class="f"><span class="lbl">เชื้อชาติ</span> <span class="val">${v(rd[18])}</span></div>
-      <div class="f"><span class="lbl">ศาสนา</span> <span class="val">${v(rd[19])}</span></div>
-      <div class="f"><span class="lbl">น้ำหนัก</span> <span class="val">${v(rd[50])}</span><span class="unit">กก.</span></div>
-      <div class="f"><span class="lbl">ส่วนสูง</span> <span class="val">${v(rd[51])}</span><span class="unit">ซม.</span></div>
+    <div class="row">
+      <div class="c"><span class="l">น้ำหนัก</span> <span class="d">${v(rd[50])}</span><span class="u">กก.</span></div>
+      <div class="c"><span class="l">สูง</span> <span class="d">${v(rd[51])}</span><span class="u">ซม.</span></div>
+      <div class="c"><span class="l">อีเมล</span> <span class="d">${v(rd[15])}</span></div>
     </div>
 
     <!-- ===== 2. ที่อยู่ ===== -->
-    <div class="sec-title">๒. ที่อยู่และการติดต่อ</div>
+    <div class="sec">๒. ที่อยู่</div>
 
-    <table class="family-table">
-      <thead>
-        <tr>
-          <th style="width:15%;">รายการ</th>
-          <th style="width:42.5%;">ที่อยู่ตามทะเบียนบ้าน</th>
-          <th style="width:42.5%;">ที่อยู่ปัจจุบัน</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="lbl-cell">รหัสบ้าน</td>
-          <td>${v(rd[22])}</td>
-          <td>${v(rd[31])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">บ้านเลขที่</td>
-          <td>${v(rd[23])}</td>
-          <td>${v(rd[32])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">หมู่ / ถนน</td>
-          <td>หมู่ ${v(rd[24])} ถนน${v(rd[25])}</td>
-          <td>หมู่ ${v(rd[33])} ถนน${v(rd[34])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">ตำบล/แขวง</td>
-          <td>${v(rd[28])}</td>
-          <td>${v(rd[37])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">อำเภอ/เขต</td>
-          <td>${v(rd[27])}</td>
-          <td>${v(rd[36])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">จังหวัด</td>
-          <td>${v(rd[26])}</td>
-          <td>${v(rd[35])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">ไปรษณีย์</td>
-          <td>${v(rd[29])}</td>
-          <td>${v(rd[38])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">โทรศัพท์</td>
-          <td>${v(rd[30])}</td>
-          <td>${v(rd[39])}</td>
-        </tr>
-      </tbody>
+    <table class="tbl">
+      <tr>
+        <th style="width:14%">รายการ</th>
+        <th style="width:43%">ตามทะเบียนบ้าน</th>
+        <th style="width:43%">ที่อยู่ปัจจุบัน</th>
+      </tr>
+      <tr><td class="lc">รหัสบ้าน</td><td>${v(rd[22])}</td><td>${v(rd[31])}</td></tr>
+      <tr><td class="lc">เลขที่ / หมู่ / ถนน</td><td>${v(rd[23])} หมู่ ${v(rd[24])} ถ.${v(rd[25])}</td><td>${v(rd[32])} หมู่ ${v(rd[33])} ถ.${v(rd[34])}</td></tr>
+      <tr><td class="lc">ต./อ./จ.</td><td>${v(rd[28])} / ${v(rd[27])} / ${v(rd[26])}</td><td>${v(rd[37])} / ${v(rd[36])} / ${v(rd[35])}</td></tr>
+      <tr><td class="lc">ไปรษณีย์</td><td>${v(rd[29])}</td><td>${v(rd[38])}</td></tr>
+      <tr><td class="lc">โทรศัพท์</td><td>${v(rd[30])}</td><td>${v(rd[39])}</td></tr>
     </table>
 
-    <div class="fields">
-      <div class="f grow"><span class="lbl">อีเมล</span> <span class="val">${v(rd[15])}</span></div>
-    </div>
-
     <!-- ===== 3. ครอบครัว ===== -->
-    <div class="sec-title">๓. ข้อมูลครอบครัวและผู้ปกครอง</div>
+    <div class="sec">๓. ข้อมูลครอบครัวและผู้ปกครอง</div>
 
-    <div class="fields">
-      <div class="f"><span class="lbl">สถานภาพบิดามารดา</span> <span class="val">${v(rd[52])}</span></div>
-      <div class="f"><span class="lbl">บุตรลำดับที่</span> <span class="val">${v(rd[58])}</span></div>
-      <div class="f"><span class="lbl">จากพี่น้องทั้งหมด</span> <span class="val">${totalSiblings}</span><span class="unit">คน</span></div>
+    <div class="row">
+      <div class="c"><span class="l">สถานภาพ</span> <span class="d">${v(rd[52])}</span></div>
+      <div class="c"><span class="l">บุตรลำดับที่</span> <span class="d">${v(rd[58])}</span></div>
+      <div class="c"><span class="l">พี่น้องรวม</span> <span class="d">${totalSiblings}</span><span class="u">คน</span></div>
+      <div class="c"><span class="l">กำลังศึกษา</span> <span class="d">${v(rd[57])}</span><span class="u">คน</span></div>
+    </div>
+    <div class="row">
+      <div class="c"><span class="l">พี่ชาย</span> <span class="d">${v(rd[53])}</span><span class="u">คน</span></div>
+      <div class="c"><span class="l">น้องชาย</span> <span class="d">${v(rd[54])}</span><span class="u">คน</span></div>
+      <div class="c"><span class="l">พี่สาว</span> <span class="d">${v(rd[55])}</span><span class="u">คน</span></div>
+      <div class="c"><span class="l">น้องสาว</span> <span class="d">${v(rd[56])}</span><span class="u">คน</span></div>
     </div>
 
-    <table class="family-table">
-      <thead>
-        <tr>
-          <th style="width:13%;">รายการ</th>
-          <th style="width:29%;">บิดา</th>
-          <th style="width:29%;">มารดา</th>
-          <th style="width:29%;">ผู้ปกครอง (${v(rd[86])})</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="lbl-cell">ชื่อ-สกุล</td>
-          <td>${v(rd[61])}${v(rd[62])} ${v(rd[63])}</td>
-          <td>${v(rd[70])}${v(rd[71])} ${v(rd[72])}</td>
-          <td>${v(rd[79])}${v(rd[80])} ${v(rd[81])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">เลข ปชช.</td>
-          <td>${v(rd[59])}</td>
-          <td>${v(rd[68])}</td>
-          <td>${v(rd[77])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">อาชีพ</td>
-          <td>${v(rd[64])}</td>
-          <td>${v(rd[73])}</td>
-          <td>${v(rd[82])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">รายได้/เดือน</td>
-          <td>${v(rd[65])}</td>
-          <td>${v(rd[74])}</td>
-          <td>${v(rd[83])}</td>
-        </tr>
-        <tr>
-          <td class="lbl-cell">เบอร์โทร</td>
-          <td>${v(rd[67])}</td>
-          <td>${v(rd[76])}</td>
-          <td>${v(rd[85])}</td>
-        </tr>
-      </tbody>
+    <table class="tbl">
+      <tr>
+        <th style="width:12%">รายการ</th>
+        <th style="width:29.3%">บิดา</th>
+        <th style="width:29.3%">มารดา</th>
+        <th style="width:29.3%">ผู้ปกครอง (${v(rd[86])})</th>
+      </tr>
+      <tr>
+        <td class="lc">ชื่อ-สกุล</td>
+        <td>${v(rd[61])}${v(rd[62])} ${v(rd[63])}</td>
+        <td>${v(rd[70])}${v(rd[71])} ${v(rd[72])}</td>
+        <td>${v(rd[79])}${v(rd[80])} ${v(rd[81])}</td>
+      </tr>
+      <tr>
+        <td class="lc">เลข ปชช.</td>
+        <td>${v(rd[59])}</td>
+        <td>${v(rd[68])}</td>
+        <td>${v(rd[77])}</td>
+      </tr>
+      <tr>
+        <td class="lc">อาชีพ / รายได้</td>
+        <td>${v(rd[64])} / ${v(rd[65])}</td>
+        <td>${v(rd[73])} / ${v(rd[74])}</td>
+        <td>${v(rd[82])} / ${v(rd[83])}</td>
+      </tr>
+      <tr>
+        <td class="lc">เบอร์โทร</td>
+        <td>${v(rd[67])}</td>
+        <td>${v(rd[76])}</td>
+        <td>${v(rd[85])}</td>
+      </tr>
     </table>
 
     <!-- ===== 4. เพิ่มเติม ===== -->
-    <div class="sec-title">๔. ข้อมูลเพิ่มเติม</div>
+    <div class="sec">๔. ข้อมูลเพิ่มเติม</div>
 
-    <div class="fields">
-      <div class="f"><span class="lbl">การพักนอน</span> <span class="val">${v(rd[40])}</span></div>
-      <div class="f"><span class="lbl">ความด้อยโอกาส</span> <span class="val">${v(rd[41])}</span></div>
-      <div class="f"><span class="lbl">ว่ายน้ำ</span> <span class="val">${v(rd[49])}</span></div>
+    <div class="row">
+      <div class="c"><span class="l">การพักนอน</span> <span class="d">${v(rd[40])}</span></div>
+      <div class="c"><span class="l">ด้อยโอกาส</span> <span class="d">${v(rd[41])}</span></div>
+      <div class="c"><span class="l">ว่ายน้ำ</span> <span class="d">${v(rd[49])}</span></div>
+      <div class="c"><span class="l">เดินทาง</span> <span class="d">${v(rd[46])}</span></div>
+      <div class="c"><span class="l">เวลา</span> <span class="d">${v(rd[47])}</span><span class="u">นาที</span></div>
     </div>
-    <div class="fields">
-      <div class="f"><span class="lbl">การเดินทาง</span> <span class="val">${v(rd[46])}</span></div>
-      <div class="f"><span class="lbl">ระยะเวลา</span> <span class="val">${v(rd[47])}</span><span class="unit">นาที</span></div>
-      <div class="f"><span class="lbl">ห่าง ถ.ลาดยาง</span> <span class="val">${v(rd[48])}</span><span class="unit">เมตร</span></div>
-    </div>
-    <div class="fields">
-      <div class="f"><span class="lbl">ขาดแคลนแบบเรียน</span> <span class="val">${v(rd[42])}</span></div>
-      <div class="f"><span class="lbl">อาหารกลางวัน</span> <span class="val">${v(rd[43])}</span></div>
-      <div class="f"><span class="lbl">เครื่องเขียน</span> <span class="val">${v(rd[44])}</span></div>
-      <div class="f"><span class="lbl">เครื่องแบบ</span> <span class="val">${v(rd[45])}</span></div>
+    <div class="row">
+      <div class="c"><span class="l">ขาดแบบเรียน</span> <span class="d">${v(rd[42])}</span></div>
+      <div class="c"><span class="l">อาหาร</span> <span class="d">${v(rd[43])}</span></div>
+      <div class="c"><span class="l">เครื่องเขียน</span> <span class="d">${v(rd[44])}</span></div>
+      <div class="c"><span class="l">เครื่องแบบ</span> <span class="d">${v(rd[45])}</span></div>
     </div>
 
     <!-- คำรับรอง -->
@@ -828,26 +778,20 @@
     <!-- ลายเซ็น -->
     <div class="sig-row">
       <div class="sig-box">
-        <span class="sig-line"></span>
-        <div class="sig-name">( ${v(rd[7])}${v(rd[9])} ${v(rd[10])} )</div>
-        <div class="sig-label">ผู้สมัครเข้าเรียน</div>
-        <div class="sig-date">วันที่ ${applyDate}</div>
+        <span class="sig-ln"></span>
+        <div class="sig-nm">( ${v(rd[7])}${v(rd[9])} ${v(rd[10])} )</div>
+        <div class="sig-lb">ผู้สมัครเข้าเรียน</div>
+        <div class="sig-dt">วันที่ ${applyDate}</div>
       </div>
       <div class="sig-box">
-        <span class="sig-line"></span>
-        <div class="sig-name">( ${v(rd[79])}${v(rd[80])} ${v(rd[81])} )</div>
-        <div class="sig-label">ผู้ปกครอง</div>
-        <div class="sig-date">วันที่ ${applyDate}</div>
+        <span class="sig-ln"></span>
+        <div class="sig-nm">( ${v(rd[79])}${v(rd[80])} ${v(rd[81])} )</div>
+        <div class="sig-lb">ผู้ปกครอง</div>
+        <div class="sig-dt">วันที่ ${applyDate}</div>
       </div>
     </div>
 
   </div>
-
-  <script>
-    window.onload = function() {
-      setTimeout(function(){ window.print(); window.close(); }, 600);
-    };
-  <\/script>
 </body>
 </html>`;
 
