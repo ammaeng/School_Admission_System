@@ -386,9 +386,23 @@
 
         const v = (val) => val ? val : "-";
         
-        const photoUrl = rd[3];
+        // แปลง Google Drive URL ให้เป็น direct image link
+        let photoUrl = rd[3] || "";
+        if (photoUrl) {
+            // รูปแบบ: https://drive.google.com/file/d/FILE_ID/view...
+            // หรือ: https://drive.google.com/open?id=FILE_ID
+            let fileId = "";
+            const matchA = photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            const matchB = photoUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (matchA) fileId = matchA[1];
+            else if (matchB) fileId = matchB[1];
+
+            if (fileId) {
+                photoUrl = `https://lh3.googleusercontent.com/d/${fileId}`;
+            }
+        }
         const imgTag = photoUrl 
-            ? `<img src="${photoUrl}" class="photo-img">` 
+            ? `<img src="${photoUrl}" class="photo-img" crossorigin="anonymous" referrerpolicy="no-referrer">` 
             : `<div class="photo-placeholder">รูปถ่าย<br>1.5 นิ้ว</div>`;
 
         const totalSiblings = parseInt(rd[53]||0)+parseInt(rd[54]||0)+parseInt(rd[55]||0)+parseInt(rd[56]||0);
