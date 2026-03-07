@@ -39,6 +39,34 @@
         #cropModal .modal-body { padding: 10px; }
         #cropModal .img-container { max-height: 60vh; }
         #cropModal .img-container img { display: block; max-width: 100%; }
+
+        /* Address Autocomplete Dropdown */
+        .addr-group { position: relative; }
+        .addr-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1050;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .addr-dropdown.show { display: block; }
+        .addr-item {
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .addr-item:hover, .addr-item.active { background: #e8f0fe; color: #0d6efd; }
+        .addr-item:last-child { border-bottom: none; }
+        .addr-input.has-value { border-color: #198754; background: #f0faf4; }
     </style>
 </head>
 <body>
@@ -114,11 +142,11 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover align-middle">
                 <thead class="table-dark">
-                    <tr><th style="width:45px">ลำดับ</th><th>วันที่</th><th>เลข ปชช.</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>เบอร์ผู้ปกครอง</th><th>สถานะ</th><th>จัดการ</th></tr>
+                    <tr><th style="width:40px">ลำดับ</th><th style="width:45px">รูป</th><th>วันที่</th><th>เลข ปชช.</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>เบอร์ผู้ปกครอง</th><th>สถานะ</th><th>จัดการ</th></tr>
                 </thead>
-                <tbody id="adminTableBody"><tr><td colspan="8" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
+                <tbody id="adminTableBody"><tr><td colspan="9" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
             </table>
         </div>
     </div>
@@ -211,10 +239,25 @@
                         <div class="col-md-5"><label>ถนน</label><input type="text" class="form-control" id="reg3" data-col="26"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>จังหวัด</label><input type="text" class="form-control" id="reg4" data-col="27"></div>
-                        <div class="col-md-3"><label>อำเภอ/เขต</label><input type="text" class="form-control" id="reg5" data-col="28"></div>
-                        <div class="col-md-3"><label>ตำบล/แขวง</label><input type="text" class="form-control" id="reg6" data-col="29"></div>
-                        <div class="col-md-3"><label>รหัสไปรษณีย์</label><input type="text" class="form-control" id="reg7" data-col="30"></div>
+                        <div class="col-md-3 addr-group">
+                            <label>จังหวัด</label>
+                            <input type="text" class="form-control addr-input" id="reg4" data-col="27" data-addr="province" data-set="reg" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <div class="addr-dropdown" id="reg4-dropdown"></div>
+                        </div>
+                        <div class="col-md-3 addr-group">
+                            <label>อำเภอ/เขต</label>
+                            <input type="text" class="form-control addr-input" id="reg5" data-col="28" data-addr="amphoe" data-set="reg" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <div class="addr-dropdown" id="reg5-dropdown"></div>
+                        </div>
+                        <div class="col-md-3 addr-group">
+                            <label>ตำบล/แขวง</label>
+                            <input type="text" class="form-control addr-input" id="reg6" data-col="29" data-addr="district" data-set="reg" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <div class="addr-dropdown" id="reg6-dropdown"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>รหัสไปรษณีย์</label>
+                            <input type="text" class="form-control" id="reg7" data-col="30" readonly style="background:#f0f0f0;">
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="reg8" data-col="31"></div>
@@ -232,10 +275,25 @@
                         <div class="col-md-5"><label>ถนน</label><input type="text" class="form-control" id="cur3" data-col="35"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3"><label>จังหวัด</label><input type="text" class="form-control" id="cur4" data-col="36"></div>
-                        <div class="col-md-3"><label>อำเภอ/เขต</label><input type="text" class="form-control" id="cur5" data-col="37"></div>
-                        <div class="col-md-3"><label>ตำบล/แขวง</label><input type="text" class="form-control" id="cur6" data-col="38"></div>
-                        <div class="col-md-3"><label>รหัสไปรษณีย์</label><input type="text" class="form-control" id="cur7" data-col="39"></div>
+                        <div class="col-md-3 addr-group">
+                            <label>จังหวัด</label>
+                            <input type="text" class="form-control addr-input" id="cur4" data-col="36" data-addr="province" data-set="cur" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <div class="addr-dropdown" id="cur4-dropdown"></div>
+                        </div>
+                        <div class="col-md-3 addr-group">
+                            <label>อำเภอ/เขต</label>
+                            <input type="text" class="form-control addr-input" id="cur5" data-col="37" data-addr="amphoe" data-set="cur" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <div class="addr-dropdown" id="cur5-dropdown"></div>
+                        </div>
+                        <div class="col-md-3 addr-group">
+                            <label>ตำบล/แขวง</label>
+                            <input type="text" class="form-control addr-input" id="cur6" data-col="38" data-addr="district" data-set="cur" autocomplete="off" placeholder="พิมพ์เพื่อค้นหา...">
+                            <div class="addr-dropdown" id="cur6-dropdown"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>รหัสไปรษณีย์</label>
+                            <input type="text" class="form-control" id="cur7" data-col="39" readonly style="background:#f0f0f0;">
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4"><label>เบอร์โทรศัพท์</label><input type="text" class="form-control" id="cur8" data-col="40"></div>
@@ -632,14 +690,14 @@
         if (!adminLoggedIn) return;
         const year = document.getElementById('adminYear').value;
         const tbody = document.getElementById('adminTableBody');
-        tbody.innerHTML = '<tr><td colspan="8" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
 
         fetch(WEB_APP_URL, {
             method: 'POST',
             body: JSON.stringify({ action: 'getStudents', data: { year: year } })
         }).then(res => res.json()).then(res => {
             if (res.data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
                 document.getElementById('statTotal').textContent = '0';
                 document.getElementById('statPending').textContent = '0';
                 document.getElementById('statApproved').textContent = '0';
@@ -668,6 +726,25 @@
                 const no = index + 1;
                 let d = new Date(s.timestamp).toLocaleDateString('th-TH');
                 let guardianPhone = s.rawData[85] || '-';
+                let phoneLinkHtml = guardianPhone !== '-'
+                    ? `<a href="tel:${guardianPhone}" class="text-decoration-none">📞 ${guardianPhone}</a>`
+                    : '-';
+
+                // รูปภาพนักเรียน
+                let photoUrl = s.rawData[3] || '';
+                let photoHtml = '';
+                if (photoUrl) {
+                    let fileId = '';
+                    const mA = photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                    const mB = photoUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                    if (mA) fileId = mA[1];
+                    else if (mB) fileId = mB[1];
+                    if (fileId) photoUrl = 'https://lh3.googleusercontent.com/d/' + fileId;
+                    photoHtml = `<img src="${photoUrl}" referrerpolicy="no-referrer" style="width:35px; height:45px; object-fit:cover; border-radius:3px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${photoUrl}','_blank')" title="คลิกดูรูปใหญ่">`;
+                } else {
+                    photoHtml = `<span class="text-muted" style="font-size:0.75rem;">ไม่มีรูป</span>`;
+                }
+
                 // สถานะ dropdown
                 let statusSelect = `<select class="form-select form-select-sm" style="width:130px;" onchange="changeStatus(${index}, this.value)">
                     <option value="รอตรวจสอบ" ${s.status==='รอตรวจสอบ'?'selected':''}>รอตรวจสอบ</option>
@@ -676,11 +753,12 @@
                 </select>`;
                 html += `<tr>
                     <td class="text-center fw-bold">${no}</td>
+                    <td class="text-center">${photoHtml}</td>
                     <td>${d}</td>
                     <td>${s.idCard}</td>
                     <td>${s.name}</td>
                     <td>${s.grade}</td>
-                    <td>${guardianPhone}</td>
+                    <td>${phoneLinkHtml}</td>
                     <td>${statusSelect}</td>
                     <td>
                         <button class="btn btn-sm btn-outline-primary me-1" onclick="printApplication(${index})" title="พิมพ์">🖨️</button>
@@ -1258,6 +1336,185 @@
             document.getElementById('btnSubmit').innerHTML = 'ยืนยันการสมัครเรียน';
             document.getElementById('btnSubmit').disabled = false;
         });
+    });
+
+    // ===========================================================
+    // Thai Address Autocomplete (ข้อมูลจังหวัด/อำเภอ/ตำบล/ไปรษณีย์)
+    // ===========================================================
+    let thaiAddrDB = null;
+
+    // โหลดข้อมูลจาก CDN
+    fetch('https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/database/raw_database/db.json')
+        .then(r => r.json())
+        .then(data => {
+            thaiAddrDB = data;
+            console.log('Thai Address DB loaded:', data.length, 'records');
+        })
+        .catch(() => {
+            // fallback: ลองอีก URL
+            fetch('https://raw.githubusercontent.com/earthchie/jquery.Thailand.js/master/jquery.Thailand.js/database/raw_database/db.json')
+                .then(r => r.json())
+                .then(data => { thaiAddrDB = data; })
+                .catch(e => console.warn('ไม่สามารถโหลดข้อมูลที่อยู่ได้', e));
+        });
+
+    // Mapping: set + field → input id
+    // reg: reg4=จังหวัด, reg5=อำเภอ, reg6=ตำบล, reg7=ไปรษณีย์
+    // cur: cur4=จังหวัด, cur5=อำเภอ, cur6=ตำบล, cur7=ไปรษณีย์
+    function getAddrIds(set) {
+        return {
+            province: set + '4',
+            amphoe: set + '5',
+            district: set + '6',
+            zipcode: set + '7'
+        };
+    }
+
+    // ค้นหา unique values จาก DB
+    function searchAddr(field, query, filters) {
+        if (!thaiAddrDB || !query) return [];
+        const q = query.trim().toLowerCase();
+        // field mapping: province→p, amphoe→a, district→d, zipcode→z (ใน DB แบบ compact)
+        // DB format: [{d:"ตำบล", a:"อำเภอ", p:"จังหวัด", z:"รหัสไปรษณีย์"}, ...]
+        // หรือ flat array: [district, amphoe, province, zipcode]
+        let keyMap = { province: 'p', amphoe: 'a', district: 'd', zipcode: 'z' };
+
+        // detect DB format
+        let results = [];
+        if (Array.isArray(thaiAddrDB) && thaiAddrDB[0]) {
+            let sampleKeys = Object.keys(thaiAddrDB[0]);
+            // format: {d, a, p, z}
+            if (sampleKeys.includes('d')) {
+                keyMap = { province: 'p', amphoe: 'a', district: 'd', zipcode: 'z' };
+            }
+            // format: {district, amphoe, province, zipcode}
+            else if (sampleKeys.includes('district')) {
+                keyMap = { province: 'province', amphoe: 'amphoe', district: 'district', zipcode: 'zipcode' };
+            }
+        }
+
+        let seen = new Set();
+        for (const row of thaiAddrDB) {
+            const val = String(row[keyMap[field]] || '');
+            if (!val.toLowerCase().includes(q)) continue;
+            // apply filters
+            let match = true;
+            if (filters) {
+                for (const [fk, fv] of Object.entries(filters)) {
+                    if (fv && String(row[keyMap[fk]] || '') !== fv) { match = false; break; }
+                }
+            }
+            if (!match) continue;
+            if (!seen.has(val)) {
+                seen.add(val);
+                results.push({ value: val, row: row });
+            }
+            if (results.length >= 20) break;
+        }
+        return results;
+    }
+
+    // เมื่อเลือกรายการ → เติมช่องถัดไปอัตโนมัติ
+    function onAddrSelect(set, field, selectedRow) {
+        const ids = getAddrIds(set);
+        let keyMap;
+        if (thaiAddrDB && thaiAddrDB[0]) {
+            const sampleKeys = Object.keys(thaiAddrDB[0]);
+            if (sampleKeys.includes('d')) keyMap = { province: 'p', amphoe: 'a', district: 'd', zipcode: 'z' };
+            else keyMap = { province: 'province', amphoe: 'amphoe', district: 'district', zipcode: 'zipcode' };
+        }
+
+        // เติมข้อมูลที่เกี่ยวข้อง
+        if (field === 'province') {
+            document.getElementById(ids.province).value = selectedRow[keyMap.province];
+            document.getElementById(ids.amphoe).value = '';
+            document.getElementById(ids.district).value = '';
+            document.getElementById(ids.zipcode).value = '';
+        } else if (field === 'amphoe') {
+            document.getElementById(ids.amphoe).value = selectedRow[keyMap.amphoe];
+            document.getElementById(ids.province).value = selectedRow[keyMap.province];
+            document.getElementById(ids.district).value = '';
+            document.getElementById(ids.zipcode).value = '';
+        } else if (field === 'district') {
+            document.getElementById(ids.district).value = selectedRow[keyMap.district];
+            document.getElementById(ids.amphoe).value = selectedRow[keyMap.amphoe];
+            document.getElementById(ids.province).value = selectedRow[keyMap.province];
+            document.getElementById(ids.zipcode).value = selectedRow[keyMap.zipcode];
+        }
+
+        // Mark has-value
+        ['province','amphoe','district'].forEach(f => {
+            const el = document.getElementById(ids[f]);
+            if (el.value) el.classList.add('has-value');
+            else el.classList.remove('has-value');
+        });
+    }
+
+    // ผูก event กับทุก addr-input
+    document.addEventListener('input', function(e) {
+        if (!e.target.classList.contains('addr-input')) return;
+        const input = e.target;
+        const field = input.dataset.addr;
+        const set = input.dataset.set;
+        const dropdownEl = document.getElementById(input.id + '-dropdown');
+        const ids = getAddrIds(set);
+        const query = input.value.trim();
+
+        if (!query || !thaiAddrDB) { dropdownEl.classList.remove('show'); return; }
+
+        // กำหนด filter ตามลำดับ: จังหวัด → อำเภอ → ตำบล
+        let filters = {};
+        if (field === 'amphoe') {
+            filters.province = document.getElementById(ids.province).value;
+        } else if (field === 'district') {
+            filters.province = document.getElementById(ids.province).value;
+            filters.amphoe = document.getElementById(ids.amphoe).value;
+        }
+
+        const results = searchAddr(field, query, filters);
+        if (results.length === 0) { dropdownEl.classList.remove('show'); return; }
+
+        dropdownEl.innerHTML = results.map((r, i) => {
+            let label = r.value;
+            // แสดงข้อมูลเพิ่มเติมสำหรับ context
+            let keyMap;
+            const sampleKeys = Object.keys(thaiAddrDB[0]);
+            if (sampleKeys.includes('d')) keyMap = { province: 'p', amphoe: 'a', district: 'd', zipcode: 'z' };
+            else keyMap = { province: 'province', amphoe: 'amphoe', district: 'district', zipcode: 'zipcode' };
+            if (field === 'district') label += ` → ${r.row[keyMap.amphoe]}, ${r.row[keyMap.province]}`;
+            else if (field === 'amphoe') label += ` → ${r.row[keyMap.province]}`;
+            return `<div class="addr-item" data-index="${i}">${label}</div>`;
+        }).join('');
+        dropdownEl.classList.add('show');
+
+        // เก็บ results ไว้ใน element
+        dropdownEl._results = results;
+    });
+
+    // คลิกเลือกรายการ
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('addr-item')) {
+            const dropdown = e.target.parentElement;
+            const idx = parseInt(e.target.dataset.index);
+            const result = dropdown._results[idx];
+            const inputId = dropdown.id.replace('-dropdown', '');
+            const input = document.getElementById(inputId);
+            const field = input.dataset.addr;
+            const set = input.dataset.set;
+
+            onAddrSelect(set, field, result.row);
+            dropdown.classList.remove('show');
+            return;
+        }
+        // ปิด dropdown อื่นๆ
+        document.querySelectorAll('.addr-dropdown.show').forEach(d => d.classList.remove('show'));
+    });
+
+    // ปิด dropdown เมื่อกด Escape หรือ Tab
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' || e.key === 'Tab') {
+            document.querySelectorAll('.addr-dropdown.show').forEach(d => d.classList.remove('show'));
+        }
     });
 </script>
 </body>
