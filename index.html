@@ -47,35 +47,78 @@
     <div class="container">
         <a class="navbar-brand" href="#">โรงเรียนบ้านคลอง 14</a>
         <div>
-            <button class="btn btn-outline-light me-2" onclick="showSection('formSection')">สมัครเรียน</button>
-            <button class="btn btn-warning" onclick="showSection('dashboardSection'); loadDashboard();">แดชบอร์ด</button>
+            <button class="btn btn-outline-light me-2" onclick="showSection('formSection')">📝 สมัครเรียน</button>
+            <button class="btn btn-outline-light me-2" onclick="showSection('dashboardSection'); loadPublicDashboard();">📋 ตรวจสอบสถานะ</button>
+            <button class="btn btn-warning" onclick="promptAdminLogin()">🔒 แอดมิน</button>
         </div>
     </div>
 </nav>
 
 <div class="container mb-5">
     
-    <!-- แดชบอร์ด -->
+    <!-- แดชบอร์ดสาธารณะ (ตรวจสอบสถานะ) -->
     <div id="dashboardSection" style="display: none;">
         <div class="card p-4 shadow-sm">
+            <h4 class="text-primary mb-3">📋 ตรวจสอบสถานะการสมัคร</h4>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="form-label">ปีการศึกษา</label>
+                    <input type="number" id="dashYear" class="form-control" value="2568" onchange="loadPublicDashboard()">
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr><th style="width:50px">ลำดับ</th><th>วันที่สมัคร</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>สถานะ</th><th>จัดการ</th></tr>
+                </thead>
+                <tbody id="publicTableBody"><tr><td colspan="6" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- แดชบอร์ดแอดมิน -->
+    <div id="adminSection" style="display: none;">
+        <div class="card p-4 shadow-sm border-warning">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="text-primary">รายชื่อผู้สมัครเรียน</h4>
+                <h4 class="text-warning mb-0">🔒 แดชบอร์ดแอดมิน</h4>
                 <div class="d-flex gap-2 align-items-center">
                     <div class="input-group" style="width:200px;">
                         <span class="input-group-text">ปีการศึกษา</span>
-                        <input type="number" id="dashYear" class="form-control" value="2568" onchange="loadDashboard()">
+                        <input type="number" id="adminYear" class="form-control" value="2568" onchange="loadAdminDashboard()">
                     </div>
-                    <div class="input-group" style="width:220px;">
-                        <span class="input-group-text">🔑 รหัสแอดมิน</span>
-                        <input type="password" id="adminPass" class="form-control" placeholder="กรอกรหัส" onchange="loadDashboard()">
+                    <button class="btn btn-outline-danger btn-sm" onclick="logoutAdmin()">ออกจากระบบ</button>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="card text-center p-3 bg-primary text-white">
+                        <div style="font-size:2rem; font-weight:700;" id="statTotal">0</div>
+                        <div>ผู้สมัครทั้งหมด</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 bg-warning text-dark">
+                        <div style="font-size:2rem; font-weight:700;" id="statPending">0</div>
+                        <div>รอตรวจสอบ</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 bg-success text-white">
+                        <div style="font-size:2rem; font-weight:700;" id="statApproved">0</div>
+                        <div>ยืนยันแล้ว</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 bg-info text-white">
+                        <div style="font-size:2rem; font-weight:700;" id="statM1">0</div>
+                        <div>ม.1 / <span id="statM4">0</span> ม.4</div>
                     </div>
                 </div>
             </div>
-            <table class="table table-striped table-hover mt-3">
+            <table class="table table-striped table-hover">
                 <thead class="table-dark">
-                    <tr><th style="width:50px">ลำดับ</th><th>วันที่สมัคร</th><th>เลข ปชช.</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>สถานะ</th><th>จัดการ</th></tr>
+                    <tr><th style="width:45px">ลำดับ</th><th>วันที่</th><th>เลข ปชช.</th><th>ชื่อ - นามสกุล</th><th>ชั้น</th><th>เบอร์ผู้ปกครอง</th><th>สถานะ</th><th>จัดการ</th></tr>
                 </thead>
-                <tbody id="studentTableBody"><tr><td colspan="7" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
+                <tbody id="adminTableBody"><tr><td colspan="8" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
             </table>
         </div>
     </div>
@@ -470,6 +513,7 @@
     function showSection(sectionId) {
         document.getElementById('formSection').style.display = 'none';
         document.getElementById('dashboardSection').style.display = 'none';
+        document.getElementById('adminSection').style.display = 'none';
         document.getElementById(sectionId).style.display = 'block';
     }
 
@@ -514,40 +558,38 @@
 
     let globalStudents = [];
     const ADMIN_CODE = '2305';
+    let adminLoggedIn = false;
 
-    function isAdmin() {
-        return document.getElementById('adminPass').value === ADMIN_CODE;
-    }
-
-    function verifyAccess(index, action) {
-        if (isAdmin()) {
-            if (action === 'print') printApplication(index);
-            else if (action === 'edit') editApplication(index);
-            return;
-        }
-        const student = globalStudents[index];
-        const guardianPhone = student.rawData[85] || ''; // เบอร์โทรผู้ปกครอง col 86 (index 85)
-        const input = prompt('กรุณากรอกเบอร์โทรศัพท์ผู้ปกครองเพื่อยืนยันตัวตน:');
-        if (!input) return;
-        if (input.trim() === guardianPhone.trim()) {
-            if (action === 'print') printApplication(index);
-            else if (action === 'edit') editApplication(index);
+    // ===== Admin Login =====
+    function promptAdminLogin() {
+        const code = prompt('กรุณากรอกรหัสแอดมิน:');
+        if (!code) return;
+        if (code === ADMIN_CODE) {
+            adminLoggedIn = true;
+            showSection('adminSection');
+            loadAdminDashboard();
         } else {
-            alert('รหัสไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');
+            alert('รหัสไม่ถูกต้อง');
         }
     }
 
-    function loadDashboard() {
+    function logoutAdmin() {
+        adminLoggedIn = false;
+        showSection('formSection');
+    }
+
+    // ===== Public Dashboard =====
+    function loadPublicDashboard() {
         const year = document.getElementById('dashYear').value;
-        const tbody = document.getElementById('studentTableBody');
-        tbody.innerHTML = '<tr><td colspan="7" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
-        
+        const tbody = document.getElementById('publicTableBody');
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
+
         fetch(WEB_APP_URL, {
             method: 'POST',
             body: JSON.stringify({ action: 'getStudents', data: { year: year } })
         }).then(res => res.json()).then(res => {
-            if(res.data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
+            if (res.data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
                 return;
             }
             globalStudents = res.data;
@@ -556,22 +598,119 @@
                 const no = index + 1;
                 let d = new Date(s.timestamp).toLocaleDateString('th-TH');
                 let badge = s.status === 'รอตรวจสอบ' ? 'bg-warning text-dark' : 'bg-success';
-                // ซ่อนเลข ปชช. บางส่วน ถ้าไม่ใช่แอดมิน
-                let idDisplay = isAdmin() ? s.idCard : (s.idCard ? s.idCard.substring(0,4) + '*****' + s.idCard.substring(9) : '-');
                 html += `<tr>
                     <td class="text-center fw-bold">${no}</td>
                     <td>${d}</td>
-                    <td>${idDisplay}</td>
                     <td>${s.name}</td>
                     <td>${s.grade}</td>
                     <td><span class="badge ${badge}">${s.status}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="verifyAccess(${index},'print')" title="พิมพ์ใบสมัคร">🖨️</button>
-                        <button class="btn btn-sm btn-outline-warning" onclick="verifyAccess(${index},'edit')" title="แก้ไขข้อมูล">✏️</button>
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="publicAction(${index},'print')" title="พิมพ์">🖨️</button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="publicAction(${index},'edit')" title="แก้ไข">✏️</button>
                     </td>
                 </tr>`;
             });
             tbody.innerHTML = html;
+        });
+    }
+
+    function publicAction(index, action) {
+        const student = globalStudents[index];
+        const guardianPhone = student.rawData[85] || '';
+        const input = prompt('กรุณากรอกเบอร์โทรศัพท์ผู้ปกครองเพื่อยืนยันตัวตน:');
+        if (!input) return;
+        if (input.trim() === guardianPhone.trim()) {
+            if (action === 'print') printApplication(index);
+            else if (action === 'edit') editApplication(index);
+        } else {
+            alert('เบอร์โทรไม่ถูกต้อง กรุณาลองใหม่');
+        }
+    }
+
+    // ===== Admin Dashboard =====
+    function loadAdminDashboard() {
+        if (!adminLoggedIn) return;
+        const year = document.getElementById('adminYear').value;
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center">กำลังโหลดข้อมูล...</td></tr>';
+
+        fetch(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'getStudents', data: { year: year } })
+        }).then(res => res.json()).then(res => {
+            if (res.data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center text-danger">ยังไม่มีผู้สมัคร</td></tr>';
+                document.getElementById('statTotal').textContent = '0';
+                document.getElementById('statPending').textContent = '0';
+                document.getElementById('statApproved').textContent = '0';
+                document.getElementById('statM1').textContent = '0';
+                document.getElementById('statM4').textContent = '0';
+                return;
+            }
+            globalStudents = res.data;
+
+            // สถิติ
+            let pending = 0, approved = 0, m1 = 0, m4 = 0;
+            res.data.forEach(s => {
+                if (s.status === 'รอตรวจสอบ') pending++;
+                else approved++;
+                if (s.grade === 'ม.1') m1++;
+                else if (s.grade === 'ม.4') m4++;
+            });
+            document.getElementById('statTotal').textContent = res.data.length;
+            document.getElementById('statPending').textContent = pending;
+            document.getElementById('statApproved').textContent = approved;
+            document.getElementById('statM1').textContent = m1;
+            document.getElementById('statM4').textContent = m4;
+
+            let html = '';
+            res.data.forEach((s, index) => {
+                const no = index + 1;
+                let d = new Date(s.timestamp).toLocaleDateString('th-TH');
+                let guardianPhone = s.rawData[85] || '-';
+                // สถานะ dropdown
+                let statusSelect = `<select class="form-select form-select-sm" style="width:130px;" onchange="changeStatus(${index}, this.value)">
+                    <option value="รอตรวจสอบ" ${s.status==='รอตรวจสอบ'?'selected':''}>รอตรวจสอบ</option>
+                    <option value="ยืนยันแล้ว" ${s.status==='ยืนยันแล้ว'?'selected':''}>ยืนยันแล้ว</option>
+                    <option value="ไม่ผ่าน" ${s.status==='ไม่ผ่าน'?'selected':''}>ไม่ผ่าน</option>
+                </select>`;
+                html += `<tr>
+                    <td class="text-center fw-bold">${no}</td>
+                    <td>${d}</td>
+                    <td>${s.idCard}</td>
+                    <td>${s.name}</td>
+                    <td>${s.grade}</td>
+                    <td>${guardianPhone}</td>
+                    <td>${statusSelect}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="printApplication(${index})" title="พิมพ์">🖨️</button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="editApplication(${index})" title="แก้ไข">✏️</button>
+                    </td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+        });
+    }
+
+    // ===== เปลี่ยนสถานะ (แอดมิน) =====
+    function changeStatus(index, newStatus) {
+        const student = globalStudents[index];
+        fetch(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'updateStatus',
+                data: { year: document.getElementById('adminYear').value, rowNumber: student.rowNumber, status: newStatus }
+            })
+        }).then(res => res.json()).then(res => {
+            if (res.status === 'success') {
+                student.status = newStatus;
+                student.rawData[2] = newStatus;
+                // อัปเดตสถิติ
+                let pending = 0, approved = 0;
+                globalStudents.forEach(s => { if (s.status === 'รอตรวจสอบ') pending++; else approved++; });
+                document.getElementById('statPending').textContent = pending;
+                document.getElementById('statApproved').textContent = approved;
+            }
         });
     }
 
