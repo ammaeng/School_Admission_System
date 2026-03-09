@@ -325,6 +325,16 @@
                     📞 สอบถามรายละเอียดเพิ่มเติม โทร: 081-408-6563 (คุณครูสุมาลี เซ็ม)
                 </div>
             </div>
+            <!-- ===== เพิ่มใหม่: กล่องเกณฑ์การนับอายุ ===== -->
+            <div class="p-3 mb-4 rounded-3 bg-white" style="border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+                <h6 class="fw-bold mb-3 d-flex align-items-center gap-2" style="color: var(--text);">
+                    <span style="font-size:1.3rem;">🎂</span> เกณฑ์การนับอายุเข้าเรียน ปีการศึกษา <span id="criteriaYearDisplay" class="text-primary">...</span>
+                </h6>
+                <div id="ageCriteriaContent" class="small" style="line-height: 1.6;">
+                    <!-- ข้อมูลจะถูกสร้างและคำนวณอัตโนมัติด้วย JavaScript -->
+                </div>
+            </div>
+            <!-- ======================================= -->
             <!-- ======================================= -->            
             <div class="step-wrapper">
                 <div class="step-indicator">
@@ -610,6 +620,8 @@
                 document.getElementById('applyYear').value = currentActiveYear;
                 document.getElementById('dashYear').value = currentActiveYear;
                 document.getElementById('adminYear').value = currentActiveYear;
+                                updateAgeCriteria(currentActiveYear);
+
             }
         })
         .catch(e => console.log("Failed to load config"))
@@ -685,6 +697,55 @@
     function clearPhoto() { croppedPhotoBase64 = ""; originalImageSrc = ""; document.getElementById('photoFile').value = ''; document.getElementById('photoPreviewThumb').src = ''; document.getElementById('photoPlaceholder').style.display = 'block'; document.getElementById('photoPreviewWrap').style.display = 'none'; document.getElementById('photoUploadArea').classList.remove('has-photo'); }
     document.getElementById('cropModal').addEventListener('hidden.bs.modal', function() { if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; } });
 
+    // ===== ฟังก์ชันคำนวณเกณฑ์อายุอัตโนมัติ =====
+    function updateAgeCriteria(activeYearStr) {
+        // ดึงเฉพาะปี พ.ศ. ออกมาจากสตริง (เช่น "1/2569" จะได้ "2569")
+        let parts = activeYearStr.split('/');
+        let year = parts.length > 1 ? parseInt(parts[1]) : parseInt(parts[0]);
+        
+        if (isNaN(year)) return;
+
+        // แสดงปีการศึกษาบนหัวข้อ
+        document.getElementById('criteriaYearDisplay').textContent = year;
+
+        // สร้าง HTML ตามเกณฑ์ในรูปภาพ โดยคำนวณปี พ.ศ. อัตโนมัติ
+        let html = `
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-start gap-3 border-bottom pb-2">
+                    <span class="badge rounded-pill" style="background-color: #fdb17f; color: #000; width: 70px; font-size: 0.85rem;">อนุบาล 1</span>
+                    <div>
+                        <div class="fw-bold text-dark">อายุไม่น้อยกว่า 3 ปีบริบูรณ์</div>
+                        <div class="text-muted" style="font-size: 0.8rem;">เกิดระหว่าง 17 พฤษภาคม ${year - 4} - 16 พฤษภาคม ${year - 3}</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start gap-3 border-bottom pb-2">
+                    <span class="badge rounded-pill" style="background-color: #92d9d9; color: #000; width: 70px; font-size: 0.85rem;">อนุบาล 2</span>
+                    <div>
+                        <div class="fw-bold text-dark">อายุไม่น้อยกว่า 4 ปีบริบูรณ์</div>
+                        <div class="text-muted" style="font-size: 0.8rem;">เกิดระหว่าง 17 พฤษภาคม ${year - 5} - 16 พฤษภาคม ${year - 4}</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start gap-3 border-bottom pb-2">
+                    <span class="badge rounded-pill" style="background-color: #bded71; color: #000; width: 70px; font-size: 0.85rem;">อนุบาล 3</span>
+                    <div>
+                        <div class="fw-bold text-dark">อายุไม่น้อยกว่า 5 ปีบริบูรณ์</div>
+                        <div class="text-muted" style="font-size: 0.8rem;">เกิดระหว่าง 1 มกราคม ${year - 6} - 16 พฤษภาคม ${year - 5}</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start gap-3">
+                    <span class="badge rounded-pill" style="background-color: #ffb6c1; color: #000; width: 70px; font-size: 0.85rem;">ป.1</span>
+                    <div>
+                        <div class="fw-bold text-dark">อายุย่างเข้าปีที่ 7</div>
+                        <div class="text-muted" style="font-size: 0.8rem;">เกิดระหว่าง 1 มกราคม ${year - 7} - 31 ธันวาคม ${year - 7}</div>
+                        <div class="text-muted" style="font-size: 0.8rem;">(หรือนักเรียนที่จบชั้นก่อนประถมศึกษา อนุบาล 3)</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('ageCriteriaContent').innerHTML = html;
+    }
+    
     // ===== Navigation =====
     let currentStep = 1; const totalSteps = 5;
     function showSection(sectionId) {['formSection','dashboardSection','adminSection','landingSection'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; }); document.getElementById(sectionId).style.display = 'block'; window.scrollTo(0,0); }
